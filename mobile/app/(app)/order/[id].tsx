@@ -41,11 +41,11 @@ export default function OrderDetailScreen() {
     try {
       const init = await initializePayment(orderId, 'paystack');
       if (!init.authorization_url) {
-        setError('Payment is not available for this order.');
+        setError('Online payment is not configured for this order.');
         setPaying(false);
         return;
       }
-      const result = await WebBrowser.openAuthSessionAsync(init.authorization_url, 'gobe-republic://paystack');
+      const result = await WebBrowser.openAuthSessionAsync(init.authorization_url, 'streetman-cafe://paystack');
       if (result.type === 'success') {
         await verifyPayment(init.reference);
         await load();
@@ -62,7 +62,7 @@ export default function OrderDetailScreen() {
   if (loading) {
     return (
       <Screen style={styles.center}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.primary} size="large" />
       </Screen>
     );
   }
@@ -101,9 +101,9 @@ export default function OrderDetailScreen() {
 
         <View style={styles.sectionHead}>
           <View style={styles.sectionIcon}>
-            <Ionicons name="bag-handle-outline" color={colors.primary} size={18} />
+            <Ionicons name="restaurant-outline" color={colors.primary} size={18} />
           </View>
-          <Text style={styles.sectionTitle}>Items</Text>
+          <Text style={styles.sectionTitle}>Ordered Items</Text>
         </View>
         <View style={styles.card}>
           {(order.items ?? []).map((item) => (
@@ -111,24 +111,24 @@ export default function OrderDetailScreen() {
               <View style={styles.itemInfo}>
                 <Text style={styles.itemName}>{item.product_name}</Text>
                 <Text style={styles.itemMeta}>
-                  {item.quantity} × ₦{Number(item.unit_price).toLocaleString()}
+                  {item.quantity} × GH₵{Number(item.unit_price).toFixed(0)}
                 </Text>
               </View>
-              <Text style={styles.itemTotal}>₦{Number(item.total).toLocaleString()}</Text>
+              <Text style={styles.itemTotal}>GH₵{Number(item.total).toFixed(0)}</Text>
             </View>
           ))}
           <View style={[styles.divider]} />
           <View style={styles.summaryRow}>
             <Text style={styles.summaryLabel}>Subtotal</Text>
-            <Text style={styles.summaryValue}>₦{Number(order.subtotal).toLocaleString()}</Text>
+            <Text style={styles.summaryValue}>GH₵{Number(order.subtotal).toFixed(0)}</Text>
           </View>
           <View style={styles.summaryRow}>
             <Text style={styles.summaryLabel}>Delivery</Text>
-            <Text style={styles.summaryValue}>₦{Number(order.delivery_fee).toLocaleString()}</Text>
+            <Text style={styles.summaryValue}>GH₵{Number(order.delivery_fee).toFixed(0)}</Text>
           </View>
           <View style={[styles.totalRow, styles.summaryRow]}>
             <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.totalValue}>₦{Number(order.total).toLocaleString()}</Text>
+            <Text style={styles.totalValue}>GH₵{Number(order.total).toFixed(0)}</Text>
           </View>
         </View>
 
@@ -138,7 +138,7 @@ export default function OrderDetailScreen() {
               <View style={styles.sectionIcon}>
                 <Ionicons name="location-outline" color={colors.primary} size={18} />
               </View>
-              <Text style={styles.sectionTitle}>Delivery</Text>
+              <Text style={styles.sectionTitle}>Delivery Destination</Text>
             </View>
             <View style={styles.card}>
               <Text style={styles.deliveryName}>{order.delivery_information.recipient_name}</Text>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryLight,
   },
   badgePaid: { backgroundColor: '#dcfce7' },
-  badgePending: { backgroundColor: colors.primaryLight },
+  badgePending: { backgroundColor: colors.accentLight },
   badgeCancelled: { backgroundColor: '#fee2e2' },
   badgeProcessing: { backgroundColor: '#dbeafe' },
   badgeText: { fontSize: 12, fontWeight: '700', color: colors.dark },
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   summaryValue: { color: colors.text, fontWeight: '600', fontSize: 14 },
   totalRow: { borderTopWidth: 1, borderTopColor: colors.border, paddingTop: spacing.sm + 2, marginTop: spacing.sm },
   totalLabel: { color: colors.text, fontWeight: '700', fontSize: 15 },
-  totalValue: { color: colors.primaryDark, fontWeight: '800', fontSize: 15 },
+  totalValue: { color: colors.primary, fontWeight: '900', fontSize: 16 },
   deliveryName: { color: colors.text, fontWeight: '700', fontSize: 15 },
   deliveryMeta: { color: colors.textMuted, fontSize: 14, marginTop: spacing.xs },
   deliveryNotes: { color: colors.text, fontStyle: 'italic', fontSize: 14, marginTop: spacing.sm },

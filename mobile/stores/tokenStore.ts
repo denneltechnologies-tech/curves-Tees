@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-const TOKEN_KEY = 'gobe_auth_token';
+const TOKEN_KEY = 'streetman_auth_token';
 
 const isWeb = Platform.OS === 'web';
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'GOBE Republic Admin')</title>
+    <title>@yield('title', 'Streetman Cafe & Flames Admin')</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f3f4f6; color: #1f2937; }
@@ -12,20 +12,22 @@
         /* ---------- Shell ---------- */
         .layout { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 250px; background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+            width: 260px; background: linear-gradient(180deg, #111827 0%, #0b0f19 100%);
             color: #9ca3af; flex-shrink: 0; display: flex; flex-direction: column;
             position: sticky; top: 0; height: 100vh;
         }
         .sidebar .brand {
             display: flex; align-items: center; gap: 10px;
-            padding: 22px 20px; font-size: 19px; font-weight: 800; color: #fff;
-            border-bottom: 1px solid rgba(255,255,255,0.06); letter-spacing: -0.5px;
+            padding: 20px; font-size: 16px; font-weight: 800; color: #fff;
+            border-bottom: 1px solid rgba(255,255,255,0.08); letter-spacing: -0.3px;
         }
         .sidebar .brand .mark {
-            width: 34px; height: 34px; border-radius: 10px; background: #f59e0b;
+            width: 38px; height: 38px; border-radius: 10px; background: #b91c1c;
             display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 16px; box-shadow: 0 4px 12px rgba(245,158,11,.4);
+            color: #fff; font-size: 18px; box-shadow: 0 4px 12px rgba(185,28,28,.4);
+            overflow: hidden; flex-shrink: 0;
         }
+        .sidebar .brand .mark img { width: 100%; height: 100%; object-fit: cover; }
         .sidebar .brand span { color: #f59e0b; }
         .sidebar nav { flex: 1; padding: 14px 12px; overflow-y: auto; }
         .sidebar nav a {
@@ -35,14 +37,14 @@
         }
         .sidebar nav a::before {
             content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-            width: 4px; height: 0; border-radius: 4px; background: #f59e0b;
+            width: 4px; height: 0; border-radius: 4px; background: #b91c1c;
             transition: height .15s ease;
         }
         .sidebar nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
-        .sidebar nav a.active { background: rgba(245,158,11,0.12); color: #fff; font-weight: 700; }
+        .sidebar nav a.active { background: rgba(185,28,28,0.18); color: #fff; font-weight: 700; }
         .sidebar nav a.active::before { height: 60%; }
         .sidebar .sidebar-foot {
-            padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 13px;
+            padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 13px;
         }
         .sidebar .sidebar-foot .who { color: #d1d5db; margin-bottom: 10px; }
         .sidebar .sidebar-foot .who strong { color: #fff; }
@@ -64,7 +66,7 @@
             padding: 9px 14px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 14px;
             background: #fff; min-width: 180px; transition: border-color .15s ease, box-shadow .15s ease;
         }
-        .search-input:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.18); }
+        .search-input:focus { outline: none; border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(185,28,28,.18); }
 
         /* ---------- Cards & stats ---------- */
         .card {
@@ -94,7 +96,7 @@
         th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid #eef0f3; font-size: 14px; }
         th { background: #f9fafb; font-weight: 700; color: #6b7280; text-transform: uppercase; font-size: 11.5px; letter-spacing: .5px; }
         tbody tr { transition: background .12s ease; }
-        tbody tr:hover { background: #fffbeb; }
+        tbody tr:hover { background: #fff5f5; }
         tbody tr:last-child td { border-bottom: none; }
 
         /* ---------- Buttons ---------- */
@@ -104,8 +106,8 @@
             border: none; text-decoration: none; transition: background .15s ease, transform .1s ease, box-shadow .15s ease;
         }
         .btn:active { transform: translateY(1px); }
-        .btn-primary { background: #f59e0b; color: #fff; box-shadow: 0 2px 6px rgba(245,158,11,.35); }
-        .btn-primary:hover { background: #d97706; }
+        .btn-primary { background: #b91c1c; color: #fff; box-shadow: 0 2px 6px rgba(185,28,28,.35); }
+        .btn-primary:hover { background: #991b1b; }
         .btn-secondary { background: #e5e7eb; color: #374151; }
         .btn-secondary:hover { background: #d1d5db; }
         .btn-danger { background: #ef4444; color: #fff; }
@@ -121,7 +123,7 @@
         }
         .form-group textarea { min-height: 110px; resize: vertical; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.18);
+            outline: none; border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(185,28,28,.18);
         }
         .form-group .hint { font-size: 12.5px; color: #9ca3af; margin-top: 6px; }
 
@@ -148,8 +150,8 @@
         .pagination nav { display: flex; justify-content: space-between; flex-wrap: wrap; }
         .pagination a, .pagination span[aria-current] { display: inline-flex; align-items: center; padding: 7px 14px; border-radius: 9px; font-size: 13.5px; font-weight: 600; }
         .pagination a { background: #fff; border: 1px solid #e5e7eb; color: #374151; text-decoration: none; margin: 0 2px; transition: all .12s ease; }
-        .pagination a:hover { border-color: #f59e0b; color: #b45309; }
-        .pagination span[aria-current] { background: #f59e0b; color: #fff; margin: 0 2px; }
+        .pagination a:hover { border-color: #b91c1c; color: #991b1b; }
+        .pagination span[aria-current] { background: #b91c1c; color: #fff; margin: 0 2px; }
         .text-right { text-align: right; }
         .mt-0 { margin-top: 0; }
         .mt-2 { margin-top: 8px; }
@@ -168,10 +170,13 @@
 <body>
 <div class="layout">
     <aside class="sidebar">
-        <div class="brand"><div class="mark">G</div>GOBE <span>Republic</span></div>
+        <div class="brand">
+            <div class="mark"><img src="/images/streetman-logo.png" alt="Streetman" onerror="this.onerror=null;this.parentElement.innerHTML='🔥';"></div>
+            STREETMAN <span>CAFE</span>
+        </div>
         <nav>
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-            <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">Products</a>
+            <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">Menu Items</a>
             <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">Categories</a>
             <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">Customers</a>
             <a href="{{ route('admin.orders.index') }}" class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">Orders</a>
@@ -188,7 +193,7 @@
     <div class="main">
         <div class="topbar">
             <div>
-                <div class="crumb">GOBE Republic Admin</div>
+                <div class="crumb">Streetman Cafe & Flames Admin</div>
                 <h1>@yield('title', 'Dashboard')</h1>
             </div>
             <span class="badge badge-warning">{{ now()->format('M d, Y') }}</span>

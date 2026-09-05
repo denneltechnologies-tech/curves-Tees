@@ -37,11 +37,17 @@ export default function OrdersScreen() {
   return (
     <Screen>
       {loading ? (
-        <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+        <View style={styles.center}><ActivityIndicator color={colors.primary} size="large" /></View>
       ) : error ? (
         <EmptyState title="Something went wrong" message={error} icon="alert-circle-outline" />
       ) : orders.length === 0 ? (
-        <EmptyState title="No orders yet" message="Your orders will appear here once you checkout." actionLabel="Start Shopping" onAction={() => router.push('/(app)/(tabs)')} />
+        <EmptyState
+          title="No orders yet"
+          message="Your delicious street food orders will appear here."
+          actionLabel="Order Now"
+          icon="receipt-outline"
+          onAction={() => router.push('/(app)/(tabs)')}
+        />
       ) : (
         <FlatList
           data={orders}
@@ -52,7 +58,7 @@ export default function OrdersScreen() {
               <View style={styles.cardTop}>
                 <View style={styles.orderIdRow}>
                   <View style={styles.iconWrap}>
-                    <Ionicons name="receipt-outline" color={colors.primaryDark} size={18} />
+                    <Ionicons name="receipt-outline" color={colors.primary} size={18} />
                   </View>
                   <View>
                     <Text style={styles.orderNumber}>{item.order_number}</Text>
@@ -64,7 +70,7 @@ export default function OrdersScreen() {
                 </View>
               </View>
               <View style={styles.cardBottom}>
-                <Text style={styles.total}>₦{Number(item.total).toLocaleString()}</Text>
+                <Text style={styles.total}>GH₵{Number(item.total).toFixed(0)}</Text>
                 <View style={styles.paymentWrap}>
                   <Ionicons
                     name={item.payment_status === 'SUCCESSFUL' || item.payment_status === 'paid' ? 'checkmark-circle' : 'time-outline'}
@@ -129,7 +135,7 @@ const styles = StyleSheet.create({
   orderNumber: { ...typography.section, fontWeight: '700', fontSize: 14.5 },
   meta: { color: colors.textMuted, fontSize: 12.5, marginTop: 2 },
   badge: { paddingHorizontal: spacing.sm + 2, paddingVertical: 5, borderRadius: radius.full },
-  badgeDefault: { backgroundColor: colors.primaryLight, paddingHorizontal: spacing.sm + 2, paddingVertical: 5, borderRadius: radius.full },
+  badgeDefault: { backgroundColor: colors.accentLight, paddingHorizontal: spacing.sm + 2, paddingVertical: 5, borderRadius: radius.full },
   badgeCompleted: { backgroundColor: '#dcfce7', paddingHorizontal: spacing.sm + 2, paddingVertical: 5, borderRadius: radius.full },
   badgeCancelled: { backgroundColor: '#fee2e2', paddingHorizontal: spacing.sm + 2, paddingVertical: 5, borderRadius: radius.full },
   badgeProcessing: { backgroundColor: '#dbeafe', paddingHorizontal: spacing.sm + 2, paddingVertical: 5, borderRadius: radius.full },
@@ -143,7 +149,7 @@ const styles = StyleSheet.create({
     borderTopColor: colors.border,
     paddingTop: spacing.sm + 2,
   },
-  total: { fontSize: 18, fontWeight: '800', color: colors.primaryDark },
+  total: { fontSize: 18, fontWeight: '900', color: colors.primary },
   paymentWrap: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   payment: { color: colors.textMuted, fontSize: 12.5 },
   paymentValue: { color: colors.text, fontWeight: '700' },

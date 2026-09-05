@@ -27,12 +27,12 @@ export function ProductCard({ product, onPress }: ProductCardProps) {
           <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
         ) : (
           <View style={[styles.image, styles.placeholder]}>
-            <Text style={styles.placeholderText}>{product.name.charAt(0).toUpperCase()}</Text>
+            <Text style={styles.placeholderIcon}>🍗</Text>
           </View>
         )}
         {inactive ? (
           <View style={styles.ribbon}>
-            <Text style={styles.ribbonText}>Unavailable</Text>
+            <Text style={styles.ribbonText}>Sold Out</Text>
           </View>
         ) : null}
       </View>
@@ -45,7 +45,11 @@ export function ProductCard({ product, onPress }: ProductCardProps) {
             {product.category.name}
           </Text>
         ) : null}
-        <Text style={styles.price}>₦{Number(product.price).toLocaleString()}</Text>
+        <View style={styles.priceRow}>
+          <View style={styles.priceBadge}>
+            <Text style={styles.priceBadgeText}>GH₵{Number(product.price).toFixed(0)}</Text>
+          </View>
+        </View>
       </View>
     </Pressable>
   );
@@ -80,17 +84,16 @@ const styles = StyleSheet.create({
   placeholder: {
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFF7ED',
   },
-  placeholderText: {
-    fontSize: 44,
-    fontWeight: '800',
-    color: colors.primary,
+  placeholderIcon: {
+    fontSize: 40,
   },
   ribbon: {
     position: 'absolute',
     top: 10,
     left: 10,
-    backgroundColor: 'rgba(15,23,42,0.72)',
+    backgroundColor: 'rgba(15,23,42,0.85)',
     paddingHorizontal: spacing.sm,
     paddingVertical: 3,
     borderRadius: radius.full,
@@ -102,23 +105,36 @@ const styles = StyleSheet.create({
   },
   info: {
     padding: spacing.sm + 2,
+    flex: 1,
+    justifyContent: 'space-between',
   },
   name: {
     fontSize: 13.5,
     color: colors.text,
-    fontWeight: '600',
+    fontWeight: '700',
     lineHeight: 18,
   },
   category: {
-    fontSize: 12,
+    fontSize: 11.5,
     color: colors.textMuted,
-    marginTop: 3,
+    marginTop: 2,
     textTransform: 'capitalize',
   },
-  price: {
-    fontSize: 15,
-    fontWeight: '800',
-    color: colors.primaryDark,
-    marginTop: spacing.xs,
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: spacing.sm,
+  },
+  priceBadge: {
+    backgroundColor: colors.accent,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: radius.sm,
+  },
+  priceBadgeText: {
+    color: colors.dark,
+    fontWeight: '900',
+    fontSize: 13.5,
+    letterSpacing: -0.2,
   },
 });

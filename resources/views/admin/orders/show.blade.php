@@ -10,10 +10,10 @@
         <table style="max-width:600px;">
             <tbody>
                 <tr><th>Customer</th><td>{{ $order->user->name }} ({{ $order->user->email ?? $order->user->phone }})</td></tr>
-                <tr><th>Subtotal</th><td>₦{{ number_format($order->subtotal, 2) }}</td></tr>
-                <tr><th>Delivery Fee</th><td>₦{{ number_format($order->delivery_fee, 2) }}</td></tr>
-                <tr><th>Total</th><td>₦{{ number_format($order->total, 2) }}</td></tr>
-                <tr><th>Payment Status</th><td>@if($order->payment_status==='SUCCESSFUL')<span class="badge badge-success">Paid</span>@else<span class="badge badge-warning">{{ $order->payment_status }}</span>@endif</td></tr>
+                <tr><th>Subtotal</th><td>GH₵{{ number_format($order->subtotal, 2) }}</td></tr>
+                <tr><th>Delivery Fee</th><td>GH₵{{ number_format($order->delivery_fee, 2) }}</td></tr>
+                <tr><th>Total</th><td><strong>GH₵{{ number_format($order->total, 2) }}</strong></td></tr>
+                <tr><th>Payment Status</th><td>@if($order->payment_status==='SUCCESSFUL' || $order->payment_status==='paid')<span class="badge badge-success">Paid</span>@else<span class="badge badge-warning">{{ $order->payment_status }}</span>@endif</td></tr>
                 <tr><th>Order Status</th><td><span class="badge badge-info">{{ $order->order_status }}</span></td></tr>
                 <tr><th>Created</th><td>{{ $order->created_at?->format('M d, Y H:i') }}</td></tr>
             </tbody>
@@ -26,7 +26,7 @@
             <thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
             <tbody>
                 @foreach($order->items as $item)
-                <tr><td>{{ $item->product_name }}</td><td>{{ $item->quantity }}</td><td>₦{{ number_format($item->unit_price, 2) }}</td><td>₦{{ number_format($item->total, 2) }}</td></tr>
+                <tr><td>{{ $item->product_name }}</td><td>{{ $item->quantity }}</td><td>GH₵{{ number_format($item->unit_price, 2) }}</td><td><strong>GH₵{{ number_format($item->total, 2) }}</strong></td></tr>
                 @endforeach
             </tbody>
         </table>

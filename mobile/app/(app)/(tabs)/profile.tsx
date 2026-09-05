@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../../components/Button';
 import { Screen } from '../../../components/Screen';
@@ -14,7 +14,7 @@ export default function ProfileScreen() {
   const resetCart = useCartStore((s) => s.reset);
 
   const handleLogout = async () => {
-    Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
+    Alert.alert('Sign Out', 'Are you sure you want to sign out of Streetman?', [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Sign Out',
@@ -28,6 +28,12 @@ export default function ProfileScreen() {
     ]);
   };
 
+  const handleCall = () => {
+    Linking.openURL('tel:0546441987').catch(() => {
+      Alert.alert('Streetman Order Line', 'Call or WhatsApp us on: 0546441987');
+    });
+  };
+
   const menu: { icon: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void }[] = [
     {
       icon: 'receipt-outline',
@@ -35,24 +41,24 @@ export default function ProfileScreen() {
       onPress: () => router.push('/(app)/(tabs)/orders'),
     },
     {
+      icon: 'restaurant-outline',
+      label: 'Streetman Menu',
+      onPress: () => router.push('/(app)/(tabs)'),
+    },
+    {
       icon: 'cart-outline',
-      label: 'Shopping Cart',
+      label: 'My Food Bag',
       onPress: () => router.push('/(app)/(tabs)/cart'),
     },
     {
-      icon: 'card-outline',
-      label: 'Payment Methods',
-      onPress: () => Alert.alert('Coming Soon', 'Payment methods management is not yet available.'),
+      icon: 'call-outline',
+      label: 'Order Hotline (0546441987)',
+      onPress: handleCall,
     },
     {
-      icon: 'notifications-outline',
-      label: 'Notifications',
-      onPress: () => Alert.alert('Coming Soon', 'Notifications are not yet available.'),
-    },
-    {
-      icon: 'person-outline',
-      label: 'Update Profile',
-      onPress: () => Alert.alert('Coming Soon', 'Profile editing is not yet available.'),
+      icon: 'logo-instagram',
+      label: 'Follow Us (@streetman_foods)',
+      onPress: () => Alert.alert('Follow Streetman', 'Find us on Instagram, TikTok & Facebook: @streetman_foods'),
     },
   ];
 
@@ -60,15 +66,29 @@ export default function ProfileScreen() {
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
-          <View style={styles.heroCircle} />
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{(user?.name ?? 'G').charAt(0).toUpperCase()}</Text>
+            <Image
+              source={require('../../../assets/streetman-logo.png')}
+              style={styles.avatarLogo}
+              resizeMode="cover"
+            />
           </View>
-          <Text style={styles.name}>{user?.name ?? 'User'}</Text>
+          <Text style={styles.name}>{user?.name ?? 'Streetman Foodie'}</Text>
           <Text style={styles.email}>{user?.email ?? '—'}{user?.phone ? `  •  ${user.phone}` : ''}</Text>
           <View style={styles.rolePill}>
-            <Ionicons name="shield-checkmark-outline" color={colors.primaryDark} size={14} />
-            <Text style={styles.roleText}>{user?.role ?? 'customer'}</Text>
+            <Ionicons name="flame" color={colors.gold} size={14} />
+            <Text style={styles.roleText}>Streetman Member</Text>
+          </View>
+        </View>
+
+        <View style={styles.brandCard}>
+          <Text style={styles.brandCardTitle}>STREETMAN CAFE & FLAMES</Text>
+          <Text style={styles.brandCardSubtitle}>AUTHENTIC STREET FOOD</Text>
+          <Text style={styles.brandCardTagline}>“Taste the Street, Love the Flavor.”</Text>
+          <View style={styles.socialBadges}>
+            <View style={styles.socialBadge}><Text style={styles.socialText}>Facebook</Text></View>
+            <View style={styles.socialBadge}><Text style={styles.socialText}>Instagram</Text></View>
+            <View style={styles.socialBadge}><Text style={styles.socialText}>TikTok</Text></View>
           </View>
         </View>
 
@@ -84,7 +104,7 @@ export default function ProfileScreen() {
               ]}
             >
               <View style={styles.menuIcon}>
-                <Ionicons name={item.icon} color={colors.primaryDark} size={20} />
+                <Ionicons name={item.icon} color={colors.primary} size={20} />
               </View>
               <Text style={styles.menuLabel}>{item.label}</Text>
               <Ionicons name="chevron-forward" color={colors.textMuted} size={18} />
@@ -101,65 +121,101 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   content: { padding: spacing.md, paddingBottom: spacing.xl },
   hero: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.cardDark,
     borderRadius: radius.xl,
     paddingVertical: spacing.lg,
     paddingHorizontal: spacing.md,
     alignItems: 'center',
     overflow: 'hidden',
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
     ...shadow.button,
   },
-  heroCircle: {
-    position: 'absolute',
-    top: -50,
-    right: -40,
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    backgroundColor: 'rgba(255,255,255,0.12)',
-  },
   avatar: {
-    width: 84,
-    height: 84,
+    width: 86,
+    height: 86,
     borderRadius: radius.full,
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
     borderWidth: 3,
-    borderColor: 'rgba(255,255,255,0.5)',
+    borderColor: colors.primary,
+    overflow: 'hidden',
+    backgroundColor: colors.surface,
   },
-  avatarText: {
-    fontSize: 34,
-    fontWeight: '800',
-    color: colors.primaryDark,
+  avatarLogo: {
+    width: '100%',
+    height: '100%',
   },
   name: {
     ...typography.heading,
-    fontSize: 21,
+    fontSize: 20,
     color: colors.white,
     marginTop: spacing.md,
   },
   email: {
-    color: 'rgba(255,255,255,0.85)',
-    fontSize: 13.5,
-    marginTop: 3,
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 13,
+    marginTop: 2,
   },
   rolePill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: 'rgba(255,255,255,0.22)',
+    backgroundColor: 'rgba(185, 28, 28, 0.4)',
     borderRadius: radius.full,
     paddingHorizontal: spacing.md,
     paddingVertical: 5,
     marginTop: spacing.sm + 2,
+    borderWidth: 1,
+    borderColor: colors.primary,
   },
   roleText: {
     color: colors.white,
     fontSize: 12,
+    fontWeight: '800',
+  },
+  brandCard: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    marginBottom: spacing.md,
+    ...shadow.card,
+  },
+  brandCardTitle: {
+    fontSize: 15,
+    fontWeight: '900',
+    color: colors.primary,
+    letterSpacing: 0.5,
+  },
+  brandCardSubtitle: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: colors.textMuted,
+    letterSpacing: 1.2,
+    marginTop: 2,
+  },
+  brandCardTagline: {
+    fontSize: 13,
+    fontStyle: 'italic',
+    color: colors.text,
+    marginTop: spacing.xs,
+    fontWeight: '600',
+  },
+  socialBadges: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.sm + 2,
+  },
+  socialBadge: {
+    backgroundColor: colors.primaryLight,
+    paddingHorizontal: spacing.sm + 2,
+    paddingVertical: 4,
+    borderRadius: radius.full,
+  },
+  socialText: {
+    color: colors.primaryDark,
+    fontSize: 11,
     fontWeight: '700',
-    textTransform: 'capitalize',
   },
   menuCard: {
     backgroundColor: colors.surface,
@@ -189,7 +245,7 @@ const styles = StyleSheet.create({
   },
   menuLabel: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14.5,
     fontWeight: '600',
     color: colors.text,
   },

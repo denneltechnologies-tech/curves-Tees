@@ -28,7 +28,7 @@ export default function CheckoutScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const subtotal = cart?.subtotal ?? 0;
-  const deliveryFee = 0; // TBD: delivery fee calculation not defined yet
+  const deliveryFee = 0;
   const total = subtotal + deliveryFee;
 
   useMemo(() => {
@@ -41,7 +41,7 @@ export default function CheckoutScreen() {
           setCart(res);
         }
       } catch (err) {
-        if (active) setError(err instanceof ApiError ? err.message : 'Failed to load cart.');
+        if (active) setError(err instanceof ApiError ? err.message : 'Failed to load order cart.');
       } finally {
         if (active) setLoading(false);
       }
@@ -54,7 +54,7 @@ export default function CheckoutScreen() {
 
   const placeOrder = async () => {
     if (!recipientName || !phone || !address) {
-      setError('Please fill in recipient name, phone and address.');
+      setError('Please provide recipient name, phone number, and delivery address.');
       return;
     }
     setError(null);
@@ -81,21 +81,20 @@ export default function CheckoutScreen() {
       const init = await initializePayment(orderId, 'paystack');
 
       if (!init.authorization_url) {
-        // No Paystack configured; order placed as unpaid.
-        Alert.alert('Order Placed', 'Your order was placed successfully.');
+        Alert.alert('Order Placed', 'Your Streetman order was placed successfully.');
         setSubmitting(false);
         router.replace(`/(app)/order/${orderId}`);
         return;
       }
 
-      const result = await WebBrowser.openAuthSessionAsync(init.authorization_url, 'gobe-republic://paystack');
+      const result = await WebBrowser.openAuthSessionAsync(init.authorization_url, 'streetman-cafe://paystack');
       if (result.type === 'success') {
         await verifyPayment(init.reference);
         Alert.alert('Payment Received', 'Thank you! Your payment was successful.');
         setSubmitting(false);
         router.replace(`/(app)/order/${orderId}`);
       } else {
-        Alert.alert('Payment Incomplete', 'Your order is placed but the payment was not completed.');
+        Alert.alert('Order Received', 'Your order is recorded. You can complete payment at any time.');
         setSubmitting(false);
         router.replace(`/(app)/order/${orderId}`);
       }
@@ -108,7 +107,7 @@ export default function CheckoutScreen() {
   if (loading) {
     return (
       <Screen style={styles.center}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.primary} size="large" />
       </Screen>
     );
   }
@@ -124,14 +123,14 @@ export default function CheckoutScreen() {
             <View style={styles.sectionIcon}>
               <Ionicons name="location-outline" color={colors.primary} size={20} />
             </View>
-            <Text style={styles.sectionTitle}>Delivery Information</Text>
+            <Text style={styles.sectionTitle}>Delivery Details</Text>
           </View>
           <View style={styles.card}>
-            <Input label="Recipient Name" value={recipientName} onChangeText={setRecipientName} placeholder="Full name" />
-            <Input label="Phone" value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="+234..." />
-            <Input label="Address" value={address} onChangeText={setAddress} placeholder="Street, area" />
-            <Input label="City" value={city} onChangeText={setCity} placeholder="City" />
-            <Input label="Additional Notes (optional)" value={notes} onChangeText={setNotes} multiline />
+            <Input label="Recipient Name" value={recipientName} onChangeText={setRecipientName} placeholder="Kwame Mensah" />
+            <Input label="Phone Number" value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="0546441987" />
+            <Input label="Delivery Address / Landmark" value={address} onChangeText={setAddress} placeholder="Street, landmark, house number" />
+            <Input label="City / Area" value={city} onChangeText={setCity} placeholder="Accra" />
+            <Input label="Order Notes (e.g. extra shito, spice level)" value={notes} onChangeText={setNotes} multiline />
           </View>
 
           {error ? (
@@ -150,21 +149,21 @@ export default function CheckoutScreen() {
           <View style={styles.card}>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Subtotal</Text>
-              <Text style={styles.summaryValue}>₦{subtotal.toLocaleString()}</Text>
+              <Text style={styles.summaryValue}>GH₵{subtotal.toFixed(0)}</Text>
             </View>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Delivery</Text>
-              <Text style={styles.summaryValue}>₦{deliveryFee.toLocaleString()}</Text>
+              <Text style={styles.summaryValue}>GH₵{deliveryFee.toFixed(0)}</Text>
             </View>
             <View style={[styles.summaryRow, styles.totalRow]}>
               <Text style={styles.totalLabel}>Total</Text>
-              <Text style={styles.totalValue}>₦{total.toLocaleString()}</Text>
+              <Text style={styles.totalValue}>GH₵{total.toFixed(0)}</Text>
             </View>
           </View>
         </ScrollView>
 
         <View style={styles.footer}>
-          <Button title="Place Order & Pay" onPress={placeOrder} loading={submitting} />
+          <Button title="Confirm Order & Pay" onPress={placeOrder} loading={submitting} />
         </View>
       </KeyboardAvoidingView>
     </Screen>
@@ -228,9 +227,9 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   summaryLabel: { color: colors.textMuted, fontSize: 15 },
-  summaryValue: { color: colors.text, fontWeight: '600', fontSize: 15 },
-  totalLabel: { color: colors.text, fontSize: 16, fontWeight: '700' },
-  totalValue: { color: colors.primaryDark, fontSize: 17, fontWeight: '800' },
+  summaryValue: { color: colors.text, fontWeight: '700', fontSize: 15 },
+  totalLabel: { color: colors.text, fontSize: 16, fontWeight: '800' },
+  totalValue: { color: colors.primary, fontSize: 18, fontWeight: '900' },
   footer: {
     backgroundColor: colors.surface,
     borderTopWidth: 1,

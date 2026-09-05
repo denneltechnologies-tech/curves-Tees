@@ -1,4 +1,4 @@
-# GOBE Republic — API Reference
+# Streetman Cafe & Flames — API Reference
 
 Base URL (dev): `http://127.0.0.1:8000/api/v1`
 Base URL (prod): `https://<your-backend>/api/v1`

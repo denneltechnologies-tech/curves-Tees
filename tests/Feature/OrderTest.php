@@ -83,7 +83,7 @@ class OrderTest extends TestCase
         ]);
 
         $orderNumber = $response->json('data.order_number');
-        $this->assertMatchesRegularExpression('/^GOBE-[A-Z0-9]{8}$/', $orderNumber);
+        $this->assertMatchesRegularExpression('/^SM-[A-Z0-9]{8}$/', $orderNumber);
     }
 
     public function test_checkout_requires_non_empty_cart(): void

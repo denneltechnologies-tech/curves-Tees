@@ -107,7 +107,7 @@ class OrderController extends Controller
     public static function generateOrderNumber(): string
     {
         do {
-            $number = 'GOBE-' . strtoupper(Str::random(8));
+            $number = 'SM-' . strtoupper(Str::random(8));
         } while (Order::where('order_number', $number)->exists());
 
         return $number;

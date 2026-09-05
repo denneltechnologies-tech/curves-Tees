@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
@@ -48,13 +48,17 @@ export default function RegisterScreen() {
         <View style={styles.decorTop} />
         <View style={styles.decorBottom} />
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <View style={styles.brandRow}>
-            <View style={styles.logo}>
-              <Ionicons name="bag-handle" color={colors.white} size={26} />
-            </View>
-            <Text style={styles.brand}>Join <Text style={styles.brandAccent}>GOBE Republic</Text></Text>
+          <View style={styles.brandContainer}>
+            <Image
+              source={require('../assets/streetman-logo.png')}
+              style={styles.logoImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.brandTitle}>
+              JOIN <Text style={styles.brandAccent}>STREETMAN</Text>
+            </Text>
+            <Text style={styles.tagline}>Good Food. Good Mood. Streetman!</Text>
           </View>
-          <Text style={styles.tagline}>Create your account and start shopping instantly.</Text>
 
           <View style={styles.card}>
             {error ? (
@@ -64,9 +68,9 @@ export default function RegisterScreen() {
               </View>
             ) : null}
 
-            <Input label="Full Name" value={name} onChangeText={setName} placeholder="Jane Doe" />
-            <Input label="Email" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="you@example.com" />
-            <Input label="Phone (optional)" value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="+234..." />
+            <Input label="Full Name" value={name} onChangeText={setName} placeholder="Kwame Mensah" />
+            <Input label="Email Address" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="you@example.com" />
+            <Input label="Phone Number (e.g. 0546441987)" value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="0546441987" />
             <Input label="Password" value={password} onChangeText={setPassword} secureTextEntry placeholder="••••••••" />
             <Input label="Confirm Password" value={passwordConfirmation} onChangeText={setPasswordConfirmation} secureTextEntry placeholder="••••••••" />
 
@@ -111,33 +115,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: spacing.lg,
   },
-  brandRow: {
-    flexDirection: 'row',
+  brandContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.md,
-    marginBottom: spacing.xs,
+    marginBottom: spacing.lg,
   },
-  logo: {
-    width: 48,
-    height: 48,
-    borderRadius: radius.lg,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+  logoImage: {
+    width: 80,
+    height: 80,
+    borderRadius: radius.full,
+    marginBottom: spacing.xs,
     ...shadow.button,
   },
-  brand: {
+  brandTitle: {
     ...typography.title,
-    letterSpacing: -1,
+    fontSize: 22,
+    letterSpacing: -0.5,
+    textAlign: 'center',
   },
   brandAccent: {
-    color: colors.primaryDark,
+    color: colors.primary,
   },
   tagline: {
     ...typography.caption,
     textAlign: 'center',
-    marginBottom: spacing.lg,
+    color: colors.textMuted,
+    marginTop: 2,
+    fontWeight: '600',
   },
   card: {
     backgroundColor: colors.surface,

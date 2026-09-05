@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
@@ -41,13 +41,22 @@ export default function LoginScreen() {
         <View style={styles.decorTop} />
         <View style={styles.decorBottom} />
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <View style={styles.brandRow}>
-            <View style={styles.logo}>
-              <Ionicons name="bag-handle" color={colors.white} size={26} />
+          <View style={styles.brandContainer}>
+            <Image
+              source={require('../assets/streetman-logo.png')}
+              style={styles.logoImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.brandTitle}>
+              STREETMAN <Text style={styles.brandAccent}>CAFE & FLAMES</Text>
+            </Text>
+            <View style={styles.badgeRow}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>AUTHENTIC STREET FOOD</Text>
+              </View>
             </View>
-            <Text style={styles.brand}>GOBE <Text style={styles.brandAccent}>Republic</Text></Text>
+            <Text style={styles.tagline}>Taste the Street, Love the Flavor.</Text>
           </View>
-          <Text style={styles.tagline}>Welcome back. Sign in to continue shopping.</Text>
 
           <View style={styles.card}>
             {error ? (
@@ -58,7 +67,7 @@ export default function LoginScreen() {
             ) : null}
 
             <Input
-              label="Email"
+              label="Email Address"
               value={email}
               onChangeText={setEmail}
               autoCapitalize="none"
@@ -73,15 +82,15 @@ export default function LoginScreen() {
               placeholder="••••••••"
             />
 
-            <Button title="Sign In" onPress={submit} loading={loading} />
+            <Button title="Sign In" onPress={submit} loading={loading} style={styles.signInBtn} />
 
             <View style={styles.dividerRow}>
               <View style={styles.divider} />
-              <Text style={styles.dividerText}>NEW HERE?</Text>
+              <Text style={styles.dividerText}>NEW TO STREETMAN?</Text>
               <View style={styles.divider} />
             </View>
 
-            <Button title="Create Account" variant="ghost" onPress={() => router.push('/register')} />
+            <Button title="Create an Account" variant="ghost" onPress={() => router.push('/register')} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -114,33 +123,48 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: spacing.lg,
   },
-  brandRow: {
-    flexDirection: 'row',
+  brandContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.md,
-    marginBottom: spacing.xs,
+    marginBottom: spacing.lg,
   },
-  logo: {
-    width: 48,
-    height: 48,
-    borderRadius: radius.lg,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+  logoImage: {
+    width: 96,
+    height: 96,
+    borderRadius: radius.full,
+    marginBottom: spacing.sm,
     ...shadow.button,
   },
-  brand: {
+  brandTitle: {
     ...typography.title,
-    letterSpacing: -1,
+    fontSize: 22,
+    letterSpacing: -0.5,
+    textAlign: 'center',
   },
   brandAccent: {
-    color: colors.primaryDark,
+    color: colors.primary,
+  },
+  badgeRow: {
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  badge: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: spacing.sm + 4,
+    paddingVertical: 3,
+    borderRadius: radius.full,
+  },
+  badgeText: {
+    color: colors.white,
+    fontSize: 10.5,
+    fontWeight: '800',
+    letterSpacing: 1.2,
   },
   tagline: {
     ...typography.caption,
     textAlign: 'center',
-    marginBottom: spacing.lg,
+    fontStyle: 'italic',
+    color: colors.textMuted,
+    marginTop: 4,
   },
   card: {
     backgroundColor: colors.surface,
@@ -149,6 +173,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     ...shadow.card,
+  },
+  signInBtn: {
+    marginTop: spacing.xs,
   },
   errorBox: {
     flexDirection: 'row',

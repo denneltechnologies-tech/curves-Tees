@@ -19,7 +19,7 @@ class OrderFactory extends Factory
 
         return [
             'user_id' => User::factory(),
-            'order_number' => 'GOBE-' . strtoupper(fake()->unique()->bothify('????####')),
+            'order_number' => 'SM-' . strtoupper(fake()->unique()->bothify('????####')),
             'subtotal' => $subtotal,
             'delivery_fee' => 0,
             'total' => $subtotal,

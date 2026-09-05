@@ -1,19 +1,27 @@
 export const colors = {
-  primary: '#f59e0b',
-  primaryDark: '#b45309',
-  primaryDeep: '#92400e',
-  primaryLight: '#fef3c7',
-  tint: '#fffbeb',
-  background: '#f6f7f9',
-  surface: '#ffffff',
-  text: '#0f172a',
-  textMuted: '#64748b',
-  border: '#e5e7eb',
-  danger: '#dc2626',
-  success: '#16a34a',
-  info: '#2563eb',
-  white: '#ffffff',
-  dark: '#0f172a',
+  primary: '#B91C1C', // Flame Red
+  primaryDark: '#991B1B', // Deep Burgundy Red
+  primaryDeep: '#7F1D1D',
+  primaryLight: '#FEE2E2', // Soft Crimson Tint
+  accent: '#F59E0B', // Streetman Gold / Amber
+  accentDark: '#D97706',
+  accentLight: '#FEF3C7',
+  tint: '#FFF7ED',
+  background: '#F8F9FA',
+  surface: '#FFFFFF',
+  cardDark: '#111827', // Rich charcoal card background
+  cardDarkBorder: '#1F2937',
+  text: '#0F172A',
+  textMuted: '#64748B',
+  textLight: '#FFFFFF',
+  border: '#E2E8F0',
+  danger: '#DC2626',
+  success: '#16A34A',
+  info: '#2563EB',
+  white: '#FFFFFF',
+  dark: '#0F172A',
+  flame: '#EA580C',
+  gold: '#FBBF24',
   overlay: 'rgba(15, 23, 42, 0.05)',
 };
 
@@ -42,11 +50,18 @@ export const shadow = {
     elevation: 3,
   },
   button: {
-    shadowColor: '#b45309',
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
+    shadowColor: '#991b1b',
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
-    elevation: 3,
+    elevation: 4,
+  },
+  accentButton: {
+    shadowColor: '#d97706',
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
 };
 

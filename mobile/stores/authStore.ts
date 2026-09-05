@@ -31,7 +31,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: 'gobe_auth',
+      name: 'streetman_auth',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({ user: state.user }),
       onRehydrateStorage: () => (state) => {

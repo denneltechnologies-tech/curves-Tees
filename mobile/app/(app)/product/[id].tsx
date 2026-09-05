@@ -32,7 +32,7 @@ export default function ProductDetailScreen() {
       setProduct(res);
       setError(null);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Failed to load product.');
+      setError(err instanceof ApiError ? err.message : 'Failed to load menu item.');
     } finally {
       setLoading(false);
     }
@@ -63,7 +63,7 @@ export default function ProductDetailScreen() {
   if (loading) {
     return (
       <Screen style={styles.center}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.primary} size="large" />
       </Screen>
     );
   }
@@ -74,8 +74,8 @@ export default function ProductDetailScreen() {
         <View style={styles.errorIcon}>
           <Ionicons name="alert-circle-outline" color={colors.danger} size={40} />
         </View>
-        <Text style={styles.error}>{error ?? 'Product not found.'}</Text>
-        <Button title="Back to Home" variant="outline" onPress={() => router.back()} />
+        <Text style={styles.error}>{error ?? 'Item not found.'}</Text>
+        <Button title="Back to Menu" variant="outline" onPress={() => router.back()} />
       </Screen>
     );
   }
@@ -91,7 +91,7 @@ export default function ProductDetailScreen() {
             <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
           ) : (
             <View style={[styles.image, styles.placeholder]}>
-              <Ionicons name="cube-outline" color={colors.primary} size={80} />
+              <Text style={styles.placeholderEmoji}>🍗</Text>
             </View>
           )}
         </View>
@@ -103,7 +103,11 @@ export default function ProductDetailScreen() {
             </View>
           ) : null}
           <Text style={styles.name}>{product.name}</Text>
-          <Text style={styles.price}>₦{Number(product.price).toLocaleString()}</Text>
+          <View style={styles.priceRow}>
+            <View style={styles.priceBadge}>
+              <Text style={styles.price}>GH₵{Number(product.price).toFixed(0)}</Text>
+            </View>
+          </View>
           {unavailable ? (
             <View style={styles.unavailablePill}>
               <Ionicons name="time-outline" color={colors.danger} size={14} />
@@ -113,7 +117,7 @@ export default function ProductDetailScreen() {
           <View style={styles.divider} />
           <Text style={styles.descLabel}>Description</Text>
           <Text style={styles.description}>
-            {product.description ?? 'No description available.'}
+            {product.description ?? 'Authentic street food prepared fresh with quality ingredients.'}
           </Text>
         </View>
       </ScrollView>
@@ -121,7 +125,7 @@ export default function ProductDetailScreen() {
       <View style={styles.footer}>
         {addError ? <Text style={styles.addError}>{addError}</Text> : null}
         <Button
-          title={user ? 'Add to Cart' : 'Sign In to Buy'}
+          title={user ? 'Add to Order' : 'Sign In to Order'}
           onPress={handleAdd}
           loading={adding}
           style={styles.footerBtn}
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
   },
   imageWrap: {
     width: '100%',
-    aspectRatio: 1,
+    aspectRatio: 1.1,
     backgroundColor: colors.tint,
   },
   image: {
@@ -162,6 +166,10 @@ const styles = StyleSheet.create({
   placeholder: {
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFF7ED',
+  },
+  placeholderEmoji: {
+    fontSize: 70,
   },
   info: {
     padding: spacing.lg,
@@ -177,18 +185,29 @@ const styles = StyleSheet.create({
   categoryText: {
     color: colors.primaryDark,
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: '800',
     textTransform: 'capitalize',
   },
   name: {
     ...typography.title,
-    lineHeight: 32,
+    fontSize: 22,
+    lineHeight: 28,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    marginTop: spacing.sm,
+  },
+  priceBadge: {
+    backgroundColor: colors.accent,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: radius.md,
   },
   price: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: colors.primaryDark,
-    marginTop: spacing.sm,
+    fontSize: 22,
+    fontWeight: '900',
+    color: colors.dark,
+    letterSpacing: -0.5,
   },
   unavailablePill: {
     flexDirection: 'row',
@@ -212,11 +231,11 @@ const styles = StyleSheet.create({
     marginVertical: spacing.lg,
   },
   descLabel: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: 13,
+    fontWeight: '800',
     color: colors.textMuted,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.8,
     marginBottom: spacing.sm,
   },
   description: {

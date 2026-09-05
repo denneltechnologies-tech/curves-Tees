@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -97,18 +98,20 @@ export default function HomeScreen() {
     }
   };
 
-  const firstName = (user?.name ?? 'Shopper').split(' ')[0];
+  const firstName = (user?.name ?? 'Foodie').split(' ')[0];
 
   return (
     <Screen>
       <View style={styles.header}>
         <View style={styles.greetingRow}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{firstName.charAt(0).toUpperCase()}</Text>
-          </View>
+          <Image
+            source={require('../../../assets/streetman-logo.png')}
+            style={styles.headerLogo}
+            resizeMode="cover"
+          />
           <View style={styles.greetingTexts}>
-            <Text style={styles.greeting}>Hello, {firstName}</Text>
-            <Text style={styles.greetingSub}>Style for every day, delivered.</Text>
+            <Text style={styles.greeting}>Hey, {firstName} 👋</Text>
+            <Text style={styles.greetingSub}>Taste the Street, Love the Flavor.</Text>
           </View>
           <Pressable style={styles.notifBtn} onPress={() => router.push('/(app)/(tabs)/profile')}>
             <Ionicons name="notifications-outline" color={colors.text} size={20} />
@@ -118,7 +121,7 @@ export default function HomeScreen() {
           <Ionicons name="search" color={colors.textMuted} size={18} />
           <TextInput
             style={styles.search}
-            placeholder="Search products..."
+            placeholder="Search fried rice, jollof, boba..."
             value={search}
             onChangeText={setSearch}
             placeholderTextColor={colors.textMuted}
@@ -138,21 +141,52 @@ export default function HomeScreen() {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.listContent}
         keyboardShouldPersistTaps="handled"
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.primary} />}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.3}
         ListHeaderComponent={
           <>
             <View style={styles.hero}>
-              <View style={styles.heroCircleA} />
-              <View style={styles.heroCircleB} />
-              <Text style={styles.heroEyebrow}>GOBE COLLECTION</Text>
-              <Text style={styles.heroTitle}>New Season,{'\n'}New You</Text>
-              <Text style={styles.heroSub}>Shop fresh styles, essentials & more — delivered to your door.</Text>
-              <Pressable style={styles.heroCta} onPress={() => { setSearch(''); setSelectedCategory(null); }}>
-                <Text style={styles.heroCtaText}>Shop Now</Text>
-                <Ionicons name="arrow-forward" color={colors.primaryDark} size={16} />
-              </Pressable>
+              <Image
+                source={require('../../../assets/streetman-hero.png')}
+                style={styles.heroBackground}
+                resizeMode="cover"
+              />
+              <View style={styles.heroOverlay} />
+              <View style={styles.heroContent}>
+                <View style={styles.heroBadge}>
+                  <Ionicons name="flame" color={colors.accent} size={13} />
+                  <Text style={styles.heroEyebrow}>AUTHENTIC STREET FOOD</Text>
+                </View>
+                <Text style={styles.heroTitle}>Streetman Style{'\n'}<Text style={styles.heroAccent}>Milk & Fries Combo</Text></Text>
+                <Text style={styles.heroSub}>Crispy golden fries + crispy chicken + sausages + creamy milkshake!</Text>
+                
+                <View style={styles.taglineRow}>
+                  <Text style={styles.taglineBadge}>GOOD FOOD • GOOD MOOD</Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.featureBar}>
+              <View style={styles.featureItem}>
+                <Ionicons name="flame-outline" color={colors.primary} size={16} />
+                <Text style={styles.featureText}>Freshly Prepared</Text>
+              </View>
+              <View style={styles.featureDivider} />
+              <View style={styles.featureItem}>
+                <Ionicons name="restaurant-outline" color={colors.accent} size={16} />
+                <Text style={styles.featureText}>Quality Taste</Text>
+              </View>
+              <View style={styles.featureDivider} />
+              <View style={styles.featureItem}>
+                <Ionicons name="bicycle-outline" color={colors.success} size={16} />
+                <Text style={styles.featureText}>Fast Delivery</Text>
+              </View>
+            </View>
+
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Our Menu</Text>
+              <Text style={styles.sectionSub}>Authentic Street Meals</Text>
             </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
@@ -161,11 +195,11 @@ export default function HomeScreen() {
                 onPress={() => setSelectedCategory(null)}
               >
                 <Ionicons
-                  name="grid-outline"
-                  size={16}
-                  color={selectedCategory === null ? colors.white : colors.textMuted}
+                  name="restaurant"
+                  size={15}
+                  color={selectedCategory === null ? colors.white : colors.primary}
                 />
-                <Text style={[styles.chipText, selectedCategory === null && styles.chipTextActive]}>All</Text>
+                <Text style={[styles.chipText, selectedCategory === null && styles.chipTextActive]}>All Menu</Text>
               </Pressable>
               {categories.map((c) => (
                 <Pressable
@@ -182,9 +216,9 @@ export default function HomeScreen() {
         }
         ListEmptyComponent={
           loading ? (
-            <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
+            <View style={styles.center}><ActivityIndicator color={colors.primary} size="large" /></View>
           ) : (
-            <View style={styles.center}><Text style={styles.empty}>No products found.</Text></View>
+            <View style={styles.center}><Text style={styles.empty}>No food items found.</Text></View>
           )
         }
         ListFooterComponent={
@@ -209,18 +243,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: spacing.md,
   },
-  avatar: {
-    width: 42,
-    height: 42,
+  headerLogo: {
+    width: 44,
+    height: 44,
     borderRadius: radius.full,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarText: {
-    color: colors.white,
-    fontSize: 18,
-    fontWeight: '800',
+    borderWidth: 2,
+    borderColor: colors.primary,
   },
   greetingTexts: {
     flex: 1,
@@ -229,11 +257,14 @@ const styles = StyleSheet.create({
   greeting: {
     ...typography.heading,
     fontSize: 18,
+    color: colors.text,
   },
   greetingSub: {
     ...typography.caption,
     fontSize: 12.5,
     marginTop: 1,
+    color: colors.primaryDark,
+    fontWeight: '600',
   },
   notifBtn: {
     width: 40,
@@ -259,7 +290,7 @@ const styles = StyleSheet.create({
   },
   search: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14.5,
     color: colors.text,
     height: '100%',
   },
@@ -272,68 +303,122 @@ const styles = StyleSheet.create({
     gap: spacing.sm + 2,
   },
   hero: {
-    backgroundColor: colors.primary,
     borderRadius: radius.xl,
-    padding: spacing.lg,
     marginTop: spacing.sm,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
     overflow: 'hidden',
+    height: 190,
+    position: 'relative',
     ...shadow.button,
   },
-  heroCircleA: {
+  heroBackground: {
     position: 'absolute',
-    top: -40,
-    right: -30,
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    backgroundColor: 'rgba(255,255,255,0.14)',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
   },
-  heroCircleB: {
+  heroOverlay: {
     position: 'absolute',
-    bottom: -50,
-    right: 60,
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: 'rgba(255,255,255,0.10)',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(15, 17, 23, 0.72)',
+  },
+  heroContent: {
+    padding: spacing.md + 2,
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  heroBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(185, 28, 28, 0.85)',
+    paddingHorizontal: spacing.sm + 2,
+    paddingVertical: 3,
+    borderRadius: radius.full,
   },
   heroEyebrow: {
-    color: 'rgba(255,255,255,0.85)',
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 2,
+    color: colors.white,
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1.5,
   },
   heroTitle: {
     color: colors.white,
-    fontSize: 26,
-    fontWeight: '800',
+    fontSize: 22,
+    fontWeight: '900',
     letterSpacing: -0.5,
-    marginTop: spacing.sm,
-    lineHeight: 32,
+    lineHeight: 26,
+  },
+  heroAccent: {
+    color: colors.gold,
   },
   heroSub: {
     color: 'rgba(255,255,255,0.9)',
-    fontSize: 13.5,
-    lineHeight: 19,
-    marginTop: spacing.sm,
+    fontSize: 12,
+    lineHeight: 16,
     maxWidth: 260,
   },
-  heroCta: {
+  taglineRow: {
+    flexDirection: 'row',
+  },
+  taglineBadge: {
+    backgroundColor: 'rgba(245, 158, 11, 0.9)',
+    color: colors.dark,
+    fontSize: 9.5,
+    fontWeight: '900',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: radius.sm,
+    letterSpacing: 0.8,
+  },
+  featureBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs,
-    alignSelf: 'flex-start',
-    backgroundColor: colors.white,
-    borderRadius: radius.full,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    marginTop: spacing.lg,
+    justifyContent: 'space-around',
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    paddingVertical: spacing.sm + 2,
+    paddingHorizontal: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: spacing.md,
+    ...shadow.card,
   },
-  heroCtaText: {
-    color: colors.primaryDark,
+  featureItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  featureText: {
+    fontSize: 11.5,
     fontWeight: '700',
-    fontSize: 14,
+    color: colors.text,
+  },
+  featureDivider: {
+    width: 1,
+    height: 16,
+    backgroundColor: colors.border,
+  },
+  sectionHeader: {
+    marginBottom: spacing.xs,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: colors.text,
+    letterSpacing: -0.3,
+  },
+  sectionSub: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginTop: 1,
   },
   chips: {
     paddingVertical: spacing.sm,
@@ -356,8 +441,8 @@ const styles = StyleSheet.create({
   },
   chipText: {
     color: colors.text,
-    fontWeight: '600',
-    fontSize: 13.5,
+    fontWeight: '700',
+    fontSize: 13,
   },
   chipTextActive: {
     color: colors.white,

@@ -20,7 +20,7 @@
     "CACHE_STORE": "database",
     "FILESYSTEM_DISK": "local",
     "RUN_MIGRATIONS": "true",
-    "ADMIN_EMAIL": "admin@gobe.com",
+    "ADMIN_EMAIL": "admin@streetman.com",
     "ADMIN_PASSWORD": "password"
   }
 }

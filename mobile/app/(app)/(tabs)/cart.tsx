@@ -66,7 +66,7 @@ export default function CartScreen() {
   if (loading || !user) {
     return (
       <Screen style={styles.center}>
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={colors.primary} size="large" />
       </Screen>
     );
   }
@@ -78,9 +78,10 @@ export default function CartScreen() {
       {error ? <Text style={styles.error}>{error}</Text> : null}
       {itemCount === 0 ? (
         <EmptyState
-          title="Your cart is empty"
-          message="Browse our products and add something you love."
-          actionLabel="Browse Products"
+          title="Your Streetman Bag is Empty"
+          message="Check out our authentic rice meals, fries combos, and drinks!"
+          actionLabel="Browse Menu"
+          icon="restaurant-outline"
           onAction={() => router.push('/(app)/(tabs)')}
         />
       ) : (
@@ -96,14 +97,14 @@ export default function CartScreen() {
                   <Image source={{ uri: imageUrl }} style={styles.itemImage} resizeMode="cover" />
                 ) : (
                   <View style={[styles.itemImage, styles.itemImagePlaceholder]}>
-                    <Ionicons name="cube-outline" color={colors.primary} size={22} />
+                    <Text style={styles.foodEmoji}>🍗</Text>
                   </View>
                 )}
                 <View style={styles.itemInfo}>
                   <Text style={styles.itemName} numberOfLines={2}>
-                    {item.product?.name ?? `Product #${item.product_id}`}
+                    {item.product?.name ?? `Item #${item.product_id}`}
                   </Text>
-                  <Text style={styles.itemPrice}>₦{Number(item.unit_price).toLocaleString()}</Text>
+                  <Text style={styles.itemPrice}>GH₵{Number(item.unit_price).toFixed(0)}</Text>
                   <View style={styles.qtyRow}>
                     <View style={styles.stepper}>
                       <PressableCircle icon="remove" onPress={() => changeQty(item, -1)} />
@@ -113,7 +114,7 @@ export default function CartScreen() {
                     <PressableRemove onPress={() => remove(item)} />
                   </View>
                 </View>
-                <Text style={styles.lineTotal}>₦{Number(item.line_total).toLocaleString()}</Text>
+                <Text style={styles.lineTotal}>GH₵{Number(item.line_total).toFixed(0)}</Text>
               </View>
             );
           }}
@@ -121,7 +122,7 @@ export default function CartScreen() {
             <View style={styles.footer}>
               <View style={styles.summaryRow}>
                 <Text style={styles.summaryLabel}>Items ({itemCount})</Text>
-                <Text style={styles.summaryValue}>₦{Number(cart?.subtotal ?? 0).toLocaleString()}</Text>
+                <Text style={styles.summaryValue}>GH₵{Number(cart?.subtotal ?? 0).toFixed(0)}</Text>
               </View>
               <View style={styles.summaryRow}>
                 <Text style={styles.summaryLabel}>Delivery</Text>
@@ -141,9 +142,9 @@ function PressableCircle({ icon, onPress }: { icon: 'add' | 'remove'; onPress: (
     <Pressable
       onPress={onPress}
       accessibilityLabel={icon === 'add' ? 'Increase quantity' : 'Decrease quantity'}
-      style={({ pressed }) => [styles.stepBtn, { borderColor: colors.primary }, pressed && { opacity: 0.7 }]}
+      style={({ pressed }) => [styles.stepBtn, pressed && { opacity: 0.7 }]}
     >
-      <Ionicons name={icon === 'add' ? 'add' : 'remove'} color={colors.primaryDark} size={18} />
+      <Ionicons name={icon === 'add' ? 'add' : 'remove'} color={colors.primary} size={18} />
     </Pressable>
   );
 }
@@ -178,6 +179,10 @@ const styles = StyleSheet.create({
   itemImagePlaceholder: {
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFF7ED',
+  },
+  foodEmoji: {
+    fontSize: 30,
   },
   itemInfo: {
     flex: 1,
@@ -185,14 +190,15 @@ const styles = StyleSheet.create({
     marginRight: spacing.sm,
   },
   itemName: {
-    fontSize: 14.5,
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '700',
     color: colors.text,
-    lineHeight: 19,
+    lineHeight: 18,
   },
   itemPrice: {
     color: colors.textMuted,
     fontSize: 13,
+    fontWeight: '600',
     marginTop: 2,
   },
   qtyRow: {
@@ -206,19 +212,21 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   stepBtn: {
-    width: 38,
+    width: 34,
     height: 34,
     borderRadius: radius.full,
     borderWidth: 1.5,
-    backgroundColor: colors.tint,
+    borderColor: colors.primary,
+    backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
   qty: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
     minWidth: 20,
     textAlign: 'center',
+    color: colors.text,
   },
   removeBtn: {
     minHeight: 34,
@@ -227,8 +235,8 @@ const styles = StyleSheet.create({
     marginLeft: spacing.sm,
   },
   lineTotal: {
-    color: colors.primaryDark,
-    fontWeight: '800',
+    color: colors.primary,
+    fontWeight: '900',
     fontSize: 15,
   },
   footer: {
@@ -241,7 +249,7 @@ const styles = StyleSheet.create({
     ...shadow.card,
   },
   summaryRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.sm },
-  summaryLabel: { color: colors.textMuted, fontSize: 15 },
-  summaryValue: { color: colors.text, fontWeight: '600', fontSize: 15 },
+  summaryLabel: { color: colors.textMuted, fontSize: 14.5, fontWeight: '500' },
+  summaryValue: { color: colors.text, fontWeight: '700', fontSize: 15 },
   checkoutBtn: { marginTop: spacing.sm },
 });

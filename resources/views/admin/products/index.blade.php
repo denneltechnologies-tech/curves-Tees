@@ -1,21 +1,21 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Products')
+@section('title', 'Menu Items')
 @section('content')
     <div class="card">
         <div class="page-head">
-            <h3 class="page-title">All Products ({{ $products->total() }})</h3>
+            <h3 class="page-title">Streetman Menu Items ({{ $products->total() }})</h3>
             <div class="toolbar">
                 <form method="GET" class="toolbar">
-                    <input type="text" class="search-input" name="q" value="{{ request('q') }}" placeholder="Search products...">
+                    <input type="text" class="search-input" name="q" value="{{ request('q') }}" placeholder="Search menu items...">
                     <button class="btn btn-secondary">Search</button>
                 </form>
-                <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Add Product</a>
+                <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Add Menu Item</a>
             </div>
         </div>
 
         @if($products->isEmpty())
-            <p class="muted">No products found.</p>
+            <p class="muted">No menu items found.</p>
         @else
         <div class="table-wrap">
         <table>
@@ -23,15 +23,15 @@
             <tbody>
                 @foreach($products as $product)
                 <tr>
-                    <td>@if($product->image)<img class="img-thumb" src="{{ asset('storage/'.$product->image) }}" alt="">@else<span class="muted">—</span>@endif</td>
-                    <td>{{ $product->name }}</td>
+                    <td>@if($product->image)<img class="img-thumb" src="{{ asset('storage/'.$product->image) }}" alt="">@else<span class="muted">🍗</span>@endif</td>
+                    <td><strong>{{ $product->name }}</strong></td>
                     <td>{{ $product->category->name ?? '—' }}</td>
-                    <td>₦{{ number_format($product->price, 2) }}</td>
+                    <td><strong>GH₵{{ number_format($product->price, 2) }}</strong></td>
                     <td>@if($product->status === 'active')<span class="badge badge-success">Active</span>@else<span class="badge badge-danger">Inactive</span>@endif</td>
                     <td>
                         <div class="actions">
                             <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-secondary btn-sm">Edit</a>
-                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="inline" onsubmit="return confirm('Delete this product?');">
+                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="inline" onsubmit="return confirm('Delete this menu item?');">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-danger btn-sm">Delete</button>
                             </form>
