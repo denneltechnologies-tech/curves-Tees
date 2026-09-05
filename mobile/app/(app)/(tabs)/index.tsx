@@ -113,7 +113,7 @@ export default function HomeScreen() {
             <Text style={styles.greeting}>Hey, {firstName} 👋</Text>
             <Text style={styles.greetingSub}>Taste the Street, Love the Flavor.</Text>
           </View>
-          <Pressable style={styles.notifBtn} onPress={() => router.push('/(app)/(tabs)/profile')}>
+          <Pressable style={styles.notifBtn} onPress={() => router.push('/(app)/notifications')}>
             <Ionicons name="notifications-outline" color={colors.text} size={20} />
           </Pressable>
         </View>

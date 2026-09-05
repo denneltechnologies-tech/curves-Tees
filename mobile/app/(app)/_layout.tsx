@@ -30,6 +30,7 @@ export default function AppLayout() {
       <Stack.Screen name="product/[id]" options={{ headerShown: true, title: '' }} />
       <Stack.Screen name="checkout" options={{ headerShown: true, title: 'Checkout' }} />
       <Stack.Screen name="order/[id]" options={{ headerShown: true, title: 'Order Details' }} />
+      <Stack.Screen name="notifications" options={{ headerShown: true, title: 'Notifications' }} />
     </Stack>
   );
 }
