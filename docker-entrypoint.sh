@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-if [ -n "$DB_HOST" ] || [ -n "$DB_URL" ]; then
+if [ "$DB_CONNECTION" = "mysql" ] || [ -n "$DB_HOST" ] || [ -n "$DB_URL" ]; then
   echo "Waiting for database ..."
   i=0
   until php -r '
@@ -30,6 +30,16 @@ if [ -n "$DB_HOST" ] || [ -n "$DB_URL" ]; then
     sleep 1
   done
   echo "Database ready."
+else
+  touch database/database.sqlite 2>/dev/null || true
+fi
+
+# Ensure storage directories exist and are writable
+mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs
+chmod -R 777 storage bootstrap/cache 2>/dev/null || true
+
+if [ -z "$APP_KEY" ]; then
+  php artisan key:generate --force --no-interaction
 fi
 
 if [ "${RUN_MIGRATIONS}" = "true" ]; then
