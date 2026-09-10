@@ -84,16 +84,35 @@
             @csrf
             <div class="form-group">
                 <label for="email">Admin Email Address</label>
-                <input type="email" name="email" id="email" value="{{ old('email', 'admin@curvesandtees.com') }}" required autofocus>
+                <input type="email" name="email" id="email" value="{{ old('email', 'admin@curvesandtees.com') }}" required autofocus placeholder="admin@curvesandtees.com">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="password" required placeholder="Enter password" style="padding-right: 42px;">
+                    <button type="button" onclick="togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #736c66; font-size: 16px;" title="Toggle password visibility">
+                        👁️
+                    </button>
+                </div>
             </div>
             <button type="submit" class="btn">Sign In to Dashboard</button>
         </form>
+        <div style="margin-top: 14px; background: #fdf8ee; border: 1px solid #f6deb3; border-radius: 8px; padding: 8px 12px; font-size: 11.5px; color: #9c6c1b; text-align: center;">
+            <strong>Sign-in handles:</strong> <code>admin@curvesandtees.com</code> or <code>otooaggreydennis@gmail.com</code>
+        </div>
         <a href="{{ route('store.index') }}" class="back-to-store">← Return to Online Store</a>
         <div class="foot">Curves & Tees Ghana • Madina Estate, Accra</div>
     </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const pwd = document.getElementById('password');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+            } else {
+                pwd.type = 'password';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -9,7 +9,8 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::firstOrNew(['email' => env('ADMIN_EMAIL', 'admin@curvesandtees.com')]);
+        // 1. Primary boutique admin
+        $admin = User::firstOrNew(['email' => 'admin@curvesandtees.com']);
         $admin->name = 'Curves & Tees Admin';
         $admin->phone = '0571038444';
         $admin->password = bcrypt(env('ADMIN_PASSWORD', 'password'));
@@ -17,9 +18,22 @@ class AdminUserSeeder extends Seeder
         $admin->status = User::STATUS_ACTIVE;
         $admin->save();
 
-        // Also ensure legacy admin@streetman.com works with name Curves & Tees Admin for convenience
-        User::where('email', 'admin@streetman.com')->update([
-            'name' => 'Curves & Tees Admin',
-        ]);
+        // 2. Owner / Super Admin (Dennis)
+        $owner = User::firstOrNew(['email' => 'otooaggreydennis@gmail.com']);
+        $owner->name = 'Dennis Aggrey Otoo';
+        $owner->phone = '0571038444';
+        $owner->password = bcrypt('Ghana2026!!!');
+        $owner->role = User::ROLE_SUPER_ADMIN;
+        $owner->status = User::STATUS_ACTIVE;
+        $owner->save();
+
+        // 3. Legacy alias
+        $legacy = User::firstOrNew(['email' => 'admin@streetman.com']);
+        $legacy->name = 'Curves & Tees Admin';
+        $legacy->phone = '0571038444';
+        $legacy->password = bcrypt('password');
+        $legacy->role = User::ROLE_SUPER_ADMIN;
+        $legacy->status = User::STATUS_ACTIVE;
+        $legacy->save();
     }
 }

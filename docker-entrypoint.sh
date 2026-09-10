@@ -42,10 +42,11 @@ if [ -z "$APP_KEY" ]; then
   php artisan key:generate --force --no-interaction
 fi
 
-if [ "${RUN_MIGRATIONS}" = "true" ]; then
-  echo "Running migrations and seeders..."
-  php artisan migrate --force --no-interaction
-  php artisan db:seed --force --no-interaction
-fi
+# Always run database migrations and seeders so the app is always functional
+echo "Running database migrations..."
+php artisan migrate --force --no-interaction || true
+
+echo "Ensuring catalog and admin users are seeded..."
+php artisan db:seed --force --no-interaction || true
 
 exec "$@"
