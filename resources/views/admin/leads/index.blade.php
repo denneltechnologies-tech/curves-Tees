@@ -239,10 +239,15 @@
     <!-- Client Details Modal -->
     <div id="leadDetailsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:9999; align-items:center; justify-content:center; padding:16px;">
         <div style="background:#fff; border-radius:16px; width:100%; max-width:540px; max-height:90vh; overflow-y:auto; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); border:1px solid #e5e7eb;">
-            <div style="padding:18px 22px; border-bottom:1px solid #f3f4f6; display:flex; justify-content:space-between; align-items:center; background:#191614; color:#fff; border-radius:16px 16px 0 0;">
-                <div>
-                    <h3 id="modalClientName" style="font-size:17px; font-weight:800; margin:0; letter-spacing:-0.3px;">Client Inquiry Details</h3>
-                    <div id="modalClientSub" style="font-size:12px; color:#e5b88f; margin-top:2px;">Lead Details & Preferences</div>
+            <div style="padding:18px 22px; border-bottom:1px solid rgba(197, 139, 43, 0.25); display:flex; justify-content:space-between; align-items:center; background:#181513; color:#fff; border-radius:16px 16px 0 0;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="background:#fff; padding:6px 10px; border-radius:8px; display:inline-flex; align-items:center;">
+                        <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height:22px; object-fit:contain;">
+                    </div>
+                    <div>
+                        <h3 id="modalClientName" style="font-size:16px; font-weight:800; margin:0; letter-spacing:-0.3px; color:#fff;">Client Inquiry Details</h3>
+                        <div id="modalClientSub" style="font-size:12px; color:#f5d496; margin-top:2px;">Lead Details & Preferences</div>
+                    </div>
                 </div>
                 <button type="button" onclick="closeLeadDetailsModal()" style="background:none; border:none; color:#d1d5db; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
             </div>

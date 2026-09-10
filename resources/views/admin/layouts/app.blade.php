@@ -6,42 +6,47 @@
     <title>@yield('title', 'Curves & Tees Admin')</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f3f4f6; color: #1f2937; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #1f2937; }
         a { color: inherit; }
 
         /* ---------- Shell ---------- */
         .layout { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 260px; background: linear-gradient(180deg, #111827 0%, #0b0f19 100%);
-            color: #9ca3af; flex-shrink: 0; display: flex; flex-direction: column;
+            width: 260px; background: linear-gradient(180deg, #181513 0%, #100e0d 100%);
+            color: #a39990; flex-shrink: 0; display: flex; flex-direction: column;
             position: sticky; top: 0; height: 100vh;
+            border-right: 1px solid rgba(197, 139, 43, 0.15);
         }
-        .sidebar .brand {
-            display: flex; align-items: center; gap: 10px;
-            padding: 20px; font-size: 16px; font-weight: 800; color: #fff;
-            border-bottom: 1px solid rgba(255,255,255,0.08); letter-spacing: -0.3px;
+        .sidebar-brand-card {
+            padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.07);
         }
-        .sidebar .brand .mark {
-            width: 38px; height: 38px; border-radius: 10px; background: #b91c1c;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 18px; box-shadow: 0 4px 12px rgba(185,28,28,.4);
-            overflow: hidden; flex-shrink: 0;
+        .sidebar-brand-box {
+            background: #ffffff; padding: 10px 14px; border-radius: 12px;
+            border: 1.5px solid rgba(197, 139, 43, 0.35); display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
         }
-        .sidebar .brand .mark img { width: 100%; height: 100%; object-fit: cover; }
-        .sidebar .brand span { color: #f59e0b; }
+        .sidebar-brand-box img {
+            max-width: 100%; height: 34px; object-fit: contain; display: block;
+        }
+        .sidebar-brand-badge {
+            font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.6px;
+            color: #c58b2b; font-weight: 800; text-align: center; margin-top: 8px;
+        }
         .sidebar nav { flex: 1; padding: 14px 12px; overflow-y: auto; }
         .sidebar nav a {
-            display: block; position: relative; padding: 12px 16px; color: #9ca3af;
-            text-decoration: none; font-size: 14px; font-weight: 500; border-radius: 10px;
-            margin-bottom: 4px; transition: background .15s ease, color .15s ease;
+            display: block; position: relative; padding: 11px 16px; color: #b8aea5;
+            text-decoration: none; font-size: 13.5px; font-weight: 500; border-radius: 10px;
+            margin-bottom: 4px; transition: all .15s ease;
         }
         .sidebar nav a::before {
             content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-            width: 4px; height: 0; border-radius: 4px; background: #c98a58;
+            width: 4px; height: 0; border-radius: 4px; background: #c58b2b;
             transition: height .15s ease;
         }
         .sidebar nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
-        .sidebar nav a.active { background: rgba(201,138,88,0.18); color: #e5b88f; font-weight: 700; }
+        .sidebar nav a.active {
+            background: rgba(197, 139, 43, 0.16); color: #f5d496; font-weight: 700;
+        }
         .sidebar nav a.active::before { height: 60%; }
         .sidebar .sidebar-foot {
             padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 13px;
@@ -50,23 +55,23 @@
         .sidebar .sidebar-foot .who strong { color: #fff; }
         .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
         .topbar {
-            background: #fff; padding: 16px 28px; border-bottom: 1px solid #e5e7eb;
+            background: #fff; padding: 14px 28px; border-bottom: 1px solid #e5e7eb;
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 20;
         }
-        .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
-        .topbar .crumb { font-size: 12px; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; margin-top: 2px; }
+        .topbar h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; color: #181513; }
+        .topbar .crumb { font-size: 11.5px; color: #c58b2b; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; margin-top: 2px; }
         .content { padding: 28px; flex: 1; }
 
         /* ---------- Page head / toolbar ---------- */
         .page-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .page-title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+        .page-title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; color: #181513; }
         .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
         .search-input {
             padding: 9px 14px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 14px;
             background: #fff; min-width: 180px; transition: border-color .15s ease, box-shadow .15s ease;
         }
-        .search-input:focus { outline: none; border-color: #a86c3d; box-shadow: 0 0 0 3px rgba(168,108,61,.18); }
+        .search-input:focus { outline: none; border-color: #c58b2b; box-shadow: 0 0 0 3px rgba(197, 139, 43, 0.2); }
 
         /* ---------- Cards & stats ---------- */
         .card {
@@ -116,8 +121,8 @@
             background: #f8fafc;
         }
         .stat-card .stat-label {
-            font-size: 12.5px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
             letter-spacing: .5px;
@@ -125,13 +130,13 @@
         .stat-card .stat-value {
             font-size: 32px;
             font-weight: 800;
-            color: #0f172a;
+            color: #181513;
             line-height: 1.1;
             letter-spacing: -0.5px;
             margin: 4px 0 8px 0;
         }
         .stat-card .stat-meta {
-            font-size: 12.5px;
+            font-size: 12px;
             color: #64748b;
             font-weight: 500;
             display: flex;
@@ -168,8 +173,10 @@
             border: none; text-decoration: none; transition: background .15s ease, transform .1s ease, box-shadow .15s ease;
         }
         .btn:active { transform: translateY(1px); }
-        .btn-primary { background: #191614; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
-        .btn-primary:hover { background: #a86c3d; }
+        .btn-primary { background: #181513; color: #f5d496; border: 1px solid rgba(197, 139, 43, 0.4); box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+        .btn-primary:hover { background: #c58b2b; color: #fff; border-color: #c58b2b; }
+        .btn-gold { background: #c58b2b; color: #fff; font-weight: 700; box-shadow: 0 2px 6px rgba(197,139,43,0.3); }
+        .btn-gold:hover { background: #a8721c; color: #fff; }
         .btn-secondary { background: #e5e7eb; color: #374151; }
         .btn-secondary:hover { background: #d1d5db; }
         .btn-danger { background: #ef4444; color: #fff; }
@@ -185,7 +192,7 @@
         }
         .form-group textarea { min-height: 110px; resize: vertical; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none; border-color: #a86c3d; box-shadow: 0 0 0 3px rgba(168,108,61,.18);
+            outline: none; border-color: #c58b2b; box-shadow: 0 0 0 3px rgba(197, 139, 43, 0.2);
         }
         .form-group .hint { font-size: 12.5px; color: #9ca3af; margin-top: 6px; }
 
@@ -193,6 +200,7 @@
         .badge { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 9999px; font-size: 12px; font-weight: 700; }
         .badge-success { background: #d1fae5; color: #065f46; }
         .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-gold { background: #fdf5e6; color: #9c6c1b; border: 1px solid #f6deb3; }
         .badge-danger { background: #fee2e2; color: #991b1b; }
         .badge-info { background: #dbeafe; color: #1e40af; }
         .badge-gray { background: #f3f4f6; color: #374151; }
@@ -212,8 +220,8 @@
         .pagination nav { display: flex; justify-content: space-between; flex-wrap: wrap; }
         .pagination a, .pagination span[aria-current] { display: inline-flex; align-items: center; padding: 7px 14px; border-radius: 9px; font-size: 13.5px; font-weight: 600; }
         .pagination a { background: #fff; border: 1px solid #e5e7eb; color: #374151; text-decoration: none; margin: 0 2px; transition: all .12s ease; }
-        .pagination a:hover { border-color: #a86c3d; color: #a86c3d; }
-        .pagination span[aria-current] { background: #191614; color: #fff; margin: 0 2px; }
+        .pagination a:hover { border-color: #c58b2b; color: #c58b2b; }
+        .pagination span[aria-current] { background: #181513; color: #f5d496; margin: 0 2px; border: 1px solid #c58b2b; }
         .text-right { text-align: right; }
         .mt-0 { margin-top: 0; }
         .mt-2 { margin-top: 8px; }
@@ -221,6 +229,7 @@
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
         @media (max-width: 900px) {
+            .grid-5 { grid-template-columns: repeat(2, 1fr); }
             .grid-4 { grid-template-columns: repeat(2, 1fr); }
             .grid-3 { grid-template-columns: 1fr; }
             .sidebar { display: none; }
@@ -232,9 +241,11 @@
 <body>
 <div class="layout">
     <aside class="sidebar">
-        <div class="brand">
-            <div class="mark" style="background: linear-gradient(135deg, #2b231d 0%, #4a3c31 100%); color: #e5b88f; font-weight: 800; font-size: 15px; border: 1px solid rgba(229,184,143,0.3);">C&T</div>
-            CURVES & <span>TEES</span>
+        <div class="sidebar-brand-card">
+            <div class="sidebar-brand-box">
+                <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees">
+            </div>
+            <div class="sidebar-brand-badge">Boutique Administration</div>
         </div>
         <nav>
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
@@ -245,7 +256,7 @@
             <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">Leads & Campaigns</a>
             <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Admin Users</a>
             <div style="margin: 16px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
-            <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(229,184,143,0.12); color: #e5b88f; font-weight: 700;">
+            <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.15); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.3);">
                 🌐 View Online Store ↗
             </a>
         </nav>
@@ -264,8 +275,8 @@
                 <h1>@yield('title', 'Dashboard')</h1>
             </div>
             <div style="display: flex; align-items: center; gap: 12px;">
-                <a href="{{ route('store.index') }}" target="_blank" class="btn btn-sm" style="background: #191614; color: #fff;">Visit Web Store ↗</a>
-                <span class="badge badge-warning">{{ now()->format('M d, Y') }}</span>
+                <a href="{{ route('store.index') }}" target="_blank" class="btn btn-sm btn-primary">Visit Web Store ↗</a>
+                <span class="badge badge-gold">{{ now()->format('M d, Y') }}</span>
             </div>
         </div>
         <div class="content">

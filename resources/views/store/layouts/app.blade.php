@@ -735,12 +735,8 @@
     <header class="navbar">
         <div class="navbar-container">
             <!-- Brand -->
-            <a href="{{ route('store.index') }}" class="brand-logo" id="brandLogo">
-                <div class="brand-mark">C&T</div>
-                <div class="brand-text">
-                    <h1>Curves & Tees</h1>
-                    <span>Boutique • Madina</span>
-                </div>
+            <a href="{{ route('store.index') }}" class="brand-logo" id="brandLogo" style="text-decoration: none; display: flex; align-items: center;">
+                <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 42px; max-width: 200px; object-fit: contain;">
             </a>
 
             <!-- Menu Navigation -->
@@ -1000,12 +996,8 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-col">
-                <div class="brand-logo" style="margin-bottom: 16px;">
-                    <div class="brand-mark" style="background: #2a2520; color: #e5b88f;">C&T</div>
-                    <div class="brand-text">
-                        <h1 style="color: #fff; font-size: 22px;">Curves & Tees</h1>
-                        <span>Boutique • Madina Estate</span>
-                    </div>
+                <div class="brand-logo" style="margin-bottom: 16px; background: #fff; padding: 10px 16px; border-radius: 12px; display: inline-flex; border: 1.5px solid rgba(197, 139, 43, 0.4);">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 36px; object-fit: contain;">
                 </div>
                 <p style="font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
                     Accra’s premier destination for curve-flattering, ready-to-wear women’s fashion. Designed to celebrate your silhouette in effortless comfort and style.
