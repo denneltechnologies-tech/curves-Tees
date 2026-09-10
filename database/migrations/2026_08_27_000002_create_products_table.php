@@ -15,6 +15,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 12, 2);
             $table->string('image')->nullable();
+            $table->string('sizes')->default('UK 10, UK 12, UK 14, UK 16, UK 18, UK 20, UK 22');
+            $table->boolean('is_featured')->default(false);
             $table->string('status')->default('active');
             $table->timestamps();
 

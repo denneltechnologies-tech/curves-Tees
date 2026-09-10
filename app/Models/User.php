@@ -36,6 +36,10 @@ class User extends Authenticatable
         'password',
         'role',
         'status',
+        'preferred_size',
+        'address',
+        'city',
+        'notes',
     ];
 
     /**
@@ -98,5 +102,23 @@ class User extends Authenticatable
     public function deviceTokens(): HasMany
     {
         return $this->hasMany(DeviceToken::class);
+    }
+
+    public function leads(): HasMany
+    {
+        return $this->hasMany(CustomerLead::class);
+    }
+
+    public function getWhatsAppUrlAttribute(): ?string
+    {
+        if (empty($this->phone)) {
+            return null;
+        }
+        $phone = preg_replace('/[^0-9]/', '', $this->phone);
+        if (str_starts_with($phone, '0') && strlen($phone) === 10) {
+            $phone = '233' . substr($phone, 1);
+        }
+        $greeting = urlencode("Hello " . ($this->name ?: 'valued customer') . "! This is Curves & Tees boutique stylist. How may we assist you today?");
+        return "https://wa.me/{$phone}?text={$greeting}";
     }
 }

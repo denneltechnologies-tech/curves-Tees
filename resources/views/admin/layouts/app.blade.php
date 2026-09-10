@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Streetman Cafe & Flames Admin')</title>
+    <title>@yield('title', 'Curves & Tees Admin')</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f3f4f6; color: #1f2937; }
@@ -37,11 +37,11 @@
         }
         .sidebar nav a::before {
             content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-            width: 4px; height: 0; border-radius: 4px; background: #b91c1c;
+            width: 4px; height: 0; border-radius: 4px; background: #c98a58;
             transition: height .15s ease;
         }
         .sidebar nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
-        .sidebar nav a.active { background: rgba(185,28,28,0.18); color: #fff; font-weight: 700; }
+        .sidebar nav a.active { background: rgba(201,138,88,0.18); color: #e5b88f; font-weight: 700; }
         .sidebar nav a.active::before { height: 60%; }
         .sidebar .sidebar-foot {
             padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 13px;
@@ -66,7 +66,7 @@
             padding: 9px 14px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 14px;
             background: #fff; min-width: 180px; transition: border-color .15s ease, box-shadow .15s ease;
         }
-        .search-input:focus { outline: none; border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(185,28,28,.18); }
+        .search-input:focus { outline: none; border-color: #a86c3d; box-shadow: 0 0 0 3px rgba(168,108,61,.18); }
 
         /* ---------- Cards & stats ---------- */
         .card {
@@ -75,8 +75,70 @@
         }
         .card h3 { font-size: 16px; font-weight: 700; color: #111827; }
         .grid { display: grid; gap: 16px; }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); }
+        .grid-3 { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); }
+        .grid-2 { display: grid; gap: 16px; grid-template-columns: repeat(2, 1fr); }
+        .grid-5 { display: grid; gap: 14px; grid-template-columns: repeat(5, 1fr); }
+
+        /* Modern Dashboard Stat Cards */
+        .stat-card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            padding: 20px 22px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
+        }
+        .stat-card .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .stat-card .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: #f8fafc;
+        }
+        .stat-card .stat-label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+        .stat-card .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            margin: 4px 0 8px 0;
+        }
+        .stat-card .stat-meta {
+            font-size: 12.5px;
+            color: #64748b;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         .stat {
             padding: 20px; border-radius: 16px; color: #fff; position: relative; overflow: hidden;
             box-shadow: 0 1px 3px rgba(15,23,42,.12), 0 4px 10px rgba(15,23,42,.08);
@@ -96,7 +158,7 @@
         th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid #eef0f3; font-size: 14px; }
         th { background: #f9fafb; font-weight: 700; color: #6b7280; text-transform: uppercase; font-size: 11.5px; letter-spacing: .5px; }
         tbody tr { transition: background .12s ease; }
-        tbody tr:hover { background: #fff5f5; }
+        tbody tr:hover { background: #fdfaf6; }
         tbody tr:last-child td { border-bottom: none; }
 
         /* ---------- Buttons ---------- */
@@ -106,8 +168,8 @@
             border: none; text-decoration: none; transition: background .15s ease, transform .1s ease, box-shadow .15s ease;
         }
         .btn:active { transform: translateY(1px); }
-        .btn-primary { background: #b91c1c; color: #fff; box-shadow: 0 2px 6px rgba(185,28,28,.35); }
-        .btn-primary:hover { background: #991b1b; }
+        .btn-primary { background: #191614; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+        .btn-primary:hover { background: #a86c3d; }
         .btn-secondary { background: #e5e7eb; color: #374151; }
         .btn-secondary:hover { background: #d1d5db; }
         .btn-danger { background: #ef4444; color: #fff; }
@@ -123,7 +185,7 @@
         }
         .form-group textarea { min-height: 110px; resize: vertical; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none; border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(185,28,28,.18);
+            outline: none; border-color: #a86c3d; box-shadow: 0 0 0 3px rgba(168,108,61,.18);
         }
         .form-group .hint { font-size: 12.5px; color: #9ca3af; margin-top: 6px; }
 
@@ -150,8 +212,8 @@
         .pagination nav { display: flex; justify-content: space-between; flex-wrap: wrap; }
         .pagination a, .pagination span[aria-current] { display: inline-flex; align-items: center; padding: 7px 14px; border-radius: 9px; font-size: 13.5px; font-weight: 600; }
         .pagination a { background: #fff; border: 1px solid #e5e7eb; color: #374151; text-decoration: none; margin: 0 2px; transition: all .12s ease; }
-        .pagination a:hover { border-color: #b91c1c; color: #991b1b; }
-        .pagination span[aria-current] { background: #b91c1c; color: #fff; margin: 0 2px; }
+        .pagination a:hover { border-color: #a86c3d; color: #a86c3d; }
+        .pagination span[aria-current] { background: #191614; color: #fff; margin: 0 2px; }
         .text-right { text-align: right; }
         .mt-0 { margin-top: 0; }
         .mt-2 { margin-top: 8px; }
@@ -171,16 +233,21 @@
 <div class="layout">
     <aside class="sidebar">
         <div class="brand">
-            <div class="mark"><img src="/images/streetman-logo.png" alt="Streetman" onerror="this.onerror=null;this.parentElement.innerHTML='🔥';"></div>
-            STREETMAN <span>CAFE</span>
+            <div class="mark" style="background: linear-gradient(135deg, #2b231d 0%, #4a3c31 100%); color: #e5b88f; font-weight: 800; font-size: 15px; border: 1px solid rgba(229,184,143,0.3);">C&T</div>
+            CURVES & <span>TEES</span>
         </div>
         <nav>
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-            <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">Menu Items</a>
-            <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">Categories</a>
-            <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">Customers</a>
             <a href="{{ route('admin.orders.index') }}" class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">Orders</a>
+            <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">Clothing Items</a>
+            <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">Collections</a>
+            <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">Customers</a>
+            <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">Leads & Campaigns</a>
             <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Admin Users</a>
+            <div style="margin: 16px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+            <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(229,184,143,0.12); color: #e5b88f; font-weight: 700;">
+                🌐 View Online Store ↗
+            </a>
         </nav>
         <div class="sidebar-foot">
             <div class="who">Signed in as <strong>{{ auth()->user()->name }}</strong></div>
@@ -193,10 +260,13 @@
     <div class="main">
         <div class="topbar">
             <div>
-                <div class="crumb">Streetman Cafe & Flames Admin</div>
+                <div class="crumb">Curves & Tees Boutique Admin</div>
                 <h1>@yield('title', 'Dashboard')</h1>
             </div>
-            <span class="badge badge-warning">{{ now()->format('M d, Y') }}</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="{{ route('store.index') }}" target="_blank" class="btn btn-sm" style="background: #191614; color: #fff;">Visit Web Store ↗</a>
+                <span class="badge badge-warning">{{ now()->format('M d, Y') }}</span>
+            </div>
         </div>
         <div class="content">
             @if (session('status'))

@@ -32,7 +32,7 @@
                 @foreach($orders as $order)
                 <tr>
                     <td><strong>{{ $order->order_number }}</strong></td>
-                    <td>{{ $order->user->name }}</td>
+                    <td>{{ $order->user?->name ?? $order->deliveryInformation?->recipient_name ?? 'Guest Customer' }}</td>
                     <td><strong>GH₵{{ number_format($order->total, 2) }}</strong></td>
                     <td>@if($order->payment_status==='SUCCESSFUL' || $order->payment_status==='paid')<span class="badge badge-success">Paid</span>@else<span class="badge badge-warning">{{ $order->payment_status }}</span>@endif</td>
                     <td><span class="badge badge-info">{{ $order->order_status }}</span></td>

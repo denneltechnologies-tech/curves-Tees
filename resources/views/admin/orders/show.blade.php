@@ -9,13 +9,23 @@
         </div>
         <table style="max-width:600px;">
             <tbody>
-                <tr><th>Customer</th><td>{{ $order->user->name }} ({{ $order->user->email ?? $order->user->phone }})</td></tr>
+                <tr><th>Customer</th><td>{{ $order->user?->name ?? $order->deliveryInformation?->recipient_name ?? 'Guest Customer' }} ({{ $order->deliveryInformation?->phone ?? $order->user?->phone ?? 'N/A' }})</td></tr>
                 <tr><th>Subtotal</th><td>GH₵{{ number_format($order->subtotal, 2) }}</td></tr>
                 <tr><th>Delivery Fee</th><td>GH₵{{ number_format($order->delivery_fee, 2) }}</td></tr>
                 <tr><th>Total</th><td><strong>GH₵{{ number_format($order->total, 2) }}</strong></td></tr>
                 <tr><th>Payment Status</th><td>@if($order->payment_status==='SUCCESSFUL' || $order->payment_status==='paid')<span class="badge badge-success">Paid</span>@else<span class="badge badge-warning">{{ $order->payment_status }}</span>@endif</td></tr>
                 <tr><th>Order Status</th><td><span class="badge badge-info">{{ $order->order_status }}</span></td></tr>
                 <tr><th>Created</th><td>{{ $order->created_at?->format('M d, Y H:i') }}</td></tr>
+                @if($order->deliveryInformation?->phone)
+                <tr>
+                    <th>Customer WhatsApp</th>
+                    <td>
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->deliveryInformation->phone) }}?text={{ rawurlencode('Hello ' . $order->deliveryInformation->recipient_name . '! This is Curves & Tees regarding your order #' . $order->order_number . '.') }}" target="_blank" class="btn btn-sm" style="background:#25D366; color:#fff; font-weight:700;">
+                            💬 Chat Customer on WhatsApp ↗
+                        </a>
+                    </td>
+                </tr>
+                @endif
             </tbody>
         </table>
     </div>
@@ -23,10 +33,16 @@
     <div class="card">
         <h3 style="margin-bottom:16px;">Items</h3>
         <table>
-            <thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
+            <thead><tr><th>Product</th><th>Size</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
             <tbody>
                 @foreach($order->items as $item)
-                <tr><td>{{ $item->product_name }}</td><td>{{ $item->quantity }}</td><td>GH₵{{ number_format($item->unit_price, 2) }}</td><td><strong>GH₵{{ number_format($item->total, 2) }}</strong></td></tr>
+                <tr>
+                    <td>{{ $item->product_name }}</td>
+                    <td><span class="badge badge-info">{{ $item->size ?: 'Standard' }}</span></td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>GH₵{{ number_format($item->unit_price, 2) }}</td>
+                    <td><strong>GH₵{{ number_format($item->total, 2) }}</strong></td>
+                </tr>
                 @endforeach
             </tbody>
         </table>

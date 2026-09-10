@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->nullable()->nullOnDelete();
             $table->string('product_name');
+            $table->string('size')->nullable();
             $table->unsignedInteger('quantity');
             $table->decimal('unit_price', 12, 2);
             $table->decimal('total', 12, 2);

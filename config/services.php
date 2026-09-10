@@ -46,4 +46,8 @@ return [
         'access_token' => env('EXPO_ACCESS_TOKEN'),
     ],
 
+    'whatsapp' => [
+        'store_phone' => env('WHATSAPP_STORE_PHONE', '233571038444'),
+    ],
+
 ];

@@ -47,3 +47,4 @@ Thumbs.db
 /_public_html/
 /deploy_setup.sh
 /.env.production.template
+*.apk

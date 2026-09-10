@@ -1,24 +1,24 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Categories')
+@section('title', 'Collections')
 @section('content')
     <div class="card">
         <div class="page-head">
-            <h3 class="page-title">All Categories ({{ $categories->total() }})</h3>
+            <h3 class="page-title">Fashion Collections ({{ $categories->total() }})</h3>
             <div class="toolbar">
                 <form method="GET" class="toolbar">
-                    <input type="text" class="search-input" name="q" value="{{ request('q') }}" placeholder="Search categories...">
+                    <input type="text" class="search-input" name="q" value="{{ request('q') }}" placeholder="Search collections...">
                     <button class="btn btn-secondary">Search</button>
                 </form>
-                <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">Add Category</a>
+                <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">Add Collection</a>
             </div>
         </div>
         @if($categories->isEmpty())
-            <p class="muted">No categories found.</p>
+            <p class="muted">No collections found.</p>
         @else
         <div class="table-wrap">
         <table>
-            <thead><tr><th>Image</th><th>Name</th><th>Products</th><th>Status</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Image</th><th>Collection Name</th><th>Outfits</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody>
                 @foreach($categories as $category)
                 <tr>

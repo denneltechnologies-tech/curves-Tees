@@ -9,15 +9,17 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@streetman.com')],
-            [
-                'name' => 'Streetman Admin',
-                'phone' => '0546441987',
-                'password' => env('ADMIN_PASSWORD', 'password'),
-                'role' => User::ROLE_SUPER_ADMIN,
-                'status' => User::STATUS_ACTIVE,
-            ]
-        );
+        $admin = User::firstOrNew(['email' => env('ADMIN_EMAIL', 'admin@curvesandtees.com')]);
+        $admin->name = 'Curves & Tees Admin';
+        $admin->phone = '0571038444';
+        $admin->password = bcrypt(env('ADMIN_PASSWORD', 'password'));
+        $admin->role = User::ROLE_SUPER_ADMIN;
+        $admin->status = User::STATUS_ACTIVE;
+        $admin->save();
+
+        // Also ensure legacy admin@streetman.com works with name Curves & Tees Admin for convenience
+        User::where('email', 'admin@streetman.com')->update([
+            'name' => 'Curves & Tees Admin',
+        ]);
     }
 }

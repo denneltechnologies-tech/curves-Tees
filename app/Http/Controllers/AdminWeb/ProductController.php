@@ -39,6 +39,7 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
+            'sizes' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:active,inactive'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
@@ -50,6 +51,8 @@ class ProductController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
             'price' => $validated['price'],
+            'sizes' => $validated['sizes'] ?? null,
+            'is_featured' => $request->boolean('is_featured'),
             'status' => $validated['status'],
             'image' => $imagePath,
         ]);
@@ -71,12 +74,15 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
+            'sizes' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:active,inactive'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
+        $validated['is_featured'] = $request->boolean('is_featured');
+
         if ($request->hasFile('image')) {
-            if ($product->image) {
+            if ($product->image && !str_starts_with($product->image, 'http')) {
                 Storage::disk('public')->delete($product->image);
             }
             $validated['image'] = $request->file('image')->store('products', 'public');
