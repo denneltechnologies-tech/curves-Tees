@@ -4,15 +4,20 @@
 @section('content')
     <div class="card">
         <div class="page-head">
-            <h3 class="page-title">Order {{ $order->order_number }}</h3>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="background: #ffffff; padding: 4px 10px; border-radius: 8px; border: 1.5px solid rgba(197, 139, 43, 0.4); display: inline-flex; align-items: center;">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 24px; object-fit: contain;">
+                </div>
+                <h3 class="page-title" style="margin: 0;">Order #{{ $order->order_number }}</h3>
+            </div>
             <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary btn-sm">Back to Orders</a>
         </div>
         <table style="max-width:600px;">
             <tbody>
-                <tr><th>Customer</th><td>{{ $order->user?->name ?? $order->deliveryInformation?->recipient_name ?? 'Guest Customer' }} ({{ $order->deliveryInformation?->phone ?? $order->user?->phone ?? 'N/A' }})</td></tr>
+                <tr><th>Customer</th><td><strong>{{ $order->user?->name ?? $order->deliveryInformation?->recipient_name ?? 'Guest Customer' }}</strong> ({{ $order->deliveryInformation?->phone ?? $order->user?->phone ?? 'N/A' }})</td></tr>
                 <tr><th>Subtotal</th><td>GH₵{{ number_format($order->subtotal, 2) }}</td></tr>
                 <tr><th>Delivery Fee</th><td>GH₵{{ number_format($order->delivery_fee, 2) }}</td></tr>
-                <tr><th>Total</th><td><strong>GH₵{{ number_format($order->total, 2) }}</strong></td></tr>
+                <tr><th>Total</th><td><strong style="color: #c58b2b; font-size: 16px;">GH₵{{ number_format($order->total, 2) }}</strong></td></tr>
                 <tr><th>Payment Status</th><td>@if($order->payment_status==='SUCCESSFUL' || $order->payment_status==='paid')<span class="badge badge-success">Paid</span>@else<span class="badge badge-warning">{{ $order->payment_status }}</span>@endif</td></tr>
                 <tr><th>Order Status</th><td><span class="badge badge-info">{{ $order->order_status }}</span></td></tr>
                 <tr><th>Created</th><td>{{ $order->created_at?->format('M d, Y H:i') }}</td></tr>
@@ -37,8 +42,8 @@
             <tbody>
                 @foreach($order->items as $item)
                 <tr>
-                    <td>{{ $item->product_name }}</td>
-                    <td><span class="badge badge-info">{{ $item->size ?: 'Standard' }}</span></td>
+                    <td><strong>{{ $item->product_name }}</strong></td>
+                    <td><span class="badge badge-gold">{{ $item->size ?: 'Standard' }}</span></td>
                     <td>{{ $item->quantity }}</td>
                     <td>GH₵{{ number_format($item->unit_price, 2) }}</td>
                     <td><strong>GH₵{{ number_format($item->total, 2) }}</strong></td>

@@ -2,6 +2,28 @@
 
 @section('title', 'Dashboard')
 @section('content')
+    <!-- Official Curves & Tees Brand Welcome Banner -->
+    <div style="background: linear-gradient(135deg, #181513 0%, #28221c 100%); border-radius: 16px; padding: 22px 26px; margin-bottom: 24px; border: 1.5px solid rgba(197, 139, 43, 0.4); box-shadow: 0 6px 20px rgba(0,0,0,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 18px;">
+            <div style="background: #ffffff; padding: 8px 16px; border-radius: 12px; border: 1.5px solid #c58b2b; box-shadow: 0 4px 14px rgba(0,0,0,0.25); display: flex; align-items: center;">
+                <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 38px; width: auto; object-fit: contain;">
+            </div>
+            <div>
+                <div style="color: #c58b2b; font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase;">Curves & Tees Boutique Management</div>
+                <h2 style="color: #ffffff; font-size: 20px; font-weight: 800; margin: 3px 0;">Welcome, {{ auth()->user()->name }}</h2>
+                <p style="color: #c7beaf; font-size: 13px; margin: 0;">Showroom: Madina Estate, Accra • Online Catalog & Curvy Fashion Orders</p>
+            </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="{{ route('store.index') }}" target="_blank" class="btn btn-gold btn-sm">
+                🛍️ View Online Store ↗
+            </a>
+            <a href="{{ route('admin.customers.create') }}" class="btn btn-primary btn-sm">
+                + Register Customer
+            </a>
+        </div>
+    </div>
+
     <!-- Dashboard Stats in Brand Palette -->
     <div class="grid grid-4">
         <div class="stat-card" style="border-top: 3px solid #181513;">

@@ -4,7 +4,7 @@
 @section('content')
     <!-- Quick Metric Cards Dashboard -->
     <div class="grid grid-4" style="margin-bottom: 24px;">
-        <div class="stat-card" style="border-top: 3px solid #191614;">
+        <div class="stat-card" style="border-top: 3px solid #181513;">
             <div class="stat-header">
                 <div class="stat-label">Total Registered Customers</div>
                 <div class="stat-icon" style="background: #f1f5f9; color: #1e293b;">👥</div>
@@ -37,14 +37,14 @@
             </div>
         </div>
 
-        <div class="stat-card" style="border-top: 3px solid #c98a58;">
+        <div class="stat-card" style="border-top: 3px solid #c58b2b;">
             <div class="stat-header">
                 <div class="stat-label">Leads & Inquiries Logged</div>
-                <div class="stat-icon" style="background: #fdf8f4; color: #c98a58;">💬</div>
+                <div class="stat-icon" style="background: #fdf8ee; color: #c58b2b;">💬</div>
             </div>
-            <div class="stat-value" style="color: #a86c3d;">{{ number_format($metrics['leads_count']) }}</div>
+            <div class="stat-value" style="color: #c58b2b;">{{ number_format($metrics['leads_count']) }}</div>
             <div class="stat-meta">
-                <a href="{{ route('admin.leads.index') }}" style="color: #a86c3d; font-weight: 600; text-decoration: underline;">Open marketing broadcasts →</a>
+                <a href="{{ route('admin.leads.index') }}" style="color: #c58b2b; font-weight: 700; text-decoration: underline;">Open marketing broadcasts →</a>
             </div>
         </div>
     </div>
@@ -261,7 +261,7 @@
 
                 <div style="display:flex; justify-content:flex-end; gap:10px; border-top:1px solid #f3f4f6; padding-top:16px;">
                     <button type="button" onclick="closeAddCustomerModal()" class="btn btn-secondary">Cancel</button>
-                    <button type="submit" class="btn btn-primary" style="background:#191614; color:#fff;">Save Customer to System</button>
+                    <button type="submit" class="btn btn-primary" style="background:#181513; color:#f5d496; border:1px solid #c58b2b;">Save Customer to System</button>
                 </div>
             </form>
         </div>

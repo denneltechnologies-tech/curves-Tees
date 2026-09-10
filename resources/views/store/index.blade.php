@@ -539,10 +539,111 @@
     @media (max-width: 900px) {
         .location-box { grid-template-columns: 1fr; }
     }
+    @media (max-width: 640px) {
+        .product-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .product-media {
+            height: 220px;
+        }
+        .product-info {
+            padding: 12px 10px;
+        }
+        .product-title {
+            font-size: 13.5px;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        .product-sizes-chip {
+            font-size: 10px;
+            padding: 2px 6px;
+            margin-bottom: 8px;
+        }
+        .product-price {
+            font-size: 15px;
+        }
+        .product-bottom-row {
+            padding-top: 10px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .btn-add-bag {
+            width: 100%;
+            justify-content: center;
+            padding: 8px 10px;
+            font-size: 11.5px;
+        }
+        .catalog-section {
+            padding: 0 14px;
+            margin: 36px auto;
+        }
+        .section-header {
+            margin-bottom: 20px;
+        }
+        .section-title h2 {
+            font-size: 28px;
+        }
+        .catalog-toolbar {
+            padding: 10px 14px;
+            gap: 10px;
+        }
+        .search-input-wrapper {
+            min-width: 100%;
+        }
+        .sort-wrapper {
+            width: 100%;
+            justify-content: space-between;
+        }
+        .category-pills {
+            margin-bottom: 20px;
+            gap: 6px;
+        }
+        .category-pill {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        .hero-section {
+            padding: 50px 16px 60px;
+        }
+        .hero-title {
+            font-size: 34px;
+        }
+        .btn-hero-primary, .btn-hero-whatsapp {
+            width: 100%;
+            justify-content: center;
+        }
+        .hero-img-main {
+            height: 380px;
+        }
+        .instagram-banner {
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+        .location-box {
+            padding: 24px 18px;
+        }
+    }
+    @media (max-width: 360px) {
+        .product-grid {
+            grid-template-columns: 1fr;
+        }
+        .product-media {
+            height: 280px;
+        }
+        .product-bottom-row {
+            flex-direction: row;
+            align-items: center;
+        }
+        .btn-add-bag {
+            width: auto;
+        }
+    }
     .pagination svg { width: 18px; height: 18px; }
     .pagination nav { display: flex; align-items: center; justify-content: center; gap: 6px; }
     .pagination a, .pagination span { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; border-radius: 8px; font-size: 13px; font-weight: 700; background: #fff; border: 1px solid var(--border-color); color: var(--text-main); }
-    .pagination span[aria-current="page"] span { background: #191614; color: #fff; border-color: #191614; }
+    .pagination span[aria-current="page"] span { background: #181513; color: #f5d496; border-color: #c58b2b; }
 </style>
 @endpush
 

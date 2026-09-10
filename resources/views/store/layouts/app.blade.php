@@ -16,21 +16,21 @@
 
     <style>
         :root {
-            --primary: #c98a58;
-            --primary-dark: #a86c3d;
-            --primary-light: #f6ede4;
+            --primary: #c58b2b; /* Curves & Tees Signature Gold */
+            --primary-dark: #a8721c;
+            --primary-light: #fdf8ee;
             --accent: #25D366; /* WhatsApp Green */
             --accent-dark: #128C7E;
             --bg-body: #faf8f5;
             --bg-card: #ffffff;
-            --text-main: #191614;
+            --text-main: #181513; /* Signature Luxe Obsidian */
             --text-muted: #736c66;
             --border-color: #ede7df;
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 22px;
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --shadow-hover: 0 18px 40px rgba(168, 108, 61, 0.12);
+            --shadow-hover: 0 18px 40px rgba(197, 139, 43, 0.15);
         }
 
         * {

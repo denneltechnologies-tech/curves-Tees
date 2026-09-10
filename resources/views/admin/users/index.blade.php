@@ -12,9 +12,9 @@
             <tbody>
                 @foreach($users as $user)
                 <tr>
-                    <td>{{ $user->name }}</td>
+                    <td><strong style="color: #181513;">{{ $user->name }}</strong></td>
                     <td>{{ $user->email }}</td>
-                    <td><span class="badge badge-info">{{ $user->role }}</span></td>
+                    <td><span class="badge badge-obsidian">{{ $user->role }}</span></td>
                     <td>@if($user->status === 'active')<span class="badge badge-success">Active</span>@else<span class="badge badge-danger">Inactive</span>@endif</td>
                 </tr>
                 @endforeach

@@ -4,7 +4,7 @@
 @section('content')
     <!-- Dashboard Stat Cards -->
     <div class="grid-5" style="margin-bottom: 24px;">
-        <div class="stat-card" style="border-top: 3px solid #191614;">
+        <div class="stat-card" style="border-top: 3px solid #181513;">
             <div class="stat-header">
                 <div class="stat-label">Total Leads Captured</div>
                 <div class="stat-icon" style="background:#f1f5f9;">📱</div>
@@ -40,18 +40,18 @@
             <div class="stat-meta">Admin showroom entries</div>
         </div>
 
-        <div class="stat-card" style="border-top: 3px solid #a86c3d;">
+        <div class="stat-card" style="border-top: 3px solid #c58b2b;">
             <div class="stat-header">
                 <div class="stat-label">Unique Clients</div>
-                <div class="stat-icon" style="background:#fdf8f4; color:#a86c3d;">👥</div>
+                <div class="stat-icon" style="background:#fdf8ee; color:#c58b2b;">👥</div>
             </div>
-            <div class="stat-value" style="color:#a86c3d;">{{ number_format($stats['unique_phones']) }}</div>
+            <div class="stat-value" style="color:#c58b2b;">{{ number_format($stats['unique_phones']) }}</div>
             <div class="stat-meta">Verified WhatsApp nos</div>
         </div>
     </div>
 
     <!-- Campaign Message Templates helper card -->
-    <div class="card" style="background: linear-gradient(135deg, #fdfbf7 0%, #f7f1ea 100%); border-left: 4px solid #c98a58; margin-bottom: 20px;">
+    <div class="card" style="background: linear-gradient(135deg, #fdfbf7 0%, #f7f1ea 100%); border-left: 4px solid #c58b2b; margin-bottom: 20px;">
         <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="document.getElementById('templatesBox').classList.toggle('hidden');">
             <div>
                 <h3 style="display:flex; align-items:center; gap:8px;">
@@ -65,15 +65,15 @@
 
         <div id="templatesBox" class="hidden" style="margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
             <div style="background:#fff; padding:16px; border-radius:12px; border:1px solid #e5e7eb;">
-                <strong style="display:block; margin-bottom:8px; font-size:13px; color:#191614;">1. New Arrivals / Flash Sale</strong>
+                <strong style="display:block; margin-bottom:8px; font-size:13px; color:#181513;">1. New Arrivals / Flash Sale</strong>
                 <textarea readonly style="width:100%; height:90px; font-size:12px; padding:8px; border:1px solid #ddd; border-radius:8px; resize:none;">Hello Gorgeous! 💖 Curves & Tees just dropped new luxury arrivals in Madina! Flattering fits in UK 10 to 22. Tap here to view the new collection: http://127.0.0.1:8000</textarea>
             </div>
             <div style="background:#fff; padding:16px; border-radius:12px; border:1px solid #e5e7eb;">
-                <strong style="display:block; margin-bottom:8px; font-size:13px; color:#191614;">2. Abandoned Bag / Outfit Hold</strong>
+                <strong style="display:block; margin-bottom:8px; font-size:13px; color:#181513;">2. Abandoned Bag / Outfit Hold</strong>
                 <textarea readonly style="width:100%; height:90px; font-size:12px; padding:8px; border:1px solid #ddd; border-radius:8px; resize:none;">Hey sis! 💕 We noticed you saved an outfit at Curves & Tees. We are reserving your size for the next 24 hours. Would you like us to dispatch your delivery today?</textarea>
             </div>
             <div style="background:#fff; padding:16px; border-radius:12px; border:1px solid #e5e7eb;">
-                <strong style="display:block; margin-bottom:8px; font-size:13px; color:#191614;">3. Weekend VIP Special</strong>
+                <strong style="display:block; margin-bottom:8px; font-size:13px; color:#181513;">3. Weekend VIP Special</strong>
                 <textarea readonly style="width:100%; height:90px; font-size:12px; padding:8px; border:1px solid #ddd; border-radius:8px; resize:none;">Curves & Tees VIP Alert! ✨ Enjoy free Accra delivery on all orders this weekend when you shop via WhatsApp hotline +233571038444. Check catalog: http://127.0.0.1:8000</textarea>
             </div>
         </div>
@@ -87,7 +87,7 @@
                 <p class="muted" style="margin:2px 0 0 0; font-size:13px;">View inquiries, filter by channel, and follow up directly on WhatsApp.</p>
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
-                <a href="{{ route('admin.customers.create') }}" class="btn btn-primary" style="background:#191614; color:#fff;">
+                <a href="{{ route('admin.customers.create') }}" class="btn btn-primary">
                     + Add Customer Directly
                 </a>
                 <a href="{{ route('admin.leads.export') }}" class="btn btn-primary" style="background:#10b981; border-color:#10b981;">

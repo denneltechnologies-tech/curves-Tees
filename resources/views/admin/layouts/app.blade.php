@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Curves & Tees Admin')</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/curves-logo.png') }}">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #1f2937; }
@@ -15,18 +16,19 @@
             width: 260px; background: linear-gradient(180deg, #181513 0%, #100e0d 100%);
             color: #a39990; flex-shrink: 0; display: flex; flex-direction: column;
             position: sticky; top: 0; height: 100vh;
-            border-right: 1px solid rgba(197, 139, 43, 0.15);
+            border-right: 1px solid rgba(197, 139, 43, 0.2);
+            box-shadow: 2px 0 16px rgba(0,0,0,0.15);
         }
         .sidebar-brand-card {
             padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.07);
         }
         .sidebar-brand-box {
             background: #ffffff; padding: 10px 14px; border-radius: 12px;
-            border: 1.5px solid rgba(197, 139, 43, 0.35); display: flex; align-items: center; justify-content: center;
+            border: 1.5px solid rgba(197, 139, 43, 0.45); display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 14px rgba(0,0,0,0.3);
         }
         .sidebar-brand-box img {
-            max-width: 100%; height: 34px; object-fit: contain; display: block;
+            max-width: 100%; height: 36px; object-fit: contain; display: block;
         }
         .sidebar-brand-badge {
             font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.6px;
@@ -45,7 +47,7 @@
         }
         .sidebar nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
         .sidebar nav a.active {
-            background: rgba(197, 139, 43, 0.16); color: #f5d496; font-weight: 700;
+            background: rgba(197, 139, 43, 0.18); color: #f5d496; font-weight: 700;
         }
         .sidebar nav a.active::before { height: 60%; }
         .sidebar .sidebar-foot {
@@ -55,12 +57,23 @@
         .sidebar .sidebar-foot .who strong { color: #fff; }
         .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
         .topbar {
-            background: #fff; padding: 14px 28px; border-bottom: 1px solid #e5e7eb;
+            background: #fff; padding: 12px 28px; border-bottom: 1px solid #e5e7eb;
             display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 20;
+            position: sticky; top: 0; z-index: 20; box-shadow: 0 1px 4px rgba(0,0,0,0.03);
         }
-        .topbar h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; color: #181513; }
-        .topbar .crumb { font-size: 11.5px; color: #c58b2b; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; margin-top: 2px; }
+        .topbar-brand-link {
+            display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;
+        }
+        .topbar-logo-badge {
+            background: #ffffff; padding: 4px 10px; border-radius: 10px;
+            border: 1.5px solid rgba(197, 139, 43, 0.4);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center;
+        }
+        .topbar-logo-badge img {
+            height: 28px; width: auto; object-fit: contain; display: block;
+        }
+        .topbar h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; color: #181513; margin: 0; }
+        .topbar .crumb { font-size: 11px; color: #c58b2b; font-weight: 800; text-transform: uppercase; letter-spacing: .9px; }
         .content { padding: 28px; flex: 1; }
 
         /* ---------- Page head / toolbar ---------- */
@@ -71,7 +84,7 @@
             padding: 9px 14px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 14px;
             background: #fff; min-width: 180px; transition: border-color .15s ease, box-shadow .15s ease;
         }
-        .search-input:focus { outline: none; border-color: #c58b2b; box-shadow: 0 0 0 3px rgba(197, 139, 43, 0.2); }
+        .search-input:focus { outline: none; border-color: #c58b2b; box-shadow: 0 0 0 3px rgba(197, 139, 43, 0.22); }
 
         /* ---------- Cards & stats ---------- */
         .card {
@@ -128,7 +141,7 @@
             letter-spacing: .5px;
         }
         .stat-card .stat-value {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 800;
             color: #181513;
             line-height: 1.1;
@@ -161,24 +174,24 @@
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
         th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid #eef0f3; font-size: 14px; }
-        th { background: #f9fafb; font-weight: 700; color: #6b7280; text-transform: uppercase; font-size: 11.5px; letter-spacing: .5px; }
+        th { background: #faf7f2; font-weight: 700; color: #786f66; text-transform: uppercase; font-size: 11.5px; letter-spacing: .5px; border-bottom: 2px solid #ecdcc8; }
         tbody tr { transition: background .12s ease; }
-        tbody tr:hover { background: #fdfaf6; }
+        tbody tr:hover { background: #fdfbf7; }
         tbody tr:last-child td { border-bottom: none; }
 
         /* ---------- Buttons ---------- */
         .btn {
             display: inline-flex; align-items: center; justify-content: center; gap: 6px;
             padding: 9px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
-            border: none; text-decoration: none; transition: background .15s ease, transform .1s ease, box-shadow .15s ease;
+            border: none; text-decoration: none; transition: background .15s ease, transform .1s ease, box-shadow .15s ease, border-color .15s ease;
         }
         .btn:active { transform: translateY(1px); }
-        .btn-primary { background: #181513; color: #f5d496; border: 1px solid rgba(197, 139, 43, 0.4); box-shadow: 0 2px 6px rgba(0,0,0,.15); }
-        .btn-primary:hover { background: #c58b2b; color: #fff; border-color: #c58b2b; }
-        .btn-gold { background: #c58b2b; color: #fff; font-weight: 700; box-shadow: 0 2px 6px rgba(197,139,43,0.3); }
-        .btn-gold:hover { background: #a8721c; color: #fff; }
-        .btn-secondary { background: #e5e7eb; color: #374151; }
-        .btn-secondary:hover { background: #d1d5db; }
+        .btn-primary { background: #181513; color: #f5d496; border: 1px solid rgba(197, 139, 43, 0.45); box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+        .btn-primary:hover { background: #c58b2b; color: #fff; border-color: #c58b2b; box-shadow: 0 4px 12px rgba(197,139,43,0.3); }
+        .btn-gold { background: linear-gradient(135deg, #d9a044 0%, #c58b2b 100%); color: #fff; font-weight: 700; border: 1px solid #c58b2b; box-shadow: 0 2px 8px rgba(197,139,43,0.3); }
+        .btn-gold:hover { background: #a8721c; color: #fff; border-color: #a8721c; }
+        .btn-secondary { background: #f5f2ed; color: #374151; border: 1px solid #e2dad0; }
+        .btn-secondary:hover { background: #ede5da; border-color: #c58b2b; color: #181513; }
         .btn-danger { background: #ef4444; color: #fff; }
         .btn-danger:hover { background: #dc2626; }
         .btn-sm { padding: 6px 12px; font-size: 12.5px; border-radius: 8px; }
@@ -192,7 +205,7 @@
         }
         .form-group textarea { min-height: 110px; resize: vertical; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none; border-color: #c58b2b; box-shadow: 0 0 0 3px rgba(197, 139, 43, 0.2);
+            outline: none; border-color: #c58b2b; box-shadow: 0 0 0 3px rgba(197, 139, 43, 0.22);
         }
         .form-group .hint { font-size: 12.5px; color: #9ca3af; margin-top: 6px; }
 
@@ -201,6 +214,7 @@
         .badge-success { background: #d1fae5; color: #065f46; }
         .badge-warning { background: #fef3c7; color: #92400e; }
         .badge-gold { background: #fdf5e6; color: #9c6c1b; border: 1px solid #f6deb3; }
+        .badge-obsidian { background: #181513; color: #f5d496; border: 1px solid rgba(197, 139, 43, 0.4); }
         .badge-danger { background: #fee2e2; color: #991b1b; }
         .badge-info { background: #dbeafe; color: #1e40af; }
         .badge-gray { background: #f3f4f6; color: #374151; }
@@ -228,23 +242,101 @@
         .mb-2 { margin-bottom: 8px; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
-        @media (max-width: 900px) {
+        .admin-mobile-toggle {
+            display: none; align-items: center; justify-content: center;
+            width: 38px; height: 38px; border-radius: 9px;
+            background: #f5f2ed; border: 1.5px solid rgba(197, 139, 43, 0.35);
+            color: #181513; cursor: pointer; transition: all .15s ease;
+        }
+        .admin-mobile-toggle:hover { background: #ede5da; border-color: #c58b2b; }
+
+        .admin-drawer-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px); z-index: 999; opacity: 0; visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .admin-drawer-overlay.open { opacity: 1; visibility: visible; }
+        .admin-drawer-panel {
+            position: fixed; top: 0; left: -320px; width: 280px; height: 100vh;
+            background: linear-gradient(180deg, #181513 0%, #100e0d 100%);
+            color: #a39990; z-index: 1000; display: flex; flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.4);
+            transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .admin-drawer-overlay.open .admin-drawer-panel { left: 0; }
+
+        @media (max-width: 992px) {
+            .sidebar { display: none; }
+            .admin-mobile-toggle { display: inline-flex; }
+            .topbar { padding: 12px 18px; }
+            .content { padding: 18px 16px; }
             .grid-5 { grid-template-columns: repeat(2, 1fr); }
             .grid-4 { grid-template-columns: repeat(2, 1fr); }
             .grid-3 { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-            .content { padding: 16px; }
-            .topbar { padding: 14px 16px; }
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                padding: 10px 14px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .topbar-header-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+            .topbar-actions-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                padding-top: 8px;
+                border-top: 1px solid #f3f4f6;
+            }
+            .grid-5, .grid-4, .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .stat-card {
+                padding: 16px 18px;
+            }
+            .page-head {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+            }
+            .search-input {
+                width: 100%;
+                min-width: 100%;
+            }
+            .table-wrap table {
+                min-width: 580px;
+            }
+            .card {
+                padding: 16px;
+                border-radius: 12px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="layout">
+    <!-- Desktop Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-brand-card">
-            <div class="sidebar-brand-box">
-                <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees">
-            </div>
+            <a href="{{ route('admin.dashboard') }}" style="text-decoration: none; display: block;">
+                <div class="sidebar-brand-box">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees">
+                </div>
+            </a>
             <div class="sidebar-brand-badge">Boutique Administration</div>
         </div>
         <nav>
@@ -256,7 +348,7 @@
             <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">Leads & Campaigns</a>
             <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Admin Users</a>
             <div style="margin: 16px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
-            <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.15); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.3);">
+            <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.16); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.35);">
                 🌐 View Online Store ↗
             </a>
         </nav>
@@ -268,15 +360,65 @@
             </form>
         </div>
     </aside>
+
+    <!-- Mobile Slide-In Navigation Drawer -->
+    <div class="admin-drawer-overlay" id="adminDrawerOverlay" onclick="toggleAdminDrawer(false)">
+        <div class="admin-drawer-panel" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                <div style="background: #ffffff; padding: 6px 12px; border-radius: 10px; border: 1.5px solid #c58b2b;">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 26px; object-fit: contain;">
+                </div>
+                <button type="button" onclick="toggleAdminDrawer(false)" style="background: none; border: none; color: #a39990; font-size: 28px; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            <div class="sidebar-brand-badge" style="padding: 10px 20px 4px 20px; text-align: left;">Boutique Administration</div>
+            <nav style="padding: 10px 14px; overflow-y: auto; flex: 1;">
+                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">📊 Dashboard</a>
+                <a href="{{ route('admin.orders.index') }}" class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">🛍️ Orders</a>
+                <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">👗 Clothing Items</a>
+                <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">✨ Collections</a>
+                <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">👥 Customers</a>
+                <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">💬 Leads & Campaigns</a>
+                <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">🛡️ Admin Users</a>
+                <div style="margin: 14px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+                <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.18); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.35);">
+                    🌐 View Online Store ↗
+                </a>
+            </nav>
+            <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08);">
+                <div style="color: #d1d5db; font-size: 13px; margin-bottom: 8px;">Signed in as <strong>{{ auth()->user()->name }}</strong></div>
+                <form method="POST" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="main">
         <div class="topbar">
-            <div>
-                <div class="crumb">Curves & Tees Boutique Admin</div>
-                <h1>@yield('title', 'Dashboard')</h1>
+            <div class="topbar-header-row">
+                <div class="topbar-brand-link">
+                    <button type="button" class="admin-mobile-toggle" onclick="toggleAdminDrawer(true)" aria-label="Open Navigation Menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <a href="{{ route('admin.dashboard') }}" title="Curves & Tees Dashboard" style="display: flex; text-decoration: none;">
+                        <div class="topbar-logo-badge">
+                            <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees Logo">
+                        </div>
+                    </a>
+                    <div>
+                        <div class="crumb">Curves & Tees • Boutique Admin</div>
+                        <h1>@yield('title', 'Dashboard')</h1>
+                    </div>
+                </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <a href="{{ route('store.index') }}" target="_blank" class="btn btn-sm btn-primary">Visit Web Store ↗</a>
+            <div class="topbar-actions-row">
                 <span class="badge badge-gold">{{ now()->format('M d, Y') }}</span>
+                <a href="{{ route('store.index') }}" target="_blank" class="btn btn-sm btn-primary">Visit Web Store ↗</a>
             </div>
         </div>
         <div class="content">
@@ -287,8 +429,32 @@
                 <div class="alert alert-error">{{ session('error') }}</div>
             @endif
             @yield('content')
+
+            <footer style="margin-top: 40px; padding: 20px 0 10px 0; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12.5px; color: #6b7280;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 20px; object-fit: contain;">
+                    <span>Curves & Tees Ghana • Boutique Management & Online Catalog</span>
+                </div>
+                <div style="display: flex; gap: 16px; align-items: center;">
+                    <span style="color: #c58b2b; font-weight: 700;">Madina Estate Showroom</span>
+                    <span>Hotline: +233 57 103 8444</span>
+                </div>
+            </footer>
         </div>
     </div>
 </div>
+
+<script>
+    function toggleAdminDrawer(open) {
+        const overlay = document.getElementById('adminDrawerOverlay');
+        if (overlay) {
+            if (open) overlay.classList.add('open');
+            else overlay.classList.remove('open');
+        }
+    }
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') toggleAdminDrawer(false);
+    });
+</script>
 </body>
 </html>

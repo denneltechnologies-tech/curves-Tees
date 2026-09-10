@@ -33,12 +33,12 @@
                     <td>
                         <strong>{{ $product->name }}</strong>
                         @if($product->is_featured)
-                            <span class="badge badge-warning" style="margin-left:6px; font-size:10px;">Featured</span>
+                            <span class="badge badge-gold" style="margin-left:6px; font-size:10px;">Featured</span>
                         @endif
                     </td>
                     <td>{{ $product->category->name ?? '—' }}</td>
                     <td><span class="muted" style="font-size:12px;">{{ $product->sizes ?: 'UK 10 - 22' }}</span></td>
-                    <td><strong>GH₵ {{ number_format($product->price, 2) }}</strong></td>
+                    <td><strong style="color: #c58b2b;">GH₵ {{ number_format($product->price, 2) }}</strong></td>
                     <td>@if($product->status === 'active')<span class="badge badge-success">Active</span>@else<span class="badge badge-danger">Inactive</span>@endif</td>
                     <td>
                         <div class="actions">

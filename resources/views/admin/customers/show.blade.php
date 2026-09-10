@@ -4,9 +4,14 @@
 @section('content')
     <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <div>
-            <a href="{{ route('admin.customers.index') }}" style="color: #a86c3d; text-decoration: none; font-size: 13.5px; font-weight: 600;">← Back to Customer Directory</a>
-            <h2 style="font-size: 24px; font-weight: 800; color: #191614; margin-top: 4px;">{{ $user->name }}</h2>
-            <div class="muted">Customer ID #{{ $user->id }} • Registered on {{ $user->created_at?->format('M d, Y') }} ({{ $user->created_at?->diffForHumans() }})</div>
+            <a href="{{ route('admin.customers.index') }}" style="color: #c58b2b; text-decoration: none; font-size: 13.5px; font-weight: 700;">← Back to Customer Directory</a>
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 6px;">
+                <div style="background: #ffffff; padding: 4px 10px; border-radius: 8px; border: 1.5px solid rgba(197, 139, 43, 0.4); display: inline-flex; align-items: center;">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 24px; object-fit: contain;">
+                </div>
+                <h2 style="font-size: 24px; font-weight: 800; color: #181513; margin: 0;">{{ $user->name }}</h2>
+            </div>
+            <div class="muted" style="margin-top: 4px;">Customer ID #{{ $user->id }} • Registered on {{ $user->created_at?->format('M d, Y') }} ({{ $user->created_at?->diffForHumans() }})</div>
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
@@ -55,7 +60,7 @@
             <div style="font-size: 13.5px; line-height: 1.8;">
                 <div><strong style="color: #6b7280; width: 110px; display: inline-block;">Preferred Size:</strong> 
                     @if($user->preferred_size)
-                        <span class="badge" style="background: #fef3c7; color: #92400e; font-weight: 700;">{{ $user->preferred_size }}</span>
+                        <span class="badge badge-gold">{{ $user->preferred_size }}</span>
                     @else
                         <span class="muted">Not recorded</span>
                     @endif
@@ -158,12 +163,12 @@
                                     <span class="badge badge-gray">{{ $lead->action_type }}</span>
                                 @endif
                             </td>
-                            <td style="padding: 10px; font-weight: 600; color: #191614;">
+                            <td style="padding: 10px; font-weight: 600; color: #181513;">
                                 {{ $lead->product_name ?: 'General Stylist Inquiry' }}
                             </td>
                             <td style="padding: 10px;">
                                 @if($lead->selected_size)
-                                    <span class="badge" style="background:#fef3c7; color:#92400e;">{{ $lead->selected_size }}</span>
+                                    <span class="badge badge-gold">{{ $lead->selected_size }}</span>
                                 @else
                                     <span class="muted">—</span>
                                 @endif

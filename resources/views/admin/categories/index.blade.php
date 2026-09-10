@@ -23,8 +23,8 @@
                 @foreach($categories as $category)
                 <tr>
                     <td>@if($category->image)<img class="img-thumb" src="{{ asset('storage/'.$category->image) }}" alt="">@else<span class="muted">—</span>@endif</td>
-                    <td>{{ $category->name }}</td>
-                    <td>{{ $category->products_count }}</td>
+                    <td><strong style="color: #181513;">{{ $category->name }}</strong></td>
+                    <td><span class="badge badge-gold">{{ $category->products_count }} outfits</span></td>
                     <td>@if($category->status === 'active')<span class="badge badge-success">Active</span>@else<span class="badge badge-danger">Inactive</span>@endif</td>
                     <td>
                         <div class="actions">

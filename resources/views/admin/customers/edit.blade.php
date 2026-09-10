@@ -5,9 +5,14 @@
     <div style="max-width: 780px; margin: 0 auto;">
         <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <a href="{{ route('admin.customers.show', $user) }}" style="color: #a86c3d; text-decoration: none; font-size: 13.5px; font-weight: 600;">← Back to Customer Profile</a>
-                <h2 style="font-size: 22px; font-weight: 800; color: #191614; margin-top: 6px;">Edit Customer Profile</h2>
-                <p class="muted" style="margin: 0;">Update contact information, preferred curvy sizing, address, and notes for {{ $user->name }}.</p>
+                <a href="{{ route('admin.customers.show', $user) }}" style="color: #c58b2b; text-decoration: none; font-size: 13.5px; font-weight: 700;">← Back to Customer Profile</a>
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 6px;">
+                    <div style="background: #ffffff; padding: 4px 10px; border-radius: 8px; border: 1.5px solid rgba(197, 139, 43, 0.4); display: inline-flex; align-items: center;">
+                        <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 24px; object-fit: contain;">
+                    </div>
+                    <h2 style="font-size: 22px; font-weight: 800; color: #181513; margin: 0;">Edit Customer Profile</h2>
+                </div>
+                <p class="muted" style="margin-top: 4px;">Update contact information, preferred curvy sizing, address, and notes for {{ $user->name }}.</p>
             </div>
         </div>
 
@@ -75,7 +80,7 @@
 
                 <div style="display: flex; gap: 12px; justify-content: flex-end; align-items: center; border-top: 1px solid #f3f4f6; padding-top: 20px;">
                     <a href="{{ route('admin.customers.show', $user) }}" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-primary" style="background: #191614; color: #fff; padding: 11px 24px; font-weight: 700;">
+                    <button type="submit" class="btn btn-primary" style="background: #181513; color: #f5d496; border: 1px solid #c58b2b; padding: 11px 24px; font-weight: 700;">
                         Update Customer Profile
                     </button>
                 </div>
