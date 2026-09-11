@@ -307,8 +307,153 @@
             .btn-whatsapp-nav { padding: 10px; border-radius: 50%; }
             .mobile-menu-toggle { display: flex !important; }
         }
-        #mobileMenuOverlay.open .drawer-panel {
+        #mobileMenuOverlay.open .mobile-nav-panel {
             left: 0 !important;
+        }
+
+        /* Luxury Storefront Mobile Menu Drawer */
+        .mobile-nav-panel {
+            position: fixed;
+            top: 0;
+            left: -380px;
+            width: min(340px, 86vw);
+            height: 100vh;
+            background: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 40px rgba(0,0,0,0.22);
+            transition: left 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+        }
+        .mobile-nav-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #faf8f5;
+        }
+        .mobile-nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .mobile-nav-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+        .mobile-nav-brand-text {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+        .mobile-nav-body {
+            flex: 1;
+            padding: 16px 14px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .mobile-nav-section-title {
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: #8c827a;
+            padding: 0 8px;
+            margin-bottom: 6px;
+        }
+        .mobile-nav-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: #faf8f5;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .mobile-nav-card:hover, .mobile-nav-card:active {
+            background: #f5eee4;
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+        .mobile-nav-card.active {
+            background: #191614;
+            color: #ffffff;
+            border-color: #191614;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
+        .mobile-nav-card.active .mobile-nav-badge {
+            background: var(--primary);
+            color: #191614;
+            font-weight: 800;
+        }
+        .mobile-nav-card.featured {
+            background: linear-gradient(135deg, #1f1b18 0%, #151311 100%);
+            color: #f5eedb;
+            border: 1px solid rgba(197, 139, 43, 0.45);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        .mobile-nav-card.featured:hover {
+            border-color: var(--primary);
+            color: #fff;
+        }
+        .mobile-nav-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 50px;
+            background: #f0ebe2;
+            color: #786f66;
+            font-weight: 700;
+        }
+        .mobile-nav-col-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .mobile-nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #3b3530;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: all 0.15s ease;
+            border: 1px solid transparent;
+        }
+        .mobile-nav-link:hover, .mobile-nav-link:active {
+            background: #fbf7f1;
+            color: var(--primary-dark);
+            border-color: rgba(197, 139, 43, 0.25);
+        }
+        .mobile-nav-link.active {
+            background: #fdf6ec;
+            color: var(--primary-dark);
+            font-weight: 700;
+            border-color: var(--primary);
+        }
+        .mobile-nav-footer {
+            padding: 16px 14px;
+            border-top: 1px solid var(--border-color);
+            background: #faf8f5;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         /* Cart Drawer (Slide-Over) */
@@ -913,53 +1058,130 @@
         </div>
     </header>
 
-    <!-- Mobile Navigation Drawer -->
+    <!-- Mobile Navigation Drawer (Editorial Luxury Boutique Style) -->
     <div class="drawer-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu(false)">
-        <div class="drawer-panel" style="left: -320px; right: auto; max-width: 300px; transition: left 0.3s ease;" onclick="event.stopPropagation()">
-            <div class="drawer-header">
-                <h3>Navigation</h3>
-                <button class="btn-close-drawer" onclick="toggleMobileMenu(false)">
+        <div class="mobile-nav-panel" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <a href="{{ route('store.index') }}" class="mobile-nav-brand">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" class="mobile-nav-logo">
+                    <div>
+                        <div style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 17px; font-weight: 700; color: #191614; line-height: 1.1;">Curves & Tees</div>
+                        <div class="mobile-nav-brand-text">Accra Concept Store</div>
+                    </div>
+                </a>
+                <button type="button" class="btn-close-drawer" onclick="toggleMobileMenu(false)" aria-label="Close navigation menu">
                     <i data-lucide="x"></i>
                 </button>
             </div>
-            <div class="drawer-body" style="padding: 16px 20px;">
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
-                    <li>
-                        <a href="{{ route('store.index') }}" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 8px; font-weight: 700; font-size: 14px; background: {{ !request('category') ? 'var(--primary-light)' : 'transparent' }}; color: {{ !request('category') ? 'var(--primary-dark)' : 'var(--text-main)' }};">
-                            <span>👗 All Outfits</span>
-                            <i data-lucide="chevron-right" style="width: 16px;"></i>
-                        </a>
-                    </li>
-                    <li style="padding: 6px 14px 2px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #8c827a;">
-                        Curated Collections
-                    </li>
-                    @foreach($globalCollections as $navCat)
-                        <li>
-                            <a href="{{ route('store.index', ['category' => $navCat->id]) }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 8px; font-weight: 600; font-size: 13.5px; background: {{ request('category') == $navCat->id ? 'var(--primary-light)' : 'transparent' }}; color: {{ request('category') == $navCat->id ? 'var(--primary-dark)' : 'var(--text-main)' }};">
-                                <span>{{ $navCat->name }}</span>
-                                <span style="font-size: 11px; color: #8c827a; background: #f0ebe3; padding: 1px 7px; border-radius: 50px;">{{ $navCat->products_count }}</span>
+
+            <div class="mobile-nav-body">
+                <!-- Featured Catalog Entry Card -->
+                <a href="{{ route('store.index') }}" class="mobile-nav-card featured" onclick="toggleMobileMenu(false)">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 18px;">✨</span>
+                        <div>
+                            <div style="font-weight: 700; font-size: 14px;">Browse Full Catalog</div>
+                            <div style="font-size: 11.5px; color: #e5b88f;">All ready-to-wear pieces (UK 10–22)</div>
+                        </div>
+                    </div>
+                    <i data-lucide="arrow-right" style="width: 16px; height: 16px; color: #e5b88f;"></i>
+                </a>
+
+                <!-- Curated Collections Section -->
+                <div>
+                    <div class="mobile-nav-section-title">
+                        Curated Collections ({{ $globalCollections->count() }})
+                    </div>
+                    <div class="mobile-nav-col-list">
+                        @php
+                            $collectionIcons = [
+                                'Corporate' => '💼',
+                                'Party' => '🥂',
+                                'Evening' => '✨',
+                                'Luxury' => '👑',
+                                'Two Piece' => '💎',
+                                'Casual' => '🌸',
+                                'Top' => '👚',
+                                'Denim' => '👖',
+                                'Tummy' => '⏳',
+                                'Pant' => '🩳',
+                                'Shoe' => '👠',
+                                'Bag' => '👜',
+                                'Access' => '💍',
+                            ];
+                        @endphp
+                        @foreach($globalCollections as $navCat)
+                            @php
+                                $cIcon = '✨';
+                                foreach($collectionIcons as $kw => $ico) {
+                                    if (stripos($navCat->name, $kw) !== false) {
+                                        $cIcon = $ico;
+                                        break;
+                                    }
+                                }
+                                $isCatActive = request('category') == $navCat->id;
+                            @endphp
+                            <a href="{{ route('store.index', ['category' => $navCat->id]) }}" class="mobile-nav-link {{ $isCatActive ? 'active' : '' }}" onclick="toggleMobileMenu(false)">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 15px; width: 20px; text-align: center;">{{ $cIcon }}</span>
+                                    <span>{{ $navCat->name }}</span>
+                                </div>
+                                <span class="mobile-nav-badge {{ $isCatActive ? 'active' : '' }}">{{ $navCat->products_count }}</span>
                             </a>
-                        </li>
-                    @endforeach
-                    <li style="border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 6px;">
-                        <a href="{{ route('store.index') }}#location" onclick="toggleMobileMenu(false)" style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 8px; font-weight: 600; font-size: 14px; color: var(--text-main);">
-                            <i data-lucide="map-pin" style="color: var(--primary-dark); width: 18px;"></i>
-                            <span>Visit Madina Showroom</span>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Showroom & Concierge Assistance -->
+                <div>
+                    <div class="mobile-nav-section-title">Boutique Concierge & Showroom</div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="javascript:void(0)" onclick="toggleMobileMenu(false); openWhatsAppStylist(null);" class="mobile-nav-card" style="background: #f0fdf4; border-color: #bbf7d0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i data-lucide="message-circle" style="width: 17px; height: 17px;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 13.5px; color: #166534;">WhatsApp Stylist</div>
+                                    <div style="font-size: 11.5px; color: #15803d;">Instant fit & nationwide order</div>
+                                </div>
+                            </div>
+                            <span style="font-size: 11px; font-weight: 700; color: #15803d;">Chat &rarr;</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="toggleMobileMenu(false); openWhatsAppStylist(null);" style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 8px; font-weight: 700; font-size: 14px; color: #25D366; background: #f0fdf4;">
-                            <i data-lucide="message-circle" style="width: 18px;"></i>
-                            <span>Chat Hotline: +233 57 103 8444</span>
+
+                        <a href="https://www.instagram.com/curves_and_tees/?hl=en" target="_blank" class="mobile-nav-card" style="background: #fdf2f4; border-color: #fbcfe8;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i data-lucide="instagram" style="width: 17px; height: 17px;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 13.5px; color: #9d174d;">Instagram Lookbook</div>
+                                    <div style="font-size: 11.5px; color: #be185d;">@curves_and_tees</div>
+                                </div>
+                            </div>
+                            <span style="font-size: 11px; font-weight: 700; color: #be185d;">Follow &rarr;</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.instagram.com/curves_and_tees/?hl=en" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 8px; font-weight: 700; font-size: 14px; color: #dc2743; background: #fdf2f4;">
-                            <i data-lucide="instagram" style="width: 18px;"></i>
-                            <span>Instagram @curves_and_tees</span>
+
+                        <a href="{{ route('store.index') }}#location" onclick="toggleMobileMenu(false)" class="mobile-nav-card" style="background: #faf8f5;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i data-lucide="map-pin" style="width: 17px; height: 17px;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 13.5px; color: var(--text-main);">Madina Showroom</div>
+                                    <div style="font-size: 11.5px; color: var(--text-muted);">Mon–Sat • 9:00 AM – 7:00 PM</div>
+                                </div>
+                            </div>
+                            <span style="font-size: 11px; font-weight: 700; color: var(--primary-dark);">Directions &rarr;</span>
                         </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-nav-footer">
+                <div style="font-size: 11.5px; color: #786f66; text-align: center; line-height: 1.4;">
+                    🇬🇭 Nationwide Delivery Across Ghana • Accra Pickup
+                </div>
             </div>
         </div>
     </div>

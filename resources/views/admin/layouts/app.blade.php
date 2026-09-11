@@ -34,22 +34,31 @@
             font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.6px;
             color: #c58b2b; font-weight: 800; text-align: center; margin-top: 8px;
         }
-        .sidebar nav { flex: 1; padding: 14px 12px; overflow-y: auto; }
-        .sidebar nav a {
-            display: block; position: relative; padding: 11px 16px; color: #b8aea5;
-            text-decoration: none; font-size: 13.5px; font-weight: 500; border-radius: 10px;
-            margin-bottom: 4px; transition: all .15s ease;
+        .sidebar nav, .admin-drawer-panel nav { flex: 1; padding: 14px 12px; overflow-y: auto; }
+        .sidebar nav a, .admin-drawer-panel nav a {
+            display: flex; align-items: center; gap: 10px; position: relative; padding: 11px 16px; color: #c4b9af;
+            text-decoration: none; font-size: 13.5px; font-weight: 600; border-radius: 10px;
+            margin-bottom: 5px; transition: all .16s ease;
+            border: 1px solid transparent;
         }
-        .sidebar nav a::before {
+        .sidebar nav a::before, .admin-drawer-panel nav a::before {
             content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
             width: 4px; height: 0; border-radius: 4px; background: #c58b2b;
-            transition: height .15s ease;
+            transition: height .16s ease;
         }
-        .sidebar nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
-        .sidebar nav a.active {
-            background: rgba(197, 139, 43, 0.18); color: #f5d496; font-weight: 700;
+        .sidebar nav a:hover, .admin-drawer-panel nav a:hover {
+            background: rgba(255,255,255,0.08); color: #ffffff;
+            border-color: rgba(255,255,255,0.08);
         }
-        .sidebar nav a.active::before { height: 60%; }
+        .sidebar nav a:active, .admin-drawer-panel nav a:active {
+            transform: scale(0.98);
+        }
+        .sidebar nav a.active, .admin-drawer-panel nav a.active {
+            background: rgba(197, 139, 43, 0.22); color: #f5d496; font-weight: 700;
+            border-color: rgba(197, 139, 43, 0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .sidebar nav a.active::before, .admin-drawer-panel nav a.active::before { height: 60%; }
         .sidebar .sidebar-foot {
             padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 13px;
         }
@@ -377,42 +386,76 @@
     <!-- Mobile Slide-In Navigation Drawer -->
     <div class="admin-drawer-overlay" id="adminDrawerOverlay" onclick="toggleAdminDrawer(false)">
         <div class="admin-drawer-panel" onclick="event.stopPropagation()">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                <div style="background: #ffffff; padding: 6px 12px; border-radius: 10px; border: 1.5px solid #c58b2b;">
-                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 26px; object-fit: contain;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.25);">
+                <div style="background: #ffffff; padding: 6px 14px; border-radius: 10px; border: 1.5px solid rgba(197,139,43,0.5); box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 28px; width: auto; object-fit: contain; display: block;">
                 </div>
-                <button type="button" onclick="toggleAdminDrawer(false)" style="background: none; border: none; color: #a39990; font-size: 28px; cursor: pointer; line-height: 1;">&times;</button>
+                <button type="button" onclick="toggleAdminDrawer(false)" aria-label="Close menu" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: #f5eedb; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">&times;</button>
             </div>
-            <div class="sidebar-brand-badge" style="padding: 10px 20px 4px 20px; text-align: left;">Boutique Administration</div>
-            <nav style="padding: 10px 14px; overflow-y: auto; flex: 1;">
-                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">📊 Dashboard</a>
-                <a href="{{ route('admin.orders.index') }}" class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">🛍️ Orders</a>
-                <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">👗 Clothing Items</a>
-                <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">✨ Collections</a>
-                <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">👥 Customers</a>
+
+            <!-- User Profile Card in Drawer -->
+            <div style="padding: 14px 20px; background: rgba(197,139,43,0.08); border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <div style="font-size: 13.5px; font-weight: 700; color: #ffffff;">{{ auth()->user()->name }}</div>
+                    <div style="font-size: 11px; color: #c58b2b; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-top: 2px;">{{ auth()->user()->role_display_name }}</div>
+                </div>
+                <span class="badge {{ auth()->user()->hasFullAdminAccess() ? 'badge-gold' : 'badge-info' }}" style="font-size: 10.5px; padding: 3px 8px;">
+                    {{ auth()->user()->hasFullAdminAccess() ? 'Administrator' : 'Storekeeper' }}
+                </span>
+            </div>
+
+            <nav style="padding: 16px 14px; overflow-y: auto; flex: 1;">
+                <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #8c827a; margin: 4px 12px 8px;">Operations & Catalog</div>
+                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <span style="font-size: 16px; width: 22px; text-align: center;">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ route('admin.orders.index') }}" class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                    <span style="font-size: 16px; width: 22px; text-align: center;">🛍️</span>
+                    <span>Orders & Fulfillment</span>
+                </a>
+                <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                    <span style="font-size: 16px; width: 22px; text-align: center;">👗</span>
+                    <span>Clothing Items</span>
+                </a>
+                <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                    <span style="font-size: 16px; width: 22px; text-align: center;">✨</span>
+                    <span>Collections</span>
+                </a>
+                <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+                    <span style="font-size: 16px; width: 22px; text-align: center;">👥</span>
+                    <span>Customer Roster</span>
+                </a>
 
                 @if(auth()->user()->hasFullAdminAccess())
-                    <div style="margin: 14px 10px 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #78716c;">Store Administration</div>
-                    <a href="{{ route('admin.hero.index') }}" class="{{ request()->routeIs('admin.hero.*') ? 'active' : '' }}">🎬 Hero & Banners</a>
-                    <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">💬 Leads & Campaigns</a>
-                    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">🛡️ Admin Users</a>
+                    <div style="margin: 18px 12px 8px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #c58b2b;">Store Administration</div>
+                    <a href="{{ route('admin.hero.index') }}" class="{{ request()->routeIs('admin.hero.*') ? 'active' : '' }}">
+                        <span style="font-size: 16px; width: 22px; text-align: center;">🎬</span>
+                        <span>Hero Section & Media</span>
+                    </a>
+                    <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">
+                        <span style="font-size: 16px; width: 22px; text-align: center;">💬</span>
+                        <span>Leads & Marketing</span>
+                    </a>
+                    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <span style="font-size: 16px; width: 22px; text-align: center;">🛡️</span>
+                        <span>Team & Access Control</span>
+                    </a>
                 @endif
 
-                <div style="margin: 14px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
-                <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.18); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.35);">
-                    🌐 View Online Store ↗
+                <div style="margin: 18px 0 14px; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+                <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.18); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.4); justify-content: center; padding: 12px 16px;">
+                    <span>🌐 View Live Storefront ↗</span>
                 </a>
             </nav>
-            <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08);">
-                <div style="color: #d1d5db; font-size: 13px; margin-bottom: 4px;">Signed in as <strong>{{ auth()->user()->name }}</strong></div>
-                <div style="margin-bottom: 10px;">
-                    <span class="badge {{ auth()->user()->hasFullAdminAccess() ? 'badge-gold' : 'badge-info' }}" style="font-size: 11px;">
-                        {{ auth()->user()->role_display_name }}
-                    </span>
-                </div>
+
+            <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.25);">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
-                    <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;">Logout</button>
+                    <button type="submit" class="btn btn-danger btn-sm" style="width: 100%; padding: 11px 16px; border-radius: 10px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>🚪</span>
+                        <span>Sign Out of Admin</span>
+                    </button>
                 </form>
             </div>
         </div>
