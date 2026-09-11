@@ -36,8 +36,16 @@ class HeroSlide extends Model
             return null;
         }
 
-        if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')) {
+        if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://') || str_starts_with($this->image_path, '//')) {
             return $this->image_path;
+        }
+
+        if (str_starts_with($this->image_path, '/storage/')) {
+            return $this->image_path;
+        }
+
+        if (str_starts_with($this->image_path, 'storage/')) {
+            return '/' . $this->image_path;
         }
 
         return '/storage/' . ltrim($this->image_path, '/');
@@ -72,11 +80,21 @@ class HeroSlide extends Model
             return 'https://www.youtube.com/embed/' . $matches[1] . '?autoplay=1&mute=1&loop=1&playlist=' . $matches[1];
         }
 
-        // If it's a relative local file stored in storage
-        if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
-            return '/storage/' . ltrim($url, '/');
+        // Already absolute or protocol relative
+        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://') || str_starts_with($url, '//')) {
+            return $url;
         }
 
-        return $url;
+        // Local storage files
+        if (str_starts_with($url, '/storage/')) {
+            return $url;
+        }
+
+        if (str_starts_with($url, 'storage/')) {
+            return '/' . $url;
+        }
+
+        return '/storage/' . ltrim($url, '/');
     }
 }
+

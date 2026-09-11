@@ -947,8 +947,6 @@
                 </p>
                 @php
                     $hasVideo = !empty($heroSettings['hero_video_url']);
-                    $videoMode = $heroSettings['hero_mode'] ?? 'both';
-                    $isVideoPrimary = $hasVideo && ($videoMode === 'video_primary' || $heroSlides->isEmpty());
                     $vUrl = $heroSettings['hero_video_url'] ?? '';
                     $formattedVideoUrl = \App\Models\HeroSlide::formatVideoUrl($vUrl);
                     $isGdrive = preg_match('#drive\.google\.com/(?:file/d/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)#', $vUrl, $gm);
@@ -961,7 +959,7 @@
                         <span>Explore 12 Collections</span>
                     </a>
                     @if($hasVideo)
-                        <button type="button" onclick="toggleHeroMedia(true)" class="btn-hero-primary" style="background: rgba(229, 184, 143, 0.15); color: #e5b88f; border: 1px solid rgba(229, 184, 143, 0.4); box-shadow: none;">
+                        <button type="button" onclick="showHeroSlide(0)" class="btn-hero-primary" style="background: rgba(229, 184, 143, 0.15); color: #e5b88f; border: 1px solid rgba(229, 184, 143, 0.4); box-shadow: none;">
                             <i data-lucide="play-circle" style="width: 18px; height: 18px;"></i>
                             <span>Watch Runway Video</span>
                         </button>
@@ -978,15 +976,21 @@
                     <!-- Media Switcher (Toggle between Video & Photo Lookbook) -->
                     @if($hasVideo)
                         <button type="button" class="hero-media-switcher" id="heroMediaSwitcher" onclick="toggleHeroMedia()">
-                            <i data-lucide="{{ $isVideoPrimary ? 'image' : 'play' }}" style="width: 14px; height: 14px;"></i>
-                            <span>{{ $isVideoPrimary ? 'View Lookbook Photos' : 'Watch Video Reel' }}</span>
+                            <i data-lucide="image" style="width: 14px; height: 14px;"></i>
+                            <span>View Lookbook Photos</span>
                         </button>
                     @endif
 
                     <!-- Carousel Slide Dots -->
                     <div class="hero-carousel-dots" id="heroCarouselDots">
+                        @php $slideDotIndex = 0; @endphp
+                        @if($hasVideo)
+                            <button type="button" class="hero-dot active" onclick="showHeroSlide(0)" aria-label="Runway Video" title="Runway Video"></button>
+                            @php $slideDotIndex++; @endphp
+                        @endif
                         @foreach($heroSlides as $i => $slide)
-                            <button type="button" class="hero-dot {{ (!$isVideoPrimary && $i === 0) ? 'active' : '' }}" onclick="showHeroSlide({{ $i }})" aria-label="Slide {{ $i + 1 }}"></button>
+                            <button type="button" class="hero-dot {{ (!$hasVideo && $i === 0) ? 'active' : '' }}" onclick="showHeroSlide({{ $slideDotIndex }})" aria-label="Slide {{ $slideDotIndex + 1 }}"></button>
+                            @php $slideDotIndex++; @endphp
                         @endforeach
                     </div>
 
@@ -999,9 +1003,46 @@
                     </button>
 
                     <div class="hero-carousel">
+                        <!-- Video Slide (ALWAYS displays on top and comes FIRST when added) -->
+                        @if($hasVideo)
+                            <div class="hero-slide active" id="heroVideoSlide" data-look="{{ $heroSettings['hero_video_title'] ?? 'Runway Lookbook Video' }}">
+                                @if($isGdrive)
+                                    <iframe id="heroGdriveFrame" src="https://drive.google.com/file/d/{{ $gm[1] }}/preview" width="100%" height="100%" allow="autoplay; fullscreen" style="border: none; width: 100%; height: 100%;"></iframe>
+                                @elseif($isYt)
+                                    <iframe id="heroYtFrame" src="https://www.youtube.com/embed/{{ $ym[1] }}?autoplay=1&mute=1&loop=1&playlist={{ $ym[1] }}" width="100%" height="100%" allow="autoplay; encrypted-media; fullscreen" style="border: none; width: 100%; height: 100%;"></iframe>
+                                @else
+                                    <video id="heroVideo" src="{{ $formattedVideoUrl }}" loop muted autoplay playsinline controls poster="{{ $heroSlides->first()?->image_url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <source src="{{ $formattedVideoUrl }}" type="video/mp4">
+                                    </video>
+                                @endif
+                                <div class="hero-slide-overlay" style="pointer-events: none;"></div>
+                                <div style="position: absolute; bottom: 20px; right: 24px; text-align: right; z-index: 4; max-width: 65%;">
+                                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #e5b88f; font-weight: 800; margin-bottom: 4px;">RUNWAY VIDEO</div>
+                                    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 24px; color: #fff; margin-bottom: 6px; line-height: 1.15;">{{ $heroSettings['hero_video_title'] ?? 'Curves & Tees • Runway' }}</h3>
+                                </div>
+                            </div>
+                        @endif
+
                         @foreach($heroSlides as $i => $slide)
-                            <div class="hero-slide {{ (!$isVideoPrimary && $i === 0) ? 'active' : '' }}" data-look="{{ $slide->tag ? $slide->tag . ' • ' : '' }}{{ $slide->title }}">
-                                <img src="{{ $slide->image_url }}" alt="{{ $slide->title }}">
+                            <div class="hero-slide {{ (!$hasVideo && $i === 0) ? 'active' : '' }}" data-look="{{ $slide->tag ? $slide->tag . ' • ' : '' }}{{ $slide->title }}">
+                                @if(!empty($slide->video_url))
+                                    @php
+                                        $sFmt = \App\Models\HeroSlide::formatVideoUrl($slide->video_url);
+                                        $sIsGd = preg_match('#drive\.google\.com/(?:file/d/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)#', $slide->video_url, $sgm);
+                                        $sIsYt = preg_match('#(?:youtube\.com/(?:watch\?v=|embed/)|youtu\.be/)([a-zA-Z0-9_-]+)#', $slide->video_url, $sym);
+                                    @endphp
+                                    @if($sIsGd)
+                                        <iframe src="https://drive.google.com/file/d/{{ $sgm[1] }}/preview" width="100%" height="100%" allow="autoplay; fullscreen" style="border:none; width:100%; height:100%;"></iframe>
+                                    @elseif($sIsYt)
+                                        <iframe src="https://www.youtube.com/embed/{{ $sym[1] }}?autoplay=1&mute=1&loop=1&playlist={{ $sym[1] }}" width="100%" height="100%" allow="autoplay; encrypted-media; fullscreen" style="border:none; width:100%; height:100%;"></iframe>
+                                    @else
+                                        <video src="{{ $sFmt }}" loop muted autoplay playsinline controls poster="{{ $slide->image_url }}" style="width:100%; height:100%; object-fit:cover;">
+                                            <source src="{{ $sFmt }}" type="video/mp4">
+                                        </video>
+                                    @endif
+                                @else
+                                    <img src="{{ $slide->image_url }}" alt="{{ $slide->title }}">
+                                @endif
                                 <div class="hero-slide-overlay"></div>
                                 <div style="position: absolute; bottom: 20px; right: 24px; text-align: right; z-index: 4; max-width: 65%;">
                                     @if($slide->tag)
@@ -1016,22 +1057,6 @@
                                 </div>
                             </div>
                         @endforeach
-
-                        <!-- Video Slide (Supports Direct MP4, Google Drive, or YouTube) -->
-                        @if($hasVideo)
-                            <div class="hero-slide {{ $isVideoPrimary ? 'active' : '' }}" id="heroVideoSlide" data-look="{{ $heroSettings['hero_video_title'] ?? 'Runway Lookbook Video' }}">
-                                @if($isGdrive)
-                                    <iframe id="heroGdriveFrame" src="https://drive.google.com/file/d/{{ $gm[1] }}/preview" width="100%" height="100%" allow="autoplay; fullscreen" style="border: none; width: 100%; height: 100%;"></iframe>
-                                @elseif($isYt)
-                                    <iframe id="heroYtFrame" src="https://www.youtube.com/embed/{{ $ym[1] }}?autoplay=1&mute=1&loop=1&playlist={{ $ym[1] }}" width="100%" height="100%" allow="autoplay; encrypted-media; fullscreen" style="border: none; width: 100%; height: 100%;"></iframe>
-                                @else
-                                    <video id="heroVideo" src="{{ $formattedVideoUrl }}" loop muted autoplay playsinline controls poster="{{ $heroSlides->first()?->image_url }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                        <source src="{{ $formattedVideoUrl }}" type="video/mp4">
-                                    </video>
-                                @endif
-                                <div class="hero-slide-overlay" style="pointer-events: none;"></div>
-                            </div>
-                        @endif
                     </div>
 
                     <!-- Dynamic Floating Tag -->
@@ -1041,7 +1066,7 @@
                         </div>
                         <div>
                             <strong style="color: #fff; font-size: 13.5px; display: block;" id="heroLookTag">
-                                {{ $heroSlides->first()?->title ?? 'Look 01: The Accra Concept Edit' }}
+                                {{ $hasVideo ? ($heroSettings['hero_video_title'] ?? 'Runway Lookbook Video') : ($heroSlides->first()?->title ?? 'Look 01: The Accra Concept Edit') }}
                             </strong>
                             <span style="color: #e5b88f; font-size: 11.5px;">Sizes UK 10–22 • Ghana Nationwide Delivery</span>
                         </div>
@@ -1340,7 +1365,7 @@
     let heroInterval = null;
 
     function getHeroSlides() {
-        return document.querySelectorAll('.hero-carousel .hero-slide:not(#heroVideoSlide)');
+        return document.querySelectorAll('.hero-carousel .hero-slide');
     }
 
     function getHeroDots() {
@@ -1350,25 +1375,27 @@
     function showHeroSlide(index) {
         const slides = getHeroSlides();
         const dots = getHeroDots();
-        const videoSlide = document.getElementById('heroVideoSlide');
-
-        if (videoSlide && videoSlide.classList.contains('active')) {
-            const video = videoSlide.querySelector('video');
-            if (video) video.pause();
-            videoSlide.classList.remove('active');
-            const switcher = document.getElementById('heroMediaSwitcher');
-            if (switcher) switcher.innerHTML = '<i data-lucide="play" style="width: 14px; height: 14px;"></i><span>Watch Video Reel</span>';
-        }
 
         if (!slides.length) return;
         index = (index + slides.length) % slides.length;
 
         slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
+            const isActive = (i === index);
+            slide.classList.toggle('active', isActive);
+            const video = slide.querySelector('video');
+            if (video) {
+                if (isActive) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            }
         });
+
         dots.forEach((dot, i) => {
             dot.classList.toggle('active', i === index);
         });
+
         currentHeroSlide = index;
 
         const activeSlide = slides[index];
@@ -1376,6 +1403,15 @@
         const tagEl = document.getElementById('heroLookTag');
         if (tagEl && lookName) {
             tagEl.innerText = lookName;
+        }
+
+        const switcher = document.getElementById('heroMediaSwitcher');
+        if (switcher) {
+            if (activeSlide && (activeSlide.id === 'heroVideoSlide' || activeSlide.querySelector('video, iframe'))) {
+                switcher.innerHTML = '<i data-lucide="image" style="width: 14px; height: 14px;"></i><span>View Lookbook Photos</span>';
+            } else {
+                switcher.innerHTML = '<i data-lucide="play" style="width: 14px; height: 14px;"></i><span>Watch Runway Video</span>';
+            }
         }
         if (window.lucide) lucide.createIcons();
     }
@@ -1396,7 +1432,7 @@
         stopHeroAutoPlay();
         const slides = getHeroSlides();
         if (slides.length > 1) {
-            heroInterval = setInterval(nextHeroSlide, 5000);
+            heroInterval = setInterval(nextHeroSlide, 6500);
         }
     }
 
@@ -1404,38 +1440,22 @@
         if (heroInterval) clearInterval(heroInterval);
     }
 
-    function toggleHeroMedia() {
-        const videoSlide = document.getElementById('heroVideoSlide');
-        const switcherBtn = document.getElementById('heroMediaSwitcher');
+    function toggleHeroMedia(forceVideo = false) {
         const slides = getHeroSlides();
-        const dots = getHeroDots();
-        if (!videoSlide) return;
-
-        const isVideoActive = videoSlide.classList.contains('active');
-        const video = videoSlide.querySelector('video');
-
-        if (!isVideoActive) {
-            stopHeroAutoPlay();
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            videoSlide.classList.add('active');
-            if (video) {
-                video.currentTime = 0;
-                video.play().catch(() => {});
-            }
-            const tagEl = document.getElementById('heroLookTag');
-            if (tagEl) tagEl.innerText = videoSlide.getAttribute('data-look') || 'Runway Video Lookbook';
-            if (switcherBtn) switcherBtn.innerHTML = '<i data-lucide="image" style="width: 14px; height: 14px;"></i><span>View Lookbook Photos</span>';
-        } else {
-            if (video) video.pause();
+        if (!slides.length) return;
+        if (forceVideo || currentHeroSlide !== 0) {
             showHeroSlide(0);
-            startHeroAutoPlay();
-            if (switcherBtn) switcherBtn.innerHTML = '<i data-lucide="play" style="width: 14px; height: 14px;"></i><span>Watch Video Reel</span>';
+        } else {
+            showHeroSlide(slides.length > 1 ? 1 : 0);
         }
-        if (window.lucide) lucide.createIcons();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        const activeSlide = document.querySelector('.hero-carousel .hero-slide.active');
+        if (activeSlide) {
+            const video = activeSlide.querySelector('video');
+            if (video) video.play().catch(() => {});
+        }
         startHeroAutoPlay();
     });
 </script>
