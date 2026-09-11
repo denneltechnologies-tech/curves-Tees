@@ -14,7 +14,7 @@ class StorefrontTest extends TestCase
 
     public function test_storefront_home_loads_successfully(): void
     {
-        $category = Category::create(['name' => 'Dresses & Jumpsuits', 'status' => 'active']);
+        $category = Category::create(['name' => 'Corporate Wears', 'status' => 'active']);
         Product::create([
             'category_id' => $category->id,
             'name' => 'Ribbed Midi Dress',
@@ -26,6 +26,10 @@ class StorefrontTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Curves & Tees');
         $response->assertSee('Ribbed Midi Dress');
+        $response->assertSee('Corporate Wears');
+        // Ensure Admin Portal is removed from footer
+        $response->assertDontSee('Admin Portal');
+        $response->assertDontSee('Admin Dashboard');
     }
 
     public function test_product_detail_page_loads(): void

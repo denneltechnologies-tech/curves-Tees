@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\DeliveryInformation;
+use App\Models\HeroSetting;
+use App\Models\HeroSlide;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -66,7 +68,18 @@ class StorefrontController extends Controller
             ->take(4)
             ->get();
 
-        return view('store.index', compact('categories', 'products', 'featuredProducts', 'activeCategory', 'search', 'sort'));
+        $heroSlides = HeroSlide::where('is_active', true)->orderBy('sort_order', 'asc')->get();
+        $heroSettings = [
+            'hero_badge' => HeroSetting::get('hero_badge', 'NEW COLLECTION • READY-TO-WEAR'),
+            'hero_title' => HeroSetting::get('hero_title', "Accra's Premier Destination for *Curve-Flattering* Luxury"),
+            'hero_subtitle' => HeroSetting::get('hero_subtitle', 'Celebrating every curve with sculpted corporate wear, radiant evening silhouettes, luxury party dresses, and signature essentials.'),
+            'hero_video_url' => HeroSetting::get('hero_video_url', 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-in-a-photoshoot-wearing-a-red-dress-34440-large.mp4'),
+            'hero_video_title' => HeroSetting::get('hero_video_title', 'Curves & Tees • Runway Lookbook'),
+            'hero_video_caption' => HeroSetting::get('hero_video_caption', 'Editorial highlights from our latest Accra ready-to-wear showroom release.'),
+            'hero_mode' => HeroSetting::get('hero_mode', 'both'),
+        ];
+
+        return view('store.index', compact('categories', 'products', 'featuredProducts', 'activeCategory', 'search', 'sort', 'heroSlides', 'heroSettings'));
     }
 
     /**

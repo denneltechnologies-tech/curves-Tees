@@ -88,8 +88,8 @@
 
         /* Header / Navbar */
         .navbar {
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(14px);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -97,77 +97,150 @@
             transition: all 0.3s ease;
         }
         .navbar-container {
-            max-width: 1280px;
+            max-width: 1320px;
             margin: 0 auto;
-            padding: 14px 24px;
+            padding: 10px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            gap: 24px;
         }
 
+        /* Prominent, Clean Brand Logo */
         .brand-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            text-decoration: none;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+            flex-shrink: 0;
+            padding: 2px 0;
         }
-        .brand-mark {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, #1f1b18 0%, #3d352e 100%);
-            color: #e5b88f;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 700;
-            border: 1px solid rgba(229, 184, 143, 0.3);
-            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        .brand-logo:hover {
+            opacity: 0.95;
+            transform: scale(1.02);
         }
-        .brand-text h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            line-height: 1.1;
-            color: #191614;
-        }
-        .brand-text span {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--primary);
-            font-weight: 700;
+        .brand-logo-img {
+            height: 64px;
+            max-width: 260px;
+            width: auto;
+            object-fit: contain;
+            image-rendering: -webkit-optimize-contrast;
             display: block;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.05));
+        }
+        @media (max-width: 900px) {
+            .brand-logo-img {
+                height: 52px;
+                max-width: 210px;
+            }
+        }
+        @media (max-width: 480px) {
+            .brand-logo-img {
+                height: 46px;
+                max-width: 175px;
+            }
         }
 
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 28px;
+            gap: 24px;
             list-style: none;
         }
-        .nav-menu a {
-            font-size: 14px;
+        .nav-menu > li > a, .nav-dropdown-trigger {
+            font-size: 13.5px;
             font-weight: 600;
-            color: #4a453f;
+            color: #3b3530;
             transition: color 0.2s;
             position: relative;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 0;
         }
-        .nav-menu a:hover, .nav-menu a.active {
+        .nav-menu > li > a:hover, 
+        .nav-menu > li > a.active,
+        .nav-dropdown-trigger:hover,
+        .nav-dropdown-trigger.active {
             color: var(--primary-dark);
         }
-        .nav-menu a.active::after {
+        .nav-menu > li > a.active::after,
+        .nav-dropdown-trigger.active::after {
             content: '';
             position: absolute;
-            bottom: -6px;
+            bottom: 0;
             left: 0;
             width: 100%;
             height: 2px;
             background: var(--primary);
             border-radius: 2px;
+        }
+
+        /* Collections Dropdown */
+        .nav-dropdown-item {
+            position: relative;
+        }
+        .nav-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: -10px;
+            width: 320px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 250;
+        }
+        .nav-dropdown-item:hover .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .nav-dropdown-item:hover .nav-dropdown-trigger i {
+            transform: rotate(180deg);
+        }
+        .dropdown-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .dropdown-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2b2623;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        .dropdown-link:hover, .dropdown-link.active {
+            background: #fbf7f0;
+            color: var(--primary-dark);
+        }
+        .dropdown-link-badge {
+            font-size: 11px;
+            color: #8c827a;
+            background: #f0ebe3;
+            padding: 1px 7px;
+            border-radius: 50px;
+        }
+        .dropdown-link:hover .dropdown-link-badge {
+            background: #e8ded1;
+            color: var(--primary-dark);
         }
 
         .nav-actions {
@@ -566,25 +639,65 @@
             margin-top: 80px;
         }
         .footer-container {
-            max-width: 1280px;
+            max-width: 1320px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            grid-template-columns: 1.2fr 1.8fr 1.3fr;
             gap: 40px;
             margin-bottom: 40px;
         }
-        @media (max-width: 900px) {
-            .footer-container { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 992px) {
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 36px; }
+            .footer-col-collections { grid-column: span 2; }
         }
-        @media (max-width: 600px) {
-            .footer-container { grid-template-columns: 1fr; }
+        @media (max-width: 640px) {
+            .footer-container { grid-template-columns: 1fr; gap: 36px; }
+            .footer-col-collections { grid-column: span 1; }
         }
         .footer-col h4 {
             color: #f5eedb;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
+            font-size: 21px;
             margin-bottom: 18px;
+            letter-spacing: 0.3px;
         }
+        .footer-collections-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 24px;
+            list-style: none;
+        }
+        @media (max-width: 480px) {
+            .footer-collections-list {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+        .footer-collections-list li.footer-collections-all {
+            grid-column: 1 / -1;
+            margin-top: 6px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(229,184,143,0.25);
+        }
+        .footer-social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(229, 184, 143, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .footer-social-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.16);
+            border-color: var(--primary);
+        }
+        .footer-social-btn.insta { color: #f472b6; }
+        .footer-social-btn.wa { color: #25D366; }
+        .footer-social-btn.fb { color: #60a5fa; }
         .footer-col ul {
             list-style: none;
         }
@@ -711,45 +824,64 @@
 
     <!-- Top Announcement Bar -->
     <div class="announcement-bar">
-        <span>✨ Welcome to Curves & Tees — Curve-Flattering Ready-to-Wear in Madina Estate, Accra!</span>
+        <span>✨ ACCRA CONCEPT STORE • READY-TO-WEAR FOR EVERY CURVE • SIZES UK 10 – 22</span>
         <span class="hide-mobile">
-            Nationwide Delivery Across Ghana • <a href="https://wa.me/233571038444" target="_blank">Order Hotline: +233 57 103 8444</a>
+            WHATSAPP CONCIERGE: <a href="https://wa.me/233571038444" target="_blank">+233 57 103 8444</a> • NATIONWIDE GHANA DISPATCH
         </span>
     </div>
 
     @php
-        $globalCategories = \App\Models\Category::where('status', 'active')->orderBy('id')->get();
-        // Remove Pants, Skirts & Denim and Accessories & Essentials from top navigation tabs to keep it clean
-        $navCategories = $globalCategories->reject(function ($c) {
-            $name = strtolower($c->name);
-            return in_array($c->id, [4, 5])
-                || str_contains($name, 'pants')
-                || str_contains($name, 'denim')
-                || str_contains($name, 'skirts')
-                || str_contains($name, 'accessories')
-                || str_contains($name, 'essentials');
-        });
+        $globalCollections = \App\Models\Category::where('status', 'active')
+            ->withCount(['products' => fn($q) => $q->where('status', \App\Models\Product::STATUS_ACTIVE)])
+            ->orderBy('id')
+            ->get();
+        // Curated spotlight collections for direct top tabs
+        $topCategoryIds = [6, 7, 8, 9, 10]; // Corporate, Party, Evening, Luxury, Two Piece Sets
+        $topCategories = $globalCollections->filter(fn($c) => in_array($c->id, $topCategoryIds))->values();
+        if ($topCategories->isEmpty()) {
+            $topCategories = $globalCollections->take(4);
+        }
     @endphp
 
     <!-- Navigation Header -->
     <header class="navbar">
         <div class="navbar-container">
-            <!-- Brand -->
-            <a href="{{ route('store.index') }}" class="brand-logo" id="brandLogo" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 42px; max-width: 200px; object-fit: contain;">
+            <!-- Brand Logo (Enlarged & Sharp) -->
+            <a href="{{ route('store.index') }}" class="brand-logo" id="brandLogo" aria-label="Curves & Tees Boutique">
+                <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" class="brand-logo-img">
             </a>
 
             <!-- Menu Navigation -->
             <nav>
                 <ul class="nav-menu">
                     <li><a href="{{ route('store.index') }}" class="{{ request()->routeIs('store.index') && !request()->has('category') ? 'active' : '' }}">All Outfits</a></li>
-                    @foreach($navCategories as $navCat)
+
+                    <!-- Collections Dropdown (All 12 Collections) -->
+                    <li class="nav-dropdown-item">
+                        <a href="{{ route('store.index') }}#collections" class="nav-dropdown-trigger {{ request()->has('category') ? 'active' : '' }}">
+                            <span>Collections</span>
+                            <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+                        </a>
+                        <div class="nav-dropdown-menu">
+                            <div class="dropdown-grid">
+                                @foreach($globalCollections as $col)
+                                    <a href="{{ route('store.index', ['category' => $col->id]) }}" class="dropdown-link {{ request('category') == $col->id ? 'active' : '' }}">
+                                        <span>{{ $col->name }}</span>
+                                        <span class="dropdown-link-badge">{{ $col->products_count }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </li>
+
+                    @foreach($topCategories as $topCat)
                         <li>
-                            <a href="{{ route('store.index', ['category' => $navCat->id]) }}" class="{{ request('category') == $navCat->id ? 'active' : '' }}">
-                                {{ $navCat->name }}
+                            <a href="{{ route('store.index', ['category' => $topCat->id]) }}" class="{{ request('category') == $topCat->id ? 'active' : '' }}">
+                                {{ $topCat->name }}
                             </a>
                         </li>
                     @endforeach
+
                     <li><a href="{{ route('store.index') }}#location">Visit Store</a></li>
                 </ul>
             </nav>
@@ -798,11 +930,14 @@
                             <i data-lucide="chevron-right" style="width: 16px;"></i>
                         </a>
                     </li>
-                    @foreach($navCategories as $navCat)
+                    <li style="padding: 6px 14px 2px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #8c827a;">
+                        Curated Collections
+                    </li>
+                    @foreach($globalCollections as $navCat)
                         <li>
-                            <a href="{{ route('store.index', ['category' => $navCat->id]) }}" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 8px; font-weight: 600; font-size: 14px; background: {{ request('category') == $navCat->id ? 'var(--primary-light)' : 'transparent' }}; color: {{ request('category') == $navCat->id ? 'var(--primary-dark)' : 'var(--text-main)' }};">
+                            <a href="{{ route('store.index', ['category' => $navCat->id]) }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 8px; font-weight: 600; font-size: 13.5px; background: {{ request('category') == $navCat->id ? 'var(--primary-light)' : 'transparent' }}; color: {{ request('category') == $navCat->id ? 'var(--primary-dark)' : 'var(--text-main)' }};">
                                 <span>{{ $navCat->name }}</span>
-                                <i data-lucide="chevron-right" style="width: 16px;"></i>
+                                <span style="font-size: 11px; color: #8c827a; background: #f0ebe3; padding: 1px 7px; border-radius: 50px;">{{ $navCat->products_count }}</span>
                             </a>
                         </li>
                     @endforeach
@@ -996,59 +1131,87 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-col">
-                <div class="brand-logo" style="margin-bottom: 16px; background: #fff; padding: 10px 16px; border-radius: 12px; display: inline-flex; border: 1.5px solid rgba(197, 139, 43, 0.4);">
-                    <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 36px; object-fit: contain;">
+                <div class="footer-brand" style="margin-bottom: 20px;">
+                    <a href="{{ route('store.index') }}" style="display: inline-flex; align-items: center; background: #ffffff; padding: 10px 18px; border-radius: 12px; border: 1.5px solid rgba(197, 139, 43, 0.4); box-shadow: 0 6px 20px rgba(0,0,0,0.25);">
+                        <img src="{{ asset('images/curves-logo.png') }}" alt="Curves & Tees" style="height: 54px; width: auto; max-width: 220px; object-fit: contain; image-rendering: -webkit-optimize-contrast;">
+                    </a>
                 </div>
-                <p style="font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
-                    Accra’s premier destination for curve-flattering, ready-to-wear women’s fashion. Designed to celebrate your silhouette in effortless comfort and style.
+                <p style="font-size: 14px; line-height: 1.75; margin-bottom: 22px; color: #cfc7bd;">
+                    Accra’s premier destination for curve-flattering, ready-to-wear fashion. Celebrating every curve with curated corporate wear, luxury silhouettes, party dresses, and premium sculpting essentials.
                 </p>
                 <div style="display: flex; gap: 12px;">
-                    <a href="https://www.instagram.com/curves_and_tees/?hl=en" target="_blank" style="width: 36px; height: 36px; border-radius: 50%; background: #2a2520; color: #e5b88f; display: flex; align-items: center; justify-content: center;">
-                        <i data-lucide="instagram" style="width: 18px; height: 18px;"></i>
+                    <a href="https://www.instagram.com/curves_and_tees/?hl=en" target="_blank" class="footer-social-btn insta" title="Instagram @curves_and_tees">
+                        <i data-lucide="instagram" style="width: 20px; height: 20px;"></i>
                     </a>
-                    <a href="https://wa.me/233571038444" target="_blank" style="width: 36px; height: 36px; border-radius: 50%; background: #2a2520; color: #25D366; display: flex; align-items: center; justify-content: center;">
-                        <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
+                    <a href="https://wa.me/233571038444" target="_blank" class="footer-social-btn wa" title="WhatsApp +233 57 103 8444">
+                        <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
                     </a>
-                    <a href="https://www.facebook.com" target="_blank" style="width: 36px; height: 36px; border-radius: 50%; background: #2a2520; color: #3b82f6; display: flex; align-items: center; justify-content: center;">
-                        <i data-lucide="facebook" style="width: 18px; height: 18px;"></i>
+                    <a href="https://www.facebook.com" target="_blank" class="footer-social-btn fb" title="Facebook">
+                        <i data-lucide="facebook" style="width: 20px; height: 20px;"></i>
                     </a>
                 </div>
             </div>
 
-            <div class="footer-col">
-                <h4>Collections</h4>
-                <ul>
-                    <li><a href="{{ route('store.index') }}#dresses">Dresses & Jumpsuits</a></li>
-                    <li><a href="{{ route('store.index') }}#tees">Tops & Graphic Tees</a></li>
-                    <li><a href="{{ route('store.index') }}#sets">Two-Piece Sets</a></li>
-                    <li><a href="{{ route('store.index') }}#pants">Pants & Denim</a></li>
-                    <li><a href="{{ route('store.index') }}">New Arrivals</a></li>
+            <div class="footer-col footer-col-collections">
+                <h4>Curated Collections</h4>
+                <ul class="footer-collections-list">
+                    @foreach($globalCollections as $col)
+                        <li>
+                            <a href="{{ route('store.index', ['category' => $col->id]) }}" style="display: inline-flex; align-items: center; gap: 8px;">
+                                <span style="color: #c58b2b; font-size: 11px;">✦</span>
+                                <span>{{ $col->name }}</span>
+                            </a>
+                        </li>
+                    @endforeach
+                    <li class="footer-collections-all">
+                        <a href="{{ route('store.index') }}" style="font-weight: 700; color: #e5b88f; text-decoration: underline; display: inline-flex; align-items: center; gap: 6px;">
+                            <span>View All 12 Collections</span>
+                            <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
             <div class="footer-col">
-                <h4>Store Info</h4>
+                <h4>Boutique & Concierge</h4>
                 <ul>
-                    <li><span style="font-size: 14px;">📍 Madina Estate, Accra, Ghana</span></li>
-                    <li><span style="font-size: 14px;">📞 +233 57 103 8444</span></li>
-                    <li><span style="font-size: 14px;">⏰ Mon – Sat: 9:00 AM – 7:00 PM</span></li>
-                    <li><span style="font-size: 14px;">🚚 Nationwide Ghana Delivery</span></li>
+                    <li style="margin-bottom: 12px;">
+                        <div style="font-size: 14px; color: #f5eedb; display: flex; gap: 10px;">
+                            <i data-lucide="map-pin" style="color: #e5b88f; width: 18px; flex-shrink: 0; margin-top: 2px;"></i>
+                            <span><strong>Madina Estate Showroom</strong><br><span style="color: #a8a096; font-size: 13px;">Accra, Ghana (Fitting & Pickups Available)</span></span>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <div style="font-size: 14px; color: #f5eedb; display: flex; gap: 10px;">
+                            <i data-lucide="phone-call" style="color: #e5b88f; width: 18px; flex-shrink: 0;"></i>
+                            <span><strong>Hotline:</strong> +233 57 103 8444</span>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <div style="font-size: 14px; color: #f5eedb; display: flex; gap: 10px;">
+                            <i data-lucide="clock" style="color: #e5b88f; width: 18px; flex-shrink: 0;"></i>
+                            <span><strong>Hours:</strong> Mon – Sat: 9:00 AM – 7:00 PM</span>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 16px;">
+                        <div style="font-size: 14px; color: #25D366; display: flex; gap: 10px; font-weight: 600;">
+                            <i data-lucide="truck" style="width: 18px; flex-shrink: 0;"></i>
+                            <span>Nationwide Delivery across all Ghana regions</span>
+                        </div>
+                    </li>
+                    <li>
+                        <button type="button" onclick="openWhatsAppStylist(null)" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.4); color: #25D366; padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;">
+                            <i data-lucide="message-circle" style="width: 16px; height: 16px;"></i>
+                            <span>Chat with Personal Stylist</span>
+                        </button>
+                    </li>
                 </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Admin Portal</h4>
-                <p style="font-size: 13px; margin-bottom: 14px;">Boutique management and real-time order processing terminal.</p>
-                <a href="{{ route('admin.login') }}" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #e5b88f; border: 1px solid rgba(229,184,143,0.3); padding: 8px 16px; border-radius: 6px;">
-                    <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
-                    <span>Admin Dashboard</span>
-                </a>
             </div>
         </div>
 
         <div class="footer-bottom">
             <span>&copy; {{ date('Y') }} Curves & Tees Ghana. All rights reserved.</span>
-            <span>Tasteful, curve-flattering ready-to-wear fashion.</span>
+            <span>Accra Luxury Concept Store • Celebrating curves in effortless style.</span>
         </div>
     </footer>
 

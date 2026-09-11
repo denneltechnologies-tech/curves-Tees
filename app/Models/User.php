@@ -15,6 +15,7 @@ class User extends Authenticatable
 {
     public const ROLE_SUPER_ADMIN = 'SUPER_ADMIN';
     public const ROLE_ADMIN = 'ADMIN';
+    public const ROLE_STOREKEEPER = 'STOREKEEPER';
     public const ROLE_STAFF = 'STAFF';
     public const ROLE_CUSTOMER = 'CUSTOMER';
 
@@ -70,8 +71,35 @@ class User extends Authenticatable
         return in_array($this->role, [
             self::ROLE_SUPER_ADMIN,
             self::ROLE_ADMIN,
+            self::ROLE_STOREKEEPER,
             self::ROLE_STAFF,
         ], true);
+    }
+
+    public function hasFullAdminAccess(): bool
+    {
+        return in_array($this->role, [
+            self::ROLE_SUPER_ADMIN,
+            self::ROLE_ADMIN,
+        ], true);
+    }
+
+    public function isStorekeeper(): bool
+    {
+        return in_array($this->role, [
+            self::ROLE_STOREKEEPER,
+            self::ROLE_STAFF,
+        ], true);
+    }
+
+    public function getRoleDisplayNameAttribute(): string
+    {
+        return match ($this->role) {
+            self::ROLE_SUPER_ADMIN => 'Super Administrator',
+            self::ROLE_ADMIN => 'Administrator',
+            self::ROLE_STOREKEEPER, self::ROLE_STAFF => 'Storekeeper',
+            default => 'Customer',
+        };
     }
 
     public function isSuperAdmin(): bool

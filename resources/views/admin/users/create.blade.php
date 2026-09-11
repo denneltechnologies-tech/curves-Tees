@@ -16,7 +16,11 @@
             <div class="form-group"><label>Password</label><input type="password" name="password" required></div>
             <div class="form-group"><label>Confirm Password</label><input type="password" name="password_confirmation" required></div>
             <div class="form-group"><label>Role</label>
-                <select name="role"><option value="STAFF" @if(old('role')==='STAFF')selected @endif>Staff</option><option value="ADMIN" @if(old('role')==='ADMIN')selected @endif>Admin</option><option value="SUPER_ADMIN" @if(old('role')==='SUPER_ADMIN')selected @endif>Super Admin</option></select>
+                <select name="role">
+                    <option value="STOREKEEPER" @if(old('role')==='STOREKEEPER')selected @endif>Storekeeper (Inventory, Products & Orders)</option>
+                    <option value="ADMIN" @if(old('role')==='ADMIN')selected @endif>Administrator (Full Access)</option>
+                    <option value="SUPER_ADMIN" @if(old('role')==='SUPER_ADMIN')selected @endif>Super Administrator</option>
+                </select>
             </div>
             <div class="form-group"><label>Status</label>
                 <select name="status"><option value="active" @if(old('status','active')==='active')selected @endif>Active</option><option value="inactive" @if(old('status')==='inactive')selected @endif>Inactive</option></select>

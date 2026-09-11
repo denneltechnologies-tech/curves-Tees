@@ -345,18 +345,31 @@
             <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">Clothing Items</a>
             <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">Collections</a>
             <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">Customers</a>
-            <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">Leads & Campaigns</a>
-            <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Admin Users</a>
+
+            @if(auth()->user()->hasFullAdminAccess())
+                <div style="margin: 14px 16px 4px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #78716c;">Store Administration</div>
+                <a href="{{ route('admin.hero.index') }}" class="{{ request()->routeIs('admin.hero.*') ? 'active' : '' }}">Hero & Banners</a>
+                <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">Leads & Campaigns</a>
+                <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Admin Users</a>
+            @endif
+
             <div style="margin: 16px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
             <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.16); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.35);">
                 🌐 View Online Store ↗
             </a>
         </nav>
         <div class="sidebar-foot">
-            <div class="who">Signed in as <strong>{{ auth()->user()->name }}</strong></div>
+            <div class="who">
+                <div>Signed in as <strong>{{ auth()->user()->name }}</strong></div>
+                <div style="margin-top: 5px;">
+                    <span class="badge {{ auth()->user()->hasFullAdminAccess() ? 'badge-gold' : 'badge-info' }}" style="font-size: 11px;">
+                        {{ auth()->user()->role_display_name }}
+                    </span>
+                </div>
+            </div>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-danger btn-sm" style="width:100%;">Logout</button>
+                <button type="submit" class="btn btn-danger btn-sm" style="width:100%; margin-top: 8px;">Logout</button>
             </form>
         </div>
     </aside>
@@ -377,15 +390,26 @@
                 <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">👗 Clothing Items</a>
                 <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">✨ Collections</a>
                 <a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">👥 Customers</a>
-                <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">💬 Leads & Campaigns</a>
-                <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">🛡️ Admin Users</a>
+
+                @if(auth()->user()->hasFullAdminAccess())
+                    <div style="margin: 14px 10px 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #78716c;">Store Administration</div>
+                    <a href="{{ route('admin.hero.index') }}" class="{{ request()->routeIs('admin.hero.*') ? 'active' : '' }}">🎬 Hero & Banners</a>
+                    <a href="{{ route('admin.leads.index') }}" class="{{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">💬 Leads & Campaigns</a>
+                    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">🛡️ Admin Users</a>
+                @endif
+
                 <div style="margin: 14px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
                 <a href="{{ route('store.index') }}" target="_blank" style="background: rgba(197, 139, 43, 0.18); color: #f5d496; font-weight: 700; border: 1px solid rgba(197,139,43,0.35);">
                     🌐 View Online Store ↗
                 </a>
             </nav>
             <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08);">
-                <div style="color: #d1d5db; font-size: 13px; margin-bottom: 8px;">Signed in as <strong>{{ auth()->user()->name }}</strong></div>
+                <div style="color: #d1d5db; font-size: 13px; margin-bottom: 4px;">Signed in as <strong>{{ auth()->user()->name }}</strong></div>
+                <div style="margin-bottom: 10px;">
+                    <span class="badge {{ auth()->user()->hasFullAdminAccess() ? 'badge-gold' : 'badge-info' }}" style="font-size: 11px;">
+                        {{ auth()->user()->role_display_name }}
+                    </span>
+                </div>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;">Logout</button>

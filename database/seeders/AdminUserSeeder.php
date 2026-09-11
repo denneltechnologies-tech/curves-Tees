@@ -27,7 +27,16 @@ class AdminUserSeeder extends Seeder
         $owner->status = User::STATUS_ACTIVE;
         $owner->save();
 
-        // 3. Legacy alias
+        // 3. Storekeeper (Inventory, Clothing Items, and Orders Management)
+        $storekeeper = User::firstOrNew(['email' => 'storekeeper@curvesandtees.com']);
+        $storekeeper->name = 'Curves & Tees Storekeeper';
+        $storekeeper->phone = '0571038444';
+        $storekeeper->password = bcrypt(env('STOREKEEPER_PASSWORD', 'storekeeper123'));
+        $storekeeper->role = User::ROLE_STOREKEEPER;
+        $storekeeper->status = User::STATUS_ACTIVE;
+        $storekeeper->save();
+
+        // 4. Legacy alias
         $legacy = User::firstOrNew(['email' => 'admin@streetman.com']);
         $legacy->name = 'Curves & Tees Admin';
         $legacy->phone = '0571038444';

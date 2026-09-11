@@ -10,11 +10,18 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Dresses & Jumpsuits',
-            'Tops & Graphic Tees',
-            'Two-Piece Sets & Co-Ords',
-            'Pants, Skirts & Denim',
-            'Accessories & Essentials',
+            'Corporate Wears',
+            'Party Dresses',
+            'Evening Dresses',
+            'Luxury Wears',
+            'Two Piece Sets',
+            'Casuals',
+            'Tops, Shirts & Tees',
+            'Denim',
+            'Tummy Control & Bras',
+            'Pants & Shorts',
+            'Shoes & Bags',
+            'Accessories',
         ];
 
         foreach ($categories as $name) {

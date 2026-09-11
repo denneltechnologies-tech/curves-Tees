@@ -21,16 +21,16 @@
         background-size: 28px 28px;
     }
     .hero-container {
-        max-width: 1280px;
+        max-width: 1440px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: 1.2fr 1fr;
-        gap: 60px;
+        grid-template-columns: 44% 56%;
+        gap: 48px;
         align-items: center;
         position: relative;
         z-index: 2;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 980px) {
         .hero-container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
     }
 
@@ -130,36 +130,164 @@
 
     .hero-visual {
         position: relative;
+        width: 100%;
     }
-    .hero-card-stack {
+    .hero-carousel-container {
         position: relative;
-        max-width: 440px;
+        max-width: 820px;
+        width: 100%;
         margin: 0 auto;
     }
-    .hero-img-main {
+    .hero-carousel {
+        position: relative;
         width: 100%;
         height: 520px;
-        object-fit: cover;
         border-radius: 24px;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        border: 2px solid rgba(229, 184, 143, 0.2);
+        overflow: hidden;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+        border: 2px solid rgba(229, 184, 143, 0.25);
+        background: #191614;
     }
+    @media (max-width: 1100px) {
+        .hero-carousel { height: 480px; }
+    }
+    @media (max-width: 600px) {
+        .hero-carousel { height: 380px; border-radius: 18px; }
+    }
+
+    .hero-slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: scale(1.04);
+    }
+    .hero-slide.active {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        z-index: 2;
+    }
+    .hero-slide img, .hero-slide video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .hero-slide-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 50%, rgba(21,19,17,0.7) 100%);
+    }
+
+    /* Carousel Navigation Arrows */
+    .hero-carousel-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(25, 22, 20, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(229, 184, 143, 0.3);
+        color: #f5eedb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.2s ease;
+    }
+    .hero-carousel-arrow:hover {
+        background: #191614;
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-50%) scale(1.08);
+    }
+    .hero-carousel-arrow.prev { left: 12px; }
+    .hero-carousel-arrow.next { right: 12px; }
+    @media (max-width: 600px) {
+        .hero-carousel-arrow { width: 34px; height: 34px; }
+    }
+
+    /* Carousel Dot Indicators */
+    .hero-carousel-dots {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: flex;
+        gap: 6px;
+        z-index: 10;
+        background: rgba(25, 22, 20, 0.65);
+        backdrop-filter: blur(6px);
+        padding: 6px 12px;
+        border-radius: 50px;
+        border: 1px solid rgba(229, 184, 143, 0.2);
+    }
+    .hero-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.35);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+    }
+    .hero-dot.active {
+        width: 22px;
+        border-radius: 10px;
+        background: var(--primary);
+    }
+
+    /* Video Toggle Switcher Pill */
+    .hero-media-switcher {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 10;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(25, 22, 20, 0.85);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(229, 184, 143, 0.3);
+        padding: 6px 12px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #e5b88f;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .hero-media-switcher:hover {
+        background: #191614;
+        border-color: var(--primary);
+        color: #ffffff;
+    }
+
     .hero-floating-tag {
         position: absolute;
-        bottom: 24px;
-        left: -20px;
+        bottom: 20px;
+        left: -15px;
         background: rgba(25, 22, 20, 0.92);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(229, 184, 143, 0.3);
-        padding: 14px 20px;
-        border-radius: 16px;
+        padding: 12px 18px;
+        border-radius: 14px;
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
         box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        z-index: 10;
+        transition: all 0.3s ease;
     }
     @media (max-width: 600px) {
-        .hero-floating-tag { left: 10px; bottom: 10px; }
+        .hero-floating-tag { left: 10px; bottom: 10px; padding: 10px 14px; }
     }
 
     /* Trust Highlights Bar */
@@ -210,17 +338,170 @@
         color: var(--text-muted);
     }
 
+    /* Curated Collections Section (The Lotte Accra Editorial Style) */
+    .collections-section {
+        max-width: 1280px;
+        margin: 60px auto 20px;
+        padding: 0 24px;
+    }
+    .collections-header {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 40px;
+    }
+    .collections-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 18px;
+        border-radius: 50px;
+        background: rgba(197, 139, 43, 0.1);
+        color: var(--primary-dark);
+        border: 1px solid rgba(197, 139, 43, 0.25);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 14px;
+    }
+    .collections-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 44px;
+        line-height: 1.15;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--text-main);
+        margin-bottom: 12px;
+    }
+    .collections-title em {
+        color: var(--primary-dark);
+        font-style: italic;
+    }
+    .collections-subtitle {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--text-muted);
+    }
+    .collections-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+    @media (max-width: 1100px) {
+        .collections-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    }
+    @media (max-width: 768px) {
+        .collections-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .collections-title { font-size: 32px; }
+        .collections-section { margin: 40px auto 16px; padding: 0 16px; }
+    }
+    @media (max-width: 440px) {
+        .collections-grid { grid-template-columns: 1fr; gap: 14px; }
+    }
+    .collection-tile {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        background: #191614;
+        display: block;
+        text-decoration: none;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        aspect-ratio: 4 / 5;
+    }
+    .collection-tile:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+        border-color: var(--primary);
+    }
+    .collection-tile.active-tile {
+        border: 2px solid var(--primary);
+        box-shadow: 0 0 0 4px rgba(197, 139, 43, 0.25);
+    }
+    .collection-tile-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .collection-tile-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+        filter: brightness(0.86);
+    }
+    .collection-tile:hover .collection-tile-media img {
+        transform: scale(1.08);
+        filter: brightness(0.96);
+    }
+    .collection-tile-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(18,15,13,0.3) 40%, rgba(18,15,13,0.92) 100%);
+        transition: background 0.3s ease;
+    }
+    .collection-tile:hover .collection-tile-overlay {
+        background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(18,15,13,0.2) 30%, rgba(18,15,13,0.95) 100%);
+    }
+    .collection-tile-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px 18px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+    }
+    .collection-tile-tag {
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #e5b88f;
+        margin-bottom: 6px;
+    }
+    .collection-tile-title {
+        color: #ffffff;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 8px;
+        transition: color 0.2s ease;
+    }
+    .collection-tile:hover .collection-tile-title {
+        color: #f7e0b5;
+    }
+    .collection-tile-link {
+        font-size: 12px;
+        font-weight: 700;
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        opacity: 0.85;
+        transition: all 0.2s ease;
+    }
+    .collection-tile:hover .collection-tile-link {
+        opacity: 1;
+        color: #e5b88f;
+        transform: translateX(4px);
+    }
+
     /* Catalog Section */
     .catalog-section {
         max-width: 1280px;
-        margin: 60px auto;
+        margin: 50px auto;
         padding: 0 24px;
     }
     .section-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-        margin-bottom: 36px;
+        margin-bottom: 32px;
         flex-wrap: wrap;
         gap: 20px;
     }
@@ -656,18 +937,18 @@
             <div>
                 <div class="hero-badge">
                     <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-                    <span>Madina Estate • Sizes UK 10 – 22</span>
+                    <span>{{ $heroSettings['hero_badge'] ?? 'ACCRA CONCEPT STORE • SIZES UK 10 – 22 • CURATED SILHOUETTES' }}</span>
                 </div>
                 <h1 class="hero-title">
-                    Celebrate Every Curve In <em>Effortless Style</em>.
+                    {!! preg_replace('/\*(.*?)\*/', '<em>$1</em>', e($heroSettings['hero_title'] ?? "Accra's Premier Destination for *Curve-Flattering* Luxury")) !!}
                 </h1>
                 <p class="hero-subtitle">
-                    Accra’s destination for vibrant, curve-flattering dresses, statement tees, matching co-ord sets, and figure-sculpting denim. Order directly online or via WhatsApp.
+                    {{ $heroSettings['hero_subtitle'] ?? 'Curves & Tees is Accra’s luxury destination for curve-celebrating corporate wears, evening gowns, matching two-piece sets, and figure-sculpting denim. Hand-picked for effortless elegance.' }}
                 </p>
                 <div class="hero-actions">
-                    <a href="#catalog" class="btn-hero-primary">
-                        <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-                        <span>Shop Catalog</span>
+                    <a href="#collections" class="btn-hero-primary">
+                        <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+                        <span>Explore 12 Collections</span>
                     </a>
                     <button type="button" onclick="openWhatsAppStylist(null)" class="btn-hero-whatsapp" style="cursor: pointer; border: none;">
                         <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
@@ -677,15 +958,81 @@
             </div>
 
             <div class="hero-visual">
-                <div class="hero-card-stack">
-                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80" alt="Curves & Tees Model" class="hero-img-main">
+                <div class="hero-carousel-container" onmouseenter="stopHeroAutoPlay()" onmouseleave="startHeroAutoPlay()">
+                    <!-- Media Switcher (Toggle between Video & Photo Lookbook) -->
+                    @if(!empty($heroSettings['hero_video_url']))
+                        <button type="button" class="hero-media-switcher" id="heroMediaSwitcher" onclick="toggleHeroMedia()">
+                            <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+                            <span>Watch Video Reel</span>
+                        </button>
+                    @endif
+
+                    <!-- Carousel Slide Dots -->
+                    <div class="hero-carousel-dots" id="heroCarouselDots">
+                        @foreach($heroSlides as $i => $slide)
+                            <button type="button" class="hero-dot {{ $i === 0 ? 'active' : '' }}" onclick="showHeroSlide({{ $i }})" aria-label="Slide {{ $i + 1 }}"></button>
+                        @endforeach
+                    </div>
+
+                    <!-- Previous & Next Arrows -->
+                    <button type="button" class="hero-carousel-arrow prev" onclick="prevHeroSlide()" aria-label="Previous Look">
+                        <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i>
+                    </button>
+                    <button type="button" class="hero-carousel-arrow next" onclick="nextHeroSlide()" aria-label="Next Look">
+                        <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                    </button>
+
+                    <div class="hero-carousel">
+                        @foreach($heroSlides as $i => $slide)
+                            <div class="hero-slide {{ $i === 0 ? 'active' : '' }}" data-look="{{ $slide->tag ? $slide->tag . ' • ' : '' }}{{ $slide->title }}">
+                                <img src="{{ $slide->image_url }}" alt="{{ $slide->title }}">
+                                <div class="hero-slide-overlay"></div>
+                                <div style="position: absolute; bottom: 20px; right: 24px; text-align: right; z-index: 4; max-width: 65%;">
+                                    @if($slide->tag)
+                                        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #e5b88f; font-weight: 800; margin-bottom: 4px;">{{ $slide->tag }}</div>
+                                    @endif
+                                    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 24px; color: #fff; margin-bottom: 6px; line-height: 1.15;">{{ $slide->title }}</h3>
+                                    @if($slide->button_text && $slide->button_link)
+                                        <a href="{{ $slide->button_link }}" class="btn-hero-slide" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #191614; background: #e5b88f; padding: 6px 14px; border-radius: 20px; text-decoration: none;">
+                                            <span>{{ $slide->button_text }}</span> &rarr;
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+
+                        <!-- Video Slide (Supports Direct MP4, Google Drive, or YouTube) -->
+                        @if(!empty($heroSettings['hero_video_url']))
+                            @php
+                                $vUrl = $heroSettings['hero_video_url'];
+                                $isGdrive = preg_match('#drive\.google\.com/file/d/([a-zA-Z0-9_-]+)#', $vUrl, $gm);
+                                $isYt = preg_match('#(?:youtube\.com/(?:watch\?v=|embed/)|youtu\.be/)([a-zA-Z0-9_-]+)#', $vUrl, $ym);
+                            @endphp
+                            <div class="hero-slide" id="heroVideoSlide" data-look="{{ $heroSettings['hero_video_title'] ?? 'Runway Lookbook Video' }}">
+                                @if($isGdrive)
+                                    <iframe id="heroGdriveFrame" src="https://drive.google.com/file/d/{{ $gm[1] }}/preview" width="100%" height="100%" allow="autoplay" style="border: none; width: 100%; height: 100%;"></iframe>
+                                @elseif($isYt)
+                                    <iframe id="heroYtFrame" src="https://www.youtube.com/embed/{{ $ym[1] }}?autoplay=1&mute=1&loop=1&playlist={{ $ym[1] }}" width="100%" height="100%" allow="autoplay; encrypted-media" style="border: none; width: 100%; height: 100%;"></iframe>
+                                @else
+                                    <video id="heroVideo" loop muted playsinline controls poster="{{ $heroSlides->first()?->image_url }}">
+                                        <source src="{{ $vUrl }}" type="video/mp4">
+                                    </video>
+                                @endif
+                                <div class="hero-slide-overlay" style="pointer-events: none;"></div>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Dynamic Floating Tag -->
                     <div class="hero-floating-tag">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background: #e5b88f; display: flex; align-items: center; justify-content: center; color: #191614; font-weight: 800;">
+                        <div style="width: 42px; height: 42px; border-radius: 50%; background: #e5b88f; display: flex; align-items: center; justify-content: center; color: #191614; font-weight: 800; flex-shrink: 0;">
                             ✨
                         </div>
                         <div>
-                            <strong style="color: #fff; font-size: 14px; display: block;">New Collection Live</strong>
-                            <span style="color: #e5b88f; font-size: 12px;">Nationwide Delivery in Ghana</span>
+                            <strong style="color: #fff; font-size: 13.5px; display: block;" id="heroLookTag">
+                                {{ $heroSlides->first()?->title ?? 'Look 01: The Accra Concept Edit' }}
+                            </strong>
+                            <span style="color: #e5b88f; font-size: 11.5px;">Sizes UK 10–22 • Ghana Nationwide Delivery</span>
                         </div>
                     </div>
                 </div>
@@ -735,6 +1082,58 @@
         </div>
     </div>
 
+    @php
+        $collectionImages = [
+            'Corporate Wears' => 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=80',
+            'Party Dresses' => 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80',
+            'Evening Dresses' => 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80',
+            'Luxury Wears' => 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80',
+            'Two Piece Sets' => 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80',
+            'Casuals' => 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=800&q=80',
+            'Tops, Shirts & Tees' => 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80',
+            'Denim' => 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80',
+            'Tummy Control & Bras' => 'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80',
+            'Pants & Shorts' => 'https://images.unsplash.com/photo-1509551388413-e18d0ac5d495?auto=format&fit=crop&w=800&q=80',
+            'Shoes & Bags' => 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
+            'Accessories' => 'https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=800&q=80',
+        ];
+    @endphp
+
+    <!-- Curated Collections Showcase (The Lotte Accra Concept Style) -->
+    <section class="collections-section" id="collections">
+        <div class="collections-header">
+            <div class="collections-badge">
+                <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                <span>The Curated Edit • 12 Collections</span>
+            </div>
+            <h2 class="collections-title serif">
+                Explore By <em>Curated Collection</em>
+            </h2>
+            <p class="collections-subtitle">
+                From commanding corporate wear and evening satin gowns to waist-snatching denim, luxury two-piece sets, and sculpting essentials.
+            </p>
+        </div>
+
+        <div class="collections-grid">
+            @foreach($categories as $cat)
+                @php
+                    $tileImg = $collectionImages[$cat->name] ?? 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80';
+                @endphp
+                <a href="{{ route('store.index', ['category' => $cat->id]) }}#catalog" class="collection-tile {{ request('category') == $cat->id ? 'active-tile' : '' }}">
+                    <div class="collection-tile-media">
+                        <img src="{{ $tileImg }}" alt="{{ $cat->name }}" loading="lazy">
+                        <div class="collection-tile-overlay"></div>
+                    </div>
+                    <div class="collection-tile-content">
+                        <span class="collection-tile-tag">{{ $cat->products_count }} {{ Str::plural('Style', $cat->products_count) }}</span>
+                        <h3 class="collection-tile-title serif">{{ $cat->name }}</h3>
+                        <span class="collection-tile-link">Shop Collection &rarr;</span>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </section>
+
     <!-- Catalog Section -->
     <section class="catalog-section" id="catalog">
         <div class="section-header">
@@ -750,13 +1149,27 @@
             </div>
         </div>
 
-        <!-- Category Pills -->
+        @if($activeCategory)
+            <div style="background: #faf5ee; border: 1.5px solid rgba(197, 139, 43, 0.4); border-radius: 12px; padding: 14px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; color: var(--primary-dark); background: rgba(197, 139, 43, 0.15); padding: 4px 10px; border-radius: 50px;">FILTERED COLLECTION</span>
+                    <h3 class="serif" style="font-size: 22px; font-weight: 700; color: #191614; margin: 0;">{{ $activeCategory->name }}</h3>
+                    <span style="font-size: 13px; color: #736c66;">({{ $products->total() }} pieces found)</span>
+                </div>
+                <a href="{{ route('store.index') }}#catalog" style="font-size: 13px; font-weight: 700; color: #9e6c1a; text-decoration: underline; display: inline-flex; align-items: center; gap: 6px;">
+                    <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+                    <span>Show All 12 Collections</span>
+                </a>
+            </div>
+        @endif
+
+        <!-- Category Pills (All 12 Collections) -->
         <div class="category-pills">
-            <a href="{{ route('store.index') }}" class="category-pill {{ !request('category') ? 'active' : '' }}">
-                All Outfits ({{ $products->total() }})
+            <a href="{{ route('store.index') }}#catalog" class="category-pill {{ !request('category') ? 'active' : '' }}">
+                All Outfits ({{ \App\Models\Product::where('status', 'active')->count() }})
             </a>
             @foreach($categories as $category)
-                <a href="{{ route('store.index', ['category' => $category->id]) }}" class="category-pill {{ request('category') == $category->id ? 'active' : '' }}">
+                <a href="{{ route('store.index', ['category' => $category->id]) }}#catalog" class="category-pill {{ request('category') == $category->id ? 'active' : '' }}">
                     {{ $category->name }} ({{ $category->products_count }})
                 </a>
             @endforeach
@@ -909,3 +1322,110 @@
     </section>
 
 @endsection
+
+@push('scripts')
+<script>
+    let currentHeroSlide = 0;
+    let heroInterval = null;
+
+    function getHeroSlides() {
+        return document.querySelectorAll('.hero-carousel .hero-slide:not(#heroVideoSlide)');
+    }
+
+    function getHeroDots() {
+        return document.querySelectorAll('.hero-dot');
+    }
+
+    function showHeroSlide(index) {
+        const slides = getHeroSlides();
+        const dots = getHeroDots();
+        const videoSlide = document.getElementById('heroVideoSlide');
+
+        if (videoSlide && videoSlide.classList.contains('active')) {
+            const video = videoSlide.querySelector('video');
+            if (video) video.pause();
+            videoSlide.classList.remove('active');
+            const switcher = document.getElementById('heroMediaSwitcher');
+            if (switcher) switcher.innerHTML = '<i data-lucide="play" style="width: 14px; height: 14px;"></i><span>Watch Video Reel</span>';
+        }
+
+        if (!slides.length) return;
+        index = (index + slides.length) % slides.length;
+
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+        currentHeroSlide = index;
+
+        const activeSlide = slides[index];
+        const lookName = activeSlide ? activeSlide.getAttribute('data-look') : '';
+        const tagEl = document.getElementById('heroLookTag');
+        if (tagEl && lookName) {
+            tagEl.innerText = lookName;
+        }
+        if (window.lucide) lucide.createIcons();
+    }
+
+    function nextHeroSlide() {
+        const slides = getHeroSlides();
+        if (!slides.length) return;
+        showHeroSlide(currentHeroSlide + 1);
+    }
+
+    function prevHeroSlide() {
+        const slides = getHeroSlides();
+        if (!slides.length) return;
+        showHeroSlide(currentHeroSlide - 1);
+    }
+
+    function startHeroAutoPlay() {
+        stopHeroAutoPlay();
+        const slides = getHeroSlides();
+        if (slides.length > 1) {
+            heroInterval = setInterval(nextHeroSlide, 5000);
+        }
+    }
+
+    function stopHeroAutoPlay() {
+        if (heroInterval) clearInterval(heroInterval);
+    }
+
+    function toggleHeroMedia() {
+        const videoSlide = document.getElementById('heroVideoSlide');
+        const switcherBtn = document.getElementById('heroMediaSwitcher');
+        const slides = getHeroSlides();
+        const dots = getHeroDots();
+        if (!videoSlide) return;
+
+        const isVideoActive = videoSlide.classList.contains('active');
+        const video = videoSlide.querySelector('video');
+
+        if (!isVideoActive) {
+            stopHeroAutoPlay();
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            videoSlide.classList.add('active');
+            if (video) {
+                video.currentTime = 0;
+                video.play().catch(() => {});
+            }
+            const tagEl = document.getElementById('heroLookTag');
+            if (tagEl) tagEl.innerText = videoSlide.getAttribute('data-look') || 'Runway Video Lookbook';
+            if (switcherBtn) switcherBtn.innerHTML = '<i data-lucide="image" style="width: 14px; height: 14px;"></i><span>View Lookbook Photos</span>';
+        } else {
+            if (video) video.pause();
+            showHeroSlide(0);
+            startHeroAutoPlay();
+            if (switcherBtn) switcherBtn.innerHTML = '<i data-lucide="play" style="width: 14px; height: 14px;"></i><span>Watch Video Reel</span>';
+        }
+        if (window.lucide) lucide.createIcons();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        startHeroAutoPlay();
+    });
+</script>
+@endpush

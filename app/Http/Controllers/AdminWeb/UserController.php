@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index(): View
     {
-        $users = User::whereIn('role', [User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN, User::ROLE_STAFF])
+        $users = User::whereIn('role', [User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN, User::ROLE_STOREKEEPER, User::ROLE_STAFF])
             ->orderByDesc('created_at')
             ->paginate(15);
 
@@ -32,7 +32,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(8)],
-            'role' => ['required', Rule::in(['SUPER_ADMIN', 'ADMIN', 'STAFF'])],
+            'role' => ['required', Rule::in(['SUPER_ADMIN', 'ADMIN', 'STOREKEEPER', 'STAFF'])],
             'status' => ['required', Rule::in(['active', 'inactive'])],
         ]);
 

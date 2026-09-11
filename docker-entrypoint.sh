@@ -46,7 +46,9 @@ fi
 echo "Running database migrations..."
 php artisan migrate --force --no-interaction || true
 
-echo "Ensuring catalog and admin users are seeded..."
+echo "Ensuring catalog, admin users, and lookbook are seeded..."
 php artisan db:seed --force --no-interaction || true
+
+php artisan storage:link 2>/dev/null || true
 
 exec "$@"
