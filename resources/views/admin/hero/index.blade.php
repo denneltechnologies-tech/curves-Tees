@@ -210,11 +210,10 @@
                             <button type="button" class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openEditModal({{ $slide->id }}, '{{ addslashes($slide->title) }}', '{{ addslashes($slide->subtitle ?? '') }}', '{{ addslashes($slide->tag ?? '') }}', '{{ addslashes($slide->image_path) }}', '{{ addslashes($slide->button_text) }}', '{{ addslashes($slide->button_link) }}', {{ $slide->sort_order }}, {{ $slide->is_active ? 1 : 0 }})">
                                 ✏️ Edit
                             </button>
-                            <form action="{{ route('admin.hero.slides.destroy', $slide) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this slide?');">
+                            <form action="{{ route('admin.hero.slides.destroy.post', $slide) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this slide?');">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" title="Delete slide">
-                                    🗑️
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete slide" style="cursor: pointer; padding: 6px 12px;">
+                                    🗑️ Delete
                                 </button>
                             </form>
                         </div>

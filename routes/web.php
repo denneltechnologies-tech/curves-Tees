@@ -63,6 +63,7 @@ Route::middleware(['auth', 'admin.web'])->prefix('admin')->name('admin.')->group
             Route::post('hero/slides', [HeroController::class, 'storeSlide'])->name('hero.slides.store');
             Route::put('hero/slides/{slide}', [HeroController::class, 'updateSlide'])->name('hero.slides.update');
             Route::delete('hero/slides/{slide}', [HeroController::class, 'destroySlide'])->name('hero.slides.destroy');
+            Route::post('hero/slides/{slide}/delete', [HeroController::class, 'destroySlide'])->name('hero.slides.destroy.post');
             Route::patch('hero/slides/{slide}/toggle', [HeroController::class, 'toggleSlide'])->name('hero.slides.toggle');
 
             Route::get('leads', [LeadController::class, 'index'])->name('leads.index');

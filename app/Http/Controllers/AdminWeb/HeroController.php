@@ -50,7 +50,7 @@ class HeroController extends Controller
 
         if ($request->hasFile('hero_video_file')) {
             $path = $request->file('hero_video_file')->store('hero/videos', 'public');
-            $validated['hero_video_url'] = asset('storage/' . $path);
+            $validated['hero_video_url'] = '/storage/' . ltrim($path, '/');
         }
 
         foreach (['hero_badge', 'hero_title', 'hero_subtitle', 'hero_video_url', 'hero_video_title', 'hero_video_caption', 'hero_mode'] as $key) {

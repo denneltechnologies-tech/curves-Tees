@@ -945,11 +945,27 @@
                 <p class="hero-subtitle">
                     {{ $heroSettings['hero_subtitle'] ?? 'Curves & Tees is Accra’s luxury destination for curve-celebrating corporate wears, evening gowns, matching two-piece sets, and figure-sculpting denim. Hand-picked for effortless elegance.' }}
                 </p>
+                @php
+                    $hasVideo = !empty($heroSettings['hero_video_url']);
+                    $videoMode = $heroSettings['hero_mode'] ?? 'both';
+                    $isVideoPrimary = $hasVideo && ($videoMode === 'video_primary' || $heroSlides->isEmpty());
+                    $vUrl = $heroSettings['hero_video_url'] ?? '';
+                    $formattedVideoUrl = \App\Models\HeroSlide::formatVideoUrl($vUrl);
+                    $isGdrive = preg_match('#drive\.google\.com/(?:file/d/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)#', $vUrl, $gm);
+                    $isYt = preg_match('#(?:youtube\.com/(?:watch\?v=|embed/)|youtu\.be/)([a-zA-Z0-9_-]+)#', $vUrl, $ym);
+                @endphp
+
                 <div class="hero-actions">
                     <a href="#collections" class="btn-hero-primary">
                         <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
                         <span>Explore 12 Collections</span>
                     </a>
+                    @if($hasVideo)
+                        <button type="button" onclick="toggleHeroMedia(true)" class="btn-hero-primary" style="background: rgba(229, 184, 143, 0.15); color: #e5b88f; border: 1px solid rgba(229, 184, 143, 0.4); box-shadow: none;">
+                            <i data-lucide="play-circle" style="width: 18px; height: 18px;"></i>
+                            <span>Watch Runway Video</span>
+                        </button>
+                    @endif
                     <button type="button" onclick="openWhatsAppStylist(null)" class="btn-hero-whatsapp" style="cursor: pointer; border: none;">
                         <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
                         <span>Order on WhatsApp</span>
@@ -960,17 +976,17 @@
             <div class="hero-visual">
                 <div class="hero-carousel-container" onmouseenter="stopHeroAutoPlay()" onmouseleave="startHeroAutoPlay()">
                     <!-- Media Switcher (Toggle between Video & Photo Lookbook) -->
-                    @if(!empty($heroSettings['hero_video_url']))
+                    @if($hasVideo)
                         <button type="button" class="hero-media-switcher" id="heroMediaSwitcher" onclick="toggleHeroMedia()">
-                            <i data-lucide="play" style="width: 14px; height: 14px;"></i>
-                            <span>Watch Video Reel</span>
+                            <i data-lucide="{{ $isVideoPrimary ? 'image' : 'play' }}" style="width: 14px; height: 14px;"></i>
+                            <span>{{ $isVideoPrimary ? 'View Lookbook Photos' : 'Watch Video Reel' }}</span>
                         </button>
                     @endif
 
                     <!-- Carousel Slide Dots -->
                     <div class="hero-carousel-dots" id="heroCarouselDots">
                         @foreach($heroSlides as $i => $slide)
-                            <button type="button" class="hero-dot {{ $i === 0 ? 'active' : '' }}" onclick="showHeroSlide({{ $i }})" aria-label="Slide {{ $i + 1 }}"></button>
+                            <button type="button" class="hero-dot {{ (!$isVideoPrimary && $i === 0) ? 'active' : '' }}" onclick="showHeroSlide({{ $i }})" aria-label="Slide {{ $i + 1 }}"></button>
                         @endforeach
                     </div>
 
@@ -984,7 +1000,7 @@
 
                     <div class="hero-carousel">
                         @foreach($heroSlides as $i => $slide)
-                            <div class="hero-slide {{ $i === 0 ? 'active' : '' }}" data-look="{{ $slide->tag ? $slide->tag . ' • ' : '' }}{{ $slide->title }}">
+                            <div class="hero-slide {{ (!$isVideoPrimary && $i === 0) ? 'active' : '' }}" data-look="{{ $slide->tag ? $slide->tag . ' • ' : '' }}{{ $slide->title }}">
                                 <img src="{{ $slide->image_url }}" alt="{{ $slide->title }}">
                                 <div class="hero-slide-overlay"></div>
                                 <div style="position: absolute; bottom: 20px; right: 24px; text-align: right; z-index: 4; max-width: 65%;">
@@ -1002,20 +1018,15 @@
                         @endforeach
 
                         <!-- Video Slide (Supports Direct MP4, Google Drive, or YouTube) -->
-                        @if(!empty($heroSettings['hero_video_url']))
-                            @php
-                                $vUrl = $heroSettings['hero_video_url'];
-                                $isGdrive = preg_match('#drive\.google\.com/file/d/([a-zA-Z0-9_-]+)#', $vUrl, $gm);
-                                $isYt = preg_match('#(?:youtube\.com/(?:watch\?v=|embed/)|youtu\.be/)([a-zA-Z0-9_-]+)#', $vUrl, $ym);
-                            @endphp
-                            <div class="hero-slide" id="heroVideoSlide" data-look="{{ $heroSettings['hero_video_title'] ?? 'Runway Lookbook Video' }}">
+                        @if($hasVideo)
+                            <div class="hero-slide {{ $isVideoPrimary ? 'active' : '' }}" id="heroVideoSlide" data-look="{{ $heroSettings['hero_video_title'] ?? 'Runway Lookbook Video' }}">
                                 @if($isGdrive)
-                                    <iframe id="heroGdriveFrame" src="https://drive.google.com/file/d/{{ $gm[1] }}/preview" width="100%" height="100%" allow="autoplay" style="border: none; width: 100%; height: 100%;"></iframe>
+                                    <iframe id="heroGdriveFrame" src="https://drive.google.com/file/d/{{ $gm[1] }}/preview" width="100%" height="100%" allow="autoplay; fullscreen" style="border: none; width: 100%; height: 100%;"></iframe>
                                 @elseif($isYt)
-                                    <iframe id="heroYtFrame" src="https://www.youtube.com/embed/{{ $ym[1] }}?autoplay=1&mute=1&loop=1&playlist={{ $ym[1] }}" width="100%" height="100%" allow="autoplay; encrypted-media" style="border: none; width: 100%; height: 100%;"></iframe>
+                                    <iframe id="heroYtFrame" src="https://www.youtube.com/embed/{{ $ym[1] }}?autoplay=1&mute=1&loop=1&playlist={{ $ym[1] }}" width="100%" height="100%" allow="autoplay; encrypted-media; fullscreen" style="border: none; width: 100%; height: 100%;"></iframe>
                                 @else
-                                    <video id="heroVideo" loop muted playsinline controls poster="{{ $heroSlides->first()?->image_url }}">
-                                        <source src="{{ $vUrl }}" type="video/mp4">
+                                    <video id="heroVideo" src="{{ $formattedVideoUrl }}" loop muted autoplay playsinline controls poster="{{ $heroSlides->first()?->image_url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <source src="{{ $formattedVideoUrl }}" type="video/mp4">
                                     </video>
                                 @endif
                                 <div class="hero-slide-overlay" style="pointer-events: none;"></div>

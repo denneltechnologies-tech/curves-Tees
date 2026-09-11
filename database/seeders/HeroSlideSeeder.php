@@ -13,16 +13,18 @@ class HeroSlideSeeder extends Seeder
      */
     public function run(): void
     {
-        // Default Global Settings
-        HeroSetting::set('hero_badge', 'NEW COLLECTION • READY-TO-WEAR');
-        HeroSetting::set('hero_title', "Accra's Premier Destination for *Curve-Flattering* Luxury");
-        HeroSetting::set('hero_subtitle', 'Celebrating every curve with sculpted corporate wear, radiant evening silhouettes, luxury party dresses, and signature essentials.');
-        HeroSetting::set('hero_video_url', 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-in-a-photoshoot-wearing-a-red-dress-34440-large.mp4');
-        HeroSetting::set('hero_video_title', 'Curves & Tees • Runway Lookbook');
-        HeroSetting::set('hero_video_caption', 'Editorial highlights from our latest Accra ready-to-wear showroom release.');
-        HeroSetting::set('hero_mode', 'both'); // 'both', 'carousel_only', 'video_primary'
+        // Only seed default settings if not already customized by user
+        if (!HeroSetting::where('key', 'hero_title')->exists()) {
+            HeroSetting::set('hero_badge', 'NEW COLLECTION • READY-TO-WEAR');
+            HeroSetting::set('hero_title', "Accra's Premier Destination for *Curve-Flattering* Luxury");
+            HeroSetting::set('hero_subtitle', 'Celebrating every curve with sculpted corporate wear, radiant evening silhouettes, luxury party dresses, and signature essentials.');
+            HeroSetting::set('hero_video_url', 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-in-a-photoshoot-wearing-a-red-dress-34440-large.mp4');
+            HeroSetting::set('hero_video_title', 'Curves & Tees • Runway Lookbook');
+            HeroSetting::set('hero_video_caption', 'Editorial highlights from our latest Accra ready-to-wear showroom release.');
+            HeroSetting::set('hero_mode', 'both');
+        }
 
-        // Default Editorial Slides
+        // Default Editorial Slides (only if database is empty)
         if (HeroSlide::count() === 0) {
             HeroSlide::create([
                 'title' => 'The Accra Luxury Silhouette',

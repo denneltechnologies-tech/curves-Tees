@@ -40,22 +40,30 @@ class HeroSlide extends Model
             return $this->image_path;
         }
 
-        return asset('storage/' . ltrim($this->image_path, '/'));
+        return '/storage/' . ltrim($this->image_path, '/');
     }
 
     /**
-     * Convert Google Drive or YouTube links into embeddable / streaming format.
+     * Convert Google Drive, YouTube, or relative links into embeddable / streaming format.
      */
     public function getEmbedVideoUrlAttribute(): ?string
     {
-        if (empty($this->video_url)) {
+        return self::formatVideoUrl($this->video_url);
+    }
+
+    /**
+     * Convert any video URL (Google Drive, YouTube, direct MP4) into standard playable URL.
+     */
+    public static function formatVideoUrl(?string $url): ?string
+    {
+        if (empty($url)) {
             return null;
         }
 
-        $url = trim($this->video_url);
+        $url = trim($url);
 
-        // Google Drive link conversion (e.g. drive.google.com/file/d/ID/view -> drive.google.com/file/d/ID/preview)
-        if (preg_match('#drive\.google\.com/file/d/([a-zA-Z0-9_-]+)#', $url, $matches)) {
+        // Google Drive link conversion (e.g. drive.google.com/file/d/ID/view, open?id=ID, uc?id=ID)
+        if (preg_match('#drive\.google\.com/(?:file/d/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)#', $url, $matches)) {
             return 'https://drive.google.com/file/d/' . $matches[1] . '/preview';
         }
 
@@ -66,7 +74,7 @@ class HeroSlide extends Model
 
         // If it's a relative local file stored in storage
         if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
-            return asset('storage/' . ltrim($url, '/'));
+            return '/storage/' . ltrim($url, '/');
         }
 
         return $url;
